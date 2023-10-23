@@ -19,7 +19,6 @@ import WelcomeScreen from "./screens/WelcomeScreen";
 import AllDoctorsScreen from "./screens/AllDoctorsScreen";
 import AppointmentScreen from "./screens/AppointmentScreen";
 import AutoDetailsScreen from "./screens/AutoDetailsScreen";
-import AddressScreen from "./screens/AddressScreen";
 import CartScreen from "./screens/CartScreen";
 import CheckoutScreen from "./screens/CheckoutScreen";
 import DoctorProfileScreen from "./screens/DoctorProfileScreen";
@@ -50,8 +49,6 @@ import {
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
 
-SplashScreen.preventAutoHideAsync();
-
 function BottomTabNavigator() {
   const authCtx = useContext(AuthContext);
   return (
@@ -63,40 +60,32 @@ function BottomTabNavigator() {
     >
       <BottomTab.Screen
         options={{
-          title: "",
-          tabBarIcon: () => (
-            <FontAwesomeIcon icon={faHouse} color={Colors.mainBlue} />
-          ),
+          title: "Home",
+          tabBarIcon: () => <FontAwesomeIcon icon={ faHouse } />,
         }}
         name="Welcome"
-        component={HomeStack}
+        component={WelcomeScreen}
       />
       <BottomTab.Screen
         options={{
-          title: "",
-          tabBarIcon: () => (
-            <FontAwesomeIcon icon={faBagShopping} color={Colors.mainBlue} />
-          ),
-        }}
-        name="Shop"
-        component={ShopScreen}
-      />
-      <BottomTab.Screen
-        options={{
-          title: "",
-          tabBarIcon: () => (
-            <FontAwesomeIcon icon={faCartShopping} color={Colors.mainBlue} />
-          ),
+          title: "Cart",
+          tabBarIcon: () => <FontAwesomeIcon icon={ faBagShopping } />,
         }}
         name="Cart"
         component={CartScreen}
       />
       <BottomTab.Screen
         options={{
-          title: "",
-          tabBarIcon: () => (
-            <FontAwesomeIcon icon={faUser} color={Colors.mainBlue} />
-          ),
+          title: "Shop",
+          tabBarIcon: () => <FontAwesomeIcon icon={ faCartShopping }  />,
+        }}
+        name="Shop"
+        component={ShopScreen}
+      />
+      <BottomTab.Screen
+        options={{
+          title: "Profile",
+          tabBarIcon: () => <FontAwesomeIcon icon={ faUser } />,
         }}
         name="Profile"
         component={ProfileScreen}
@@ -130,20 +119,6 @@ function AuthenticatedStack() {
       }}
     >
       <Stack.Screen name="Home" component={BottomTabNavigator} />
-    </Stack.Navigator>
-  );
-}
-
-function HomeStack() {
-  const authCtx = useContext(AuthContext);
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        tabBarActiveTintColor: "#007fff",
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="Home2" component={WelcomeScreen} />
 
       <Stack.Screen name="AutoDetailsScreen" component={AutoDetailsScreen} />
       <Stack.Screen
@@ -151,24 +126,16 @@ function HomeStack() {
         component={ManualDetailsScreen}
       />
       <Stack.Screen name="AllDoctorsScreen" component={AllDoctorsScreen} />
-      <Stack.Screen
-        name="DoctorProfileScreen"
-        component={DoctorProfileScreen}
-      />
+      <Stack.Screen name="DoctorProfileScreen" component={DoctorProfileScreen} />
       <Stack.Screen name="AppointmentScreen" component={AppointmentScreen} />
-      <Stack.Screen name="AddressScreen" component={AddressScreen} />
       <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
       <Stack.Screen name="SummaryScreen" component={SummaryScreen} />
       <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
-      <Stack.Screen name="Shop2" component={ShopScreen} />
-      <Stack.Screen
-        name="SingleProductScreen"
-        component={SingleProductScreen}
-      />
-      <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
+
     </Stack.Navigator>
   );
 }
+
 
 function Navigation() {
   const authCtx = useContext(AuthContext);
@@ -181,9 +148,8 @@ function Navigation() {
 }
 
 function Root() {
+  SplashScreen.preventAutoHideAsync();
   const [isTryingLogin, setIsTryingLogin] = useState(true);
-  const [appIsReady, setAppIsReady] = useState(false);
-
   const authCtx = useContext(AuthContext);
   useEffect(() => {
     async function fetchToken() {
@@ -192,24 +158,12 @@ function Root() {
         authCtx.authenticate(JSON.parse(storedToken));
       }
       setIsTryingLogin(false);
-      setAppIsReady(true);
-      if (appIsReady) {
-        // This tells the splash screen to hide immediately! If we call this after
-        // `setAppIsReady`, then we may see a blank screen while the app is
-        // loading its initial state and rendering its first pixels. So instead,
-        // we hide the splash screen once we know the root view has already
-        // performed layout.
-        await SplashScreen.hideAsync();
-      }
     }
     fetchToken();
-  }, [appIsReady]);
+  }, []);
 
-  // if (isTryingLogin) {
-  //   return <AppLoading />
-  // }
-  if (!appIsReady) {
-    return null;
+  if (isTryingLogin) {
+    SplashScreen.hideAsync();
   }
 
   return <Navigation />;
@@ -224,4 +178,8 @@ export default function App() {
       </AuthContextProvider>
     </>
   );
+}
+
+function BottomTabIcon({ name, icon }) {
+  return <Icon name={name} size={20} color="#333" icon={icon} />;
 }
