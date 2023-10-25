@@ -21,7 +21,7 @@ import LoadingOverlay from "../components/ui/LoadingOverlay";
 import { Colors } from "../constants/styles";
 import { globalStyles } from "../constants/globalcss";
 
-export default function AddressScreen({ route, navigation }) {
+export default function ProfileAddressScreen({ route, navigation }) {
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
 
@@ -30,9 +30,9 @@ export default function AddressScreen({ route, navigation }) {
   const [addresses, setAddresses] = useState([]);
   const [deleting, setIsDeleting] = useState(false);
 
-  const [doctor, setDoctor] = useState('');
-  const [channel, setChannel] = useState('');
-  const [session_data, setSessionData] = useState('');
+  const [doctor, setDoctor] = useState("");
+  const [channel, setChannel] = useState("");
+  const [session_data, setSessionData] = useState("");
 
   const baseurl = Path.API_URL + "addresses.php";
 
@@ -68,11 +68,9 @@ export default function AddressScreen({ route, navigation }) {
         setSessionData(route.params.session_data);
       }
     }
-  
+
     fetchAddresses(); // Ensure this function is not dependent on the route parameters.
-  
   }, [route.params]);
-  
 
   // Add an event listener to refetch addresses when the screen is focused
   useEffect(() => {
@@ -83,12 +81,8 @@ export default function AddressScreen({ route, navigation }) {
     return unsubscribe;
   }, [navigation]);
 
-  const navigateToPayment = () => {
-    navigation.navigate("PaymentScreen", {
-      doctor: doctor,
-      session_data: session_data,
-      address: selectedOption,
-    });
+  const navigateToProfile = () => {
+    navigation.navigate("ProfileScreen2");
   };
 
   const navigateToAddressManager = (address) => {
@@ -194,7 +188,9 @@ export default function AddressScreen({ route, navigation }) {
               Add Address
             </PrimaryButton>
 
-            <PrimaryButton onPress={navigateToPayment}>Next</PrimaryButton>
+            <PrimaryButton onPress={navigateToProfile}>
+              Back To Profile
+            </PrimaryButton>
           </View>
         )}
         {_maybeRenderUploadingOverlay()}

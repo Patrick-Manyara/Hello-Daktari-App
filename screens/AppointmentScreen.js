@@ -15,10 +15,12 @@ import { getDayAndMonth } from "../util/dateFormat";
 
 export default function AppointmentScreen({ route, navigation }) {
   const [sessionData, setSessionData] = useState();
-  const [timesArray, setTimesArray] = useState();
+  const [timesArray, setTimesArray] = useState([]);
   const doctor = route.params.doctor;
   const session_data = route.params.session_data;
   const channel = route.params.channel;
+
+  //console.log(session_data);
 
   //days data
   const [selectedDay, setSelectedDay] = useState(null);
@@ -106,7 +108,7 @@ export default function AppointmentScreen({ route, navigation }) {
 
       let responseJson = await res.json();
       if (responseJson.status == 1) {
-        console.log(responseJson);
+        // console.log(responseJson);
       }
 
       setUploading(false);
@@ -114,12 +116,24 @@ export default function AppointmentScreen({ route, navigation }) {
       if (session_data.session_visit == "home") {
         navigation.navigate("AddressScreen", {
           doctor: doctor,
-          session_data: session_data,
+          session_data: {
+            ...session_data,
+            selectedDate,
+            selectedTime,
+            selectedEndTime,
+            channel,
+          },
         });
       } else {
         navigation.navigate("PaymentScreen", {
           doctor: doctor,
-          session_data: session_data,
+          session_data: {
+            ...session_data,
+            selectedDate,
+            selectedTime,
+            selectedEndTime,
+            channel,
+          },
         });
       }
     } else {
@@ -174,7 +188,7 @@ export default function AppointmentScreen({ route, navigation }) {
             )}
 
             <NormalText>Time</NormalText>
-            {timesArray && (
+            {timesArray.length > 0 ? (
               <ScrollView horizontal>
                 <View style={{ flexDirection: "row" }}>
                   {timesArray.map((time, index) => (
@@ -189,6 +203,8 @@ export default function AppointmentScreen({ route, navigation }) {
                   ))}
                 </View>
               </ScrollView>
+            ) : (
+              <NormalText>No Data To Load</NormalText>
             )}
           </View>
           <PrimaryButton onPress={submitForm}>Proceed To Payment</PrimaryButton>

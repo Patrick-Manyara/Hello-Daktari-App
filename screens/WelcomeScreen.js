@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { AuthContext } from "../store/auth-context";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,7 +12,12 @@ import AdBlock from "../components/Blocks/AdBlock";
 
 export default function WelcomeScreen() {
   const authCtx = useContext(AuthContext);
-  const token = authCtx.token;
+
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    setToken(authCtx.token);
+  }, [authCtx]);
 
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>

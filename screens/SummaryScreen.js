@@ -3,16 +3,22 @@ import { StyleSheet, Image, View, ScrollView } from "react-native";
 import { globalStyles } from "../constants/globalcss";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
 import PrimaryButton from "../components/ui/PrimaryButton";
 
-import { useNavigation } from "@react-navigation/native";
-export default function SummaryScreen() {
-  const navigation = useNavigation();
+import { getDayMonthAndYear } from "../util/dateFormat";
+import { Path } from "../constants/path";
 
+export default function SummaryScreen({ route, navigation }) {
+  const doctor = route.params.doctor;
+  const session_data = route.params.session_data;
+  const payment_method = route.params.payment_method;
+  const address = route.params.address;
+
+  console.log(address);
+  
   function navigateToSuccess() {
     navigation.navigate("SuccessScreen");
   }
@@ -21,20 +27,25 @@ export default function SummaryScreen() {
       <NotificationBell />
       <ScrollView>
         <View>
-          <HeaderText>Book Appointment</HeaderText>
+          <HeaderText>Summary</HeaderText>
           <View style={styles.profileIntro}>
             <View>
               <Image
                 style={styles.image}
-                source={require("../assets/images/doc.png")}
+                source={{
+                  uri: Path.IMAGE_URL + doctor.doctor_image,
+                }}
               />
             </View>
             <View style={styles.textArea}>
               <HeaderText styleProp={styles.title}>
-                Dr Adam Charles
+                {doctor.doctor_name}
               </HeaderText>
               <NormalText styleProp={styles.subTitle}>
-                Cardiologist at Kenyatta hospital
+                {doctor.doctor_qualifications}
+              </NormalText>
+              <NormalText styleProp={styles.subTitle}>
+                Years of Experience: {doctor.doctor_experience} Years
               </NormalText>
             </View>
           </View>
@@ -48,7 +59,11 @@ export default function SummaryScreen() {
               }}
             >
               <NormalText>Date & hour</NormalText>
-              <NormalText> Oct 06,2023| 7:30AM</NormalText>
+              <NormalText>
+                {" "}
+                {getDayMonthAndYear(session_data.selectedDate)} |{" "}
+                {session_data.selectedTime}
+              </NormalText>
             </View>
             <View
               style={{
@@ -57,18 +72,8 @@ export default function SummaryScreen() {
                 flexDirection: "row",
               }}
             >
-              <NormalText>Date & hour</NormalText>
-              <NormalText> Oct 06,2023| 7:30AM</NormalText>
-            </View>
-            <View
-              style={{
-                width: "100%",
-                justifyContent: "space-between",
-                flexDirection: "row",
-              }}
-            >
-              <NormalText>Date & hour</NormalText>
-              <NormalText> Oct 06,2023| 7:30AM</NormalText>
+              <NormalText>Package</NormalText>
+              <NormalText> {session_data.session_mode}</NormalText>
             </View>
           </View>
 
@@ -84,8 +89,8 @@ export default function SummaryScreen() {
                 flexDirection: "row",
               }}
             >
-              <NormalText>Date & hour</NormalText>
-              <NormalText> Oct 06,2023| 7:30AM</NormalText>
+              <NormalText>Amount</NormalText>
+              <NormalText> Ksh. 3000</NormalText>
             </View>
             <View
               style={{
@@ -94,8 +99,8 @@ export default function SummaryScreen() {
                 flexDirection: "row",
               }}
             >
-              <NormalText>Date & hour</NormalText>
-              <NormalText> Oct 06,2023| 7:30AM</NormalText>
+              <NormalText>Payment</NormalText>
+              <NormalText>{payment_method} </NormalText>
             </View>
             <View
               style={{
@@ -104,8 +109,8 @@ export default function SummaryScreen() {
                 flexDirection: "row",
               }}
             >
-              <NormalText>Date & hour</NormalText>
-              <NormalText> Oct 06,2023| 7:30AM</NormalText>
+              <NormalText>Total</NormalText>
+              <NormalText> Ksh. 3000 </NormalText>
             </View>
           </View>
 

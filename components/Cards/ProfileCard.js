@@ -16,13 +16,22 @@ export default function ProfileCard({ src, header, info, onPress }) {
       onPress={onPress}
     >
       <View style={styles.profileMainInner}>
-        <Pressable style={styles.imageContainer}>
-          <Image source={src} style={styles.image} />
-        </Pressable>
-        <View style={{ marginLeft: 10 }}>
-          <NormalText>{header}</NormalText>
-          <NormalText>{info}</NormalText>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <View style={styles.imageContainer}>
+            <Image source={src} style={styles.image} />
+          </View>
+          <View style={{ marginLeft: 10 }}>
+            <NormalText>{header}</NormalText>
+            <NormalText>{info}</NormalText>
+          </View>
         </View>
+
         <View style={{ justifyContent: "flex-end" }}>
           <FontAwesomeIcon icon={faArrowRight} color={Colors.mainBlue} />
         </View>
@@ -49,6 +58,7 @@ const styles = StyleSheet.create({
   profileMainInner: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
   },
   imageContainer: {
     width: 26,

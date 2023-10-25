@@ -36,7 +36,6 @@ export default function CartScreen({ navigation }) {
   const loadCartData = async () => {
     try {
       const cartData = await AsyncStorage.getItem("cartItems");
-      console.log(cartData);
       if (cartData) {
         const parsedCartData = JSON.parse(cartData);
         setCartData(parsedCartData);

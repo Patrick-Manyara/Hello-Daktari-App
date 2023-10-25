@@ -33,7 +33,34 @@ export default function ShopScreen({ route, navigation }) {
         .then((response) => response.json())
         .then((data) => {
           setIsFetching(false);
-          setProducts(data.products);
+          const productData = data.products;
+          setProducts(productData);
+
+          const uniqueCategoryPairs = [
+            ...new Set(
+              productData.map((product) =>
+                JSON.stringify({
+                  category_id: product.category_id,
+                  category_name: product.category_name,
+                })
+              )
+            ),
+          ];
+          // Convert the unique pairs back to an array
+          const categoryArray = uniqueCategoryPairs.map((pairString) =>
+            JSON.parse(pairString)
+          );
+
+          // Add "ALL" category if not already included
+          if (
+            !categoryArray.some((category) => category.category_id === "ALL")
+          ) {
+            categoryArray.unshift({ category_id: "ALL", category_name: "ALL" });
+          }
+
+          // Set the categories state with the unique category_id and category_name pairs
+          setCategories(categoryArray);
+
           setInitialProducts(data.products);
         })
         .catch((error) => {
@@ -42,24 +69,6 @@ export default function ShopScreen({ route, navigation }) {
         });
     } catch (error) {
       setIsFetching(false);
-      console.error("Request setup error:", error);
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      fetch(categoriesUrl)
-        .then((response) => response.json())
-        .then((data) => {
-          setCategories([
-            { category_id: "ALL", category_name: "ALL" },
-            ...data.categories,
-          ]);
-        })
-        .catch((error) => {
-          console.error("Fetch error:", error);
-        });
-    } catch (error) {
       console.error("Request setup error:", error);
     }
   }, []);

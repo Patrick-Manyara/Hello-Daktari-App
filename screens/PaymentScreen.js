@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "../constants/globalcss";
@@ -12,11 +12,27 @@ import PrimaryButton from "../components/ui/PrimaryButton";
 
 export default function PaymentScreen({ route, navigation }) {
   const [selectedOption, setSelectedOption] = useState(null);
+  const [userAddress, setUserAddress] = useState("");
   const doctor = route.params.doctor;
   const session_data = route.params.session_data;
+  const channel = route.params.channel;
+  const address = route.params?.address;
+
+  useEffect(() => {
+    if (route.params.address) {
+      setUserAddress(address);
+    }
+  }, []);
+
+  // console.log(session_data);
 
   function navigateToSummary() {
-    navigation.navigate("SummaryScreen");
+    navigation.navigate("SummaryScreen", {
+      doctor: doctor,
+      session_data: session_data,
+      payment_method: selectedOption,
+      address: userAddress,
+    });
   }
 
   const paymentOptions = [

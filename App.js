@@ -33,6 +33,8 @@ import SuccessScreen from "./screens/SuccessScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SummaryScreen from "./screens/SummaryScreen";
 import AddressManager from "./screens/AddressManager";
+import ProfileAddressScreen from "./screens/ProfileAddressScreen";
+import EditProfileScreen from "./screens/EditProfileScreen";
 
 //COMPONENTS
 import TabBlocks from "./components/Blocks/TabBlocks";
@@ -169,6 +171,12 @@ function HomeStack() {
         component={SingleProductScreen}
       />
       <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
+      <Stack.Screen name="ProfileScreen2" component={ProfileScreen} />
+      <Stack.Screen
+        name="ProfileAddressScreen"
+        component={ProfileAddressScreen}
+      />
+      <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
     </Stack.Navigator>
   );
 }
