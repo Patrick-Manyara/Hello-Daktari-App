@@ -16,7 +16,6 @@ export default function ScheduleDaysBlock() {
 
   function handleDayTimeClick(dayName) {
     setSelectedOption(dayName);
-    console.log(`Selected option: ${dayName}`);
   }
 
   return (

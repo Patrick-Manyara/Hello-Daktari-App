@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function HomePageModal({ visible, closeModal }) {
   const navigation = useNavigation();
-
+ 
   const navigateToAvailableDoctors = () => {
     navigation.navigate("AutoDetailsScreen");
     closeModal();

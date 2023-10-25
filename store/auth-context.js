@@ -12,7 +12,6 @@ export default function AuthContextProvider({ children }) {
   const [authToken, setAuthToken] = useState();
 
   function authenticate(token) {
-    console.log(token);
     setAuthToken(token);
     token = JSON.stringify(token);
     AsyncStorage.setItem("token", token);

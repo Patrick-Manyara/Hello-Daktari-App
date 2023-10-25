@@ -1,31 +1,25 @@
-import axios from "axios";
 import React, { useState, useContext } from "react";
 import {
   View,
   Text,
-  TextInput,
   StyleSheet,
   ScrollView,
   ActivityIndicator,
-  TouchableOpacity,
-  Alert,
-  Button,
+  ToastAndroid,
 } from "react-native";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCloudUpload } from "@fortawesome/free-solid-svg-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { globalStyles } from "../constants/globalcss";
+import * as DocumentPicker from "expo-document-picker";
+
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
 import Input from "../components/Auth/Input";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import VisitOption from "../components/Cards/VisitOption";
+import UploadInput from "../components/FormElements/UploadInput";
+
+import { globalStyles } from "../constants/globalcss";
+
 import { AuthContext } from "../store/auth-context";
-
-import { useNavigation } from "@react-navigation/native";
-
-import * as DocumentPicker from "expo-document-picker";
 
 export default function AutoDetailsScreen({ navigation }) {
   //token fetching
@@ -46,9 +40,8 @@ export default function AutoDetailsScreen({ navigation }) {
   //uploads
 
   const [enteredVisitType, setEnteredVisitType] = useState(null);
-  const [enteredChannel, setEnteredChannel] = useState(null);
 
-  //CHANNELS AND VISIT TYPE
+  //VISIT TYPE
 
   const visitTypes = [
     { name: "home", img: require("../assets/images/home.png") },
@@ -60,16 +53,6 @@ export default function AutoDetailsScreen({ navigation }) {
     setEnteredVisitType(name);
   };
 
-  const channels = [
-    { name: "audio", img: require("../assets/images/wave.png") },
-    { name: "video", img: require("../assets/images/camera.png") },
-    { name: "message", img: require("../assets/images/comment.png") },
-  ];
-
-  const handleChannelClick = (name) => {
-    setEnteredChannel(name);
-  };
-
   //FILE UPLOADS
 
   const selectFile = async () => {
@@ -79,6 +62,7 @@ export default function AutoDetailsScreen({ navigation }) {
     if (r.canceled == false) {
       setEnteredPrescription(r);
       setEnteredPrescriptionName(r.name);
+      ToastAndroid.show("Prescription loaded", ToastAndroid.SHORT);
     }
   };
 
@@ -89,6 +73,7 @@ export default function AutoDetailsScreen({ navigation }) {
     if (r.canceled == false) {
       setEnteredRecords(r);
       setEnteredRecordsName(r.name);
+      ToastAndroid.show("Medical records loaded", ToastAndroid.SHORT);
     }
   };
 
@@ -148,8 +133,7 @@ export default function AutoDetailsScreen({ navigation }) {
       enteredTime != null &&
       enteredPrescription != null &&
       enteredRecords != null &&
-      enteredVisitType != null &&
-      enteredChannel != null
+      enteredVisitType != null
     ) {
       setUploading(true);
 
@@ -160,7 +144,6 @@ export default function AutoDetailsScreen({ navigation }) {
       data.append("date", enteredDate);
       data.append("time", enteredTime);
       data.append("visitTpe", enteredVisitType);
-      data.append("channel", enteredChannel);
       data.append("user_id", token.user_id);
       data.append("prescription", {
         type: "application/pdf",
@@ -184,9 +167,8 @@ export default function AutoDetailsScreen({ navigation }) {
       );
 
       let responseJson = await res.json();
-      console.log(responseJson);
       if (responseJson.status == 1) {
-        console.log(responseJson);
+        // console.log(responseJson);
       }
 
       setUploading(false);
@@ -215,35 +197,22 @@ export default function AutoDetailsScreen({ navigation }) {
             onUpdateValue={updateInputValueHandler.bind(this, "time")}
             value={enteredTime}
           />
-          <Button title="Upload Prescriptions" onPress={selectFile} />
+          <UploadInput txt="Upload Prescriptions" onPress={selectFile} />
           <NAME />
-          <Button title="Upload Medical Records" onPress={selectFile2} />
+          <UploadInput txt="Upload Medical Records" onPress={selectFile2} />
+
           <NAME2 />
 
           <HeaderText>Type of visit</HeaderText>
-          <View style={styles.container}>
+          <View style={globalStyles.optionContainer}>
             {visitTypes.map((visitType, index) => (
               <VisitOption
                 key={index}
-                style={styles.column}
+                style={globalStyles.optionColumn}
                 name={visitType.name}
                 img={visitType.img}
                 onPress={() => handleVisitTypeClick(visitType.name)}
                 isSelected={enteredVisitType === visitType.name}
-              />
-            ))}
-          </View>
-
-          <HeaderText>Channel</HeaderText>
-          <View style={styles.container}>
-            {channels.map((channel, index) => (
-              <VisitOption
-                key={index}
-                style={styles.column}
-                name={channel.name}
-                img={channel.img}
-                onPress={() => handleChannelClick(channel.name)}
-                isSelected={enteredChannel === channel.name}
               />
             ))}
           </View>
@@ -256,14 +225,4 @@ export default function AutoDetailsScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    width: "100%",
-  },
-  column: {
-    flexBasis: "33.333%",
-    alignItems: "center",
-  },
-});
+const styles = StyleSheet.create({});

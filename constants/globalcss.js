@@ -6,6 +6,7 @@ const globalStyles = StyleSheet.create({
     flex: 1,
     paddingTop: 5,
     paddingHorizontal: 10,
+    backgroundColor: "white",
   },
   centerText: {
     textAlign: "center",
@@ -59,6 +60,90 @@ const globalStyles = StyleSheet.create({
     shadowRadius: 8,
     backgroundColor: "white",
     overflow: Platform.OS === "android" ? "hidden" : "visible",
+  },
+
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  quantityText: {
+    fontSize: 20,
+    marginHorizontal: 10,
+  },
+  buttonMinus: {
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderRightColor: Colors.lightBlue,
+    borderRightWidth: 2,
+
+    borderLeftColor: Colors.lightBlue,
+    borderLeftWidth: 2,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+
+    borderTopColor: Colors.lightBlue,
+    borderTopWidth: 2,
+    borderBottomWidth: 2,
+    borderBottomColor: Colors.lightBlue,
+  },
+  buttonPlus: {
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderLeftColor: Colors.lightBlue,
+    borderLeftWidth: 2,
+
+    borderRightColor: Colors.lightBlue,
+    borderRightWidth: 2,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+
+    borderTopColor: Colors.lightBlue,
+    borderTopWidth: 2,
+    borderBottomWidth: 2,
+    borderBottomColor: Colors.lightBlue,
+  },
+  textContainer: {
+    borderTopColor: Colors.lightBlue,
+    borderTopWidth: 2,
+    borderBottomWidth: 2,
+    borderBottomColor: Colors.lightBlue,
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 20,
+  },
+
+  button: {
+    width: "auto",
+  },
+  buttonPressed: {
+    opacity: 0.5,
+  },
+
+  optionContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "100%",
+  },
+  optionColumn: {
+    flexBasis: "33.333%",
+    alignItems: "center",
+  },
+
+  subTotal: {
+    width: "100%",
+    justifyContent: "space-between",
+    flexDirection: "row",
   },
 });
 

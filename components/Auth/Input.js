@@ -1,6 +1,8 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from "react-native";
 
-import { Colors } from '../../constants/styles';
+import { Colors } from "../../constants/styles";
+import * as Font from "expo-font";
+import React, { useState, useEffect } from "react";
 
 function Input({
   label,
@@ -10,17 +12,55 @@ function Input({
   value,
   isInvalid,
 }) {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  async function loadFonts() {
+    await Font.loadAsync({
+      "poppins-regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+    });
+    setFontsLoaded(true);
+  }
+
+  useEffect(() => {
+    loadFonts();
+  }, []);
+
+  // return (
+  // <View style={styles.inputContainer}>
+  //   <TextInput
+  //     style={[styles.input, isInvalid && styles.inputInvalid]}
+  //     keyboardType={keyboardType}
+  //     secureTextEntry={secure}
+  //     onChangeText={onUpdateValue}
+  //     value={value}
+  //     placeholder={label}
+  //   />
+  // </View>
+  // );
+
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={[styles.input, isInvalid && styles.inputInvalid]}
-        keyboardType={keyboardType}
-        secureTextEntry={secure}
-        onChangeText={onUpdateValue}
-        value={value}
-        placeholder={label}
-      />
-    </View>
+    <>
+      {fontsLoaded ? (
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={[
+              styles.input,
+              isInvalid && styles.inputInvalid,
+              { fontFamily: "poppins-regular" },
+            ]}
+            keyboardType={keyboardType}
+            secureTextEntry={secure}
+            onChangeText={onUpdateValue}
+            value={value}
+            placeholder={label}
+          />
+        </View>
+      ) : (
+        <View>
+          <TextInput style={[styles.input, isInvalid && styles.inputInvalid]} />
+        </View>
+      )}
+    </>
   );
 }
 
@@ -31,7 +71,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   label: {
-    color: 'white',
+    color: "white",
     marginBottom: 4,
   },
   labelInvalid: {
@@ -42,7 +82,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     backgroundColor: Colors.lightGrey,
     borderRadius: 10,
-    fontSize: 16,
+    fontSize: 14,
   },
   inputInvalid: {
     backgroundColor: Colors.error100,

@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Image, View, ScrollView } from "react-native";
-
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { globalStyles } from "../constants/globalcss";
+
+import DayTimeCard from "../components/Cards/DayTimeCard";
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
 import PrimaryButton from "../components/ui/PrimaryButton";
-import ScheduleDaysBlock from "../components/Blocks/ScheduleDaysBlock";
-import ScheduleTimeBlock from "../components/Blocks/ScheduleTimeBlock";
-import { useNavigation } from "@react-navigation/native";
+
 import { Path } from "../constants/path";
-
-import DayTimeCard from "../components/Cards/DayTimeCard";
-
 import { getDayAndMonth } from "../util/dateFormat";
 
 export default function AppointmentScreen({ route, navigation }) {
@@ -22,6 +18,7 @@ export default function AppointmentScreen({ route, navigation }) {
   const [timesArray, setTimesArray] = useState();
   const doctor = route.params.doctor;
   const session_data = route.params.session_data;
+  const channel = route.params.channel;
 
   //days data
   const [selectedDay, setSelectedDay] = useState(null);
@@ -33,9 +30,6 @@ export default function AppointmentScreen({ route, navigation }) {
 
     if (selectedDay) {
       setSelectedDate(selectedDay.dayDate);
-      console.log(`Selected option: ${dayName}`);
-      console.log(selectedDate);
-      console.log("Times for the selected day:", selectedDay.times);
       setTimesArray(selectedDay.times);
       setSelectedTime("");
     } else {
@@ -64,8 +58,6 @@ export default function AppointmentScreen({ route, navigation }) {
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
-          console.log("Data:", data);
-
           const days = data.data.map((item) => ({
             dayName: item.day,
             dayDate: item.date,
@@ -99,6 +91,7 @@ export default function AppointmentScreen({ route, navigation }) {
       data.append("end_time", selectedEndTime);
       data.append("doctor", doctor.doctor_id);
       data.append("session", session_data.session_id);
+      data.append("channel", channel);
 
       let res = await fetch(
         "https://hello.angacinemas.com/endpoints/session_update.php",
@@ -112,14 +105,13 @@ export default function AppointmentScreen({ route, navigation }) {
       );
 
       let responseJson = await res.json();
-      console.log(responseJson);
       if (responseJson.status == 1) {
         console.log(responseJson);
       }
 
       setUploading(false);
 
-      if (session_data.session_visit == 'home') {
+      if (session_data.session_visit == "home") {
         navigation.navigate("AddressScreen", {
           doctor: doctor,
           session_data: session_data,

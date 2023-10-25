@@ -15,9 +15,6 @@ export default function PaymentScreen({ route, navigation }) {
   const doctor = route.params.doctor;
   const session_data = route.params.session_data;
 
-  console.log(doctor);
-  console.log(session_data);
-
   function navigateToSummary() {
     navigation.navigate("SummaryScreen");
   }
@@ -39,7 +36,6 @@ export default function PaymentScreen({ route, navigation }) {
 
   function handlePaymentOption(keyProp) {
     setSelectedOption(keyProp);
-    console.log(`Selected option: ${keyProp}`);
   }
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>

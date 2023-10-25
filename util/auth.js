@@ -18,7 +18,7 @@ async function authenticate(mode, email, password) {
   // }
 
   const responseJson = await response.json();
-  console.log(responseJson);
+
 
   if (responseJson.data.user_id) {
     return responseJson.data;
@@ -43,7 +43,6 @@ async function postClient(email, password, name, phone) {
   );
 
   const responseJson = await response.json();
-  console.log(responseJson);
 
   if (responseJson.data.user_id) {
     return responseJson.data;

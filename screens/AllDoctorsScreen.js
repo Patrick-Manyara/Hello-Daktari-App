@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { globalStyles } from "../constants/globalcss";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NotificationBell from "../components/ui/NotificationBell";
@@ -24,6 +24,4 @@ export default function AllDoctorsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
- 
-});
+const styles = StyleSheet.create({});

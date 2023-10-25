@@ -1,8 +1,6 @@
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { useContext } from "react";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { AuthContext } from "../store/auth-context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { globalStyles } from "../constants/globalcss";
 import NotificationBell from "../components/ui/NotificationBell";
@@ -13,9 +11,6 @@ import FeaturesBlock from "../components/Blocks/FeaturesBlock";
 import AdBlock from "../components/Blocks/AdBlock";
 
 export default function WelcomeScreen() {
-  const [fetchedMessage, setFetchedMessage] = useState("");
-  const [user, setuser] = useState(null);
-
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
 

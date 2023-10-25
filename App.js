@@ -6,6 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 
 import { Colors } from "./constants/styles";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
+import { CartProvider } from "./store/cart-context";
 import { useContext, useEffect, useState } from "react";
 import IconButton from "./components/ui/IconButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -31,6 +32,7 @@ import SingleProductScreen from "./screens/SingleProductScreen";
 import SuccessScreen from "./screens/SuccessScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SummaryScreen from "./screens/SummaryScreen";
+import AddressManager from "./screens/AddressManager";
 
 //COMPONENTS
 import TabBlocks from "./components/Blocks/TabBlocks";
@@ -157,6 +159,7 @@ function HomeStack() {
       />
       <Stack.Screen name="AppointmentScreen" component={AppointmentScreen} />
       <Stack.Screen name="AddressScreen" component={AddressScreen} />
+      <Stack.Screen name="AddressManager" component={AddressManager} />
       <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
       <Stack.Screen name="SummaryScreen" component={SummaryScreen} />
       <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
@@ -218,7 +221,7 @@ function Root() {
 export default function App() {
   return (
     <>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
       <AuthContextProvider>
         <Root />
       </AuthContextProvider>

@@ -23,7 +23,6 @@ function SignupScreen() {
     try {
       const token =  await createUser(email, password, name, phone);
       if (token === false) {
-        console.log("here");
       } else {
         authCtx.authenticate(token);
       }

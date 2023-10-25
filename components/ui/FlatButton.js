@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Colors } from '../../constants/styles';
+import { useFonts, Poppins_400Regular } from '@expo-google-fonts/poppins';
 
 function FlatButton({ children, onPress }) {
   return (

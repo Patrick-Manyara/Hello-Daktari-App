@@ -4,22 +4,22 @@ import {
   View,
   ScrollView,
   Image,
-  Pressable,
   Text,
   TouchableOpacity,
+  ToastAndroid,
 } from "react-native";
-import { globalStyles } from "../constants/globalcss";
 import { SafeAreaView } from "react-native-safe-area-context";
-import NotificationBell from "../components/ui/NotificationBell";
-import { Colors } from "../constants/styles";
-import SearchInput from "../components/FormElements/SearchInput";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
-import CategoriesCard from "../components/Cards/CategoriesCard";
-import ProductCard from "../components/Cards/ProductCard";
-import { useNavigation } from "@react-navigation/native";
 import PrimaryButton from "../components/ui/PrimaryButton";
+
 import { Path } from "../constants/path";
+
+import { Colors } from "../constants/styles";
+import { globalStyles } from "../constants/globalcss";
+import Entypo from "react-native-vector-icons/Entypo";
 
 export default function SingleProductScreen({ route, navigation }) {
   const product = route.params.product;
@@ -27,65 +27,128 @@ export default function SingleProductScreen({ route, navigation }) {
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
-    console.log("Quantity increased:", quantity + 1);
   };
 
   const handleDecrement = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
-      console.log("Quantity decreased:", quantity - 1);
     }
   };
 
-  function addToCartHandler() {}
+  const addToCart = async (product) => {
+    let itemArray = await AsyncStorage.getItem("cartItems");
+    const newItem = { product: product, quantity: quantity };
+    itemArray = JSON.parse(itemArray);
+    if (itemArray) {
+      let array = itemArray;
+
+      // Check if the product already exists in the cart
+      const existingProductIndex = array.findIndex(
+        (item) => item.product.product_id === product.product_id
+      );
+
+      if (existingProductIndex !== -1) {
+        // Product already exists, update the quantity
+        array[existingProductIndex].quantity = quantity;
+      } else {
+        // Product doesn't exist, add it to the cart
+        array.push(newItem);
+      }
+
+      try {
+        await AsyncStorage.setItem("cartItems", JSON.stringify(array));
+        ToastAndroid.show(
+          "Item Added Successfully to cart",
+          ToastAndroid.SHORT
+        );
+      } catch (error) {
+        return error;
+      }
+    } else {
+      let array = [];
+      array.push(newItem);
+      try {
+        await AsyncStorage.setItem("cartItems", JSON.stringify(array));
+        ToastAndroid.show(
+          "Item Added Successfully to cart",
+          ToastAndroid.SHORT
+        );
+      } catch (error) {
+        return error;
+      }
+    }
+  };
 
   return (
-    <SafeAreaView style={globalStyles.safeAreaView}>
-      <NotificationBell />
-      <ScrollView>
-        <View>
-          <HeaderText>Shop this product</HeaderText>
-          <View style={styles.productCard}>
-            <View style={styles.imageContainer}>
-              <Image
-                source={{
-                  uri: Path.IMAGE_URL + product.product_image,
-                }}
-                style={styles.image}
-              />
-            </View>
-            <HeaderText>{product.product_name}</HeaderText>
-            <NormalText>Ksh. {product.product_price}</NormalText>
-
-            <View>
-              <View style={styles.container}>
-                <TouchableOpacity
-                  onPress={handleDecrement}
-                  style={styles.buttonMinus}
-                >
-                  <Text style={styles.buttonText}>-</Text>
-                </TouchableOpacity>
-                <View style={styles.textContainer}>
-                  <Text style={styles.quantityText}>{quantity}</Text>
-                </View>
-
-                <TouchableOpacity
-                  onPress={handleIncrement}
-                  style={styles.buttonPlus}
-                >
-                  <Text style={styles.buttonText}>+</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View>
-              <NormalText>{product.product_description}</NormalText>
-            </View>
-            <PrimaryButton onPress={addToCartHandler}>
-              Add To Cart
-            </PrimaryButton>
+    <SafeAreaView style={{ backgroundColor: "white" }}>
+      <ScrollView style={{ backgroundColor: Colors.lightGrey }}>
+        <View style={styles.curvedView}>
+          <View style={styles.imageContainer}>
+            <Image
+              source={{
+                uri: Path.IMAGE_URL + product.product_image,
+              }}
+              style={styles.image}
+            />
           </View>
         </View>
-      </ScrollView>
+        <View style={{ padding: 10 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: 14,
+            }}
+          >
+            <Entypo
+              name="shopping-cart"
+              style={{
+                fontSize: 18,
+                color: Colors.mainBlue,
+                marginRight: 6,
+              }}
+            />
+            <Text
+              style={{
+                fontSize: 12,
+                color: Colors.mainBlue,
+              }}
+            >
+              Shopping
+            </Text>
+          </View>
+
+          <HeaderText>{product.product_name}</HeaderText>
+          <NormalText>Ksh. {product.product_price}</NormalText>
+
+          <View>
+            <View style={globalStyles.container}>
+              <TouchableOpacity
+                onPress={handleDecrement}
+                style={globalStyles.buttonMinus}
+              >
+                <Text style={globalStyles.buttonText}>-</Text>
+              </TouchableOpacity>
+              <View style={globalStyles.textContainer}>
+                <Text style={globalStyles.quantityText}>{quantity}</Text>
+              </View>
+
+              <TouchableOpacity
+                onPress={handleIncrement}
+                style={globalStyles.buttonPlus}
+              >
+                <Text style={globalStyles.buttonText}>+</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View>
+            <NormalText>{product.product_description}</NormalText>
+          </View>
+          <PrimaryButton onPress={() => addToCart(product)}>
+            <Text>Add To Cart</Text>
+          </PrimaryButton>
+        </View>
+      </ScrollView> 
     </SafeAreaView>
   );
 }
@@ -108,70 +171,18 @@ const styles = StyleSheet.create({
   imageContainer: {
     justifyContent: "center",
     alignItems: "center",
+    padding: 10,
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
     objectFit: "contain",
+    padding: 10,
   },
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 10,
-  },
-  quantityText: {
-    fontSize: 20,
-    marginHorizontal: 10,
-  },
-  buttonMinus: {
-    width: 40,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-
-    borderRightColor: Colors.lightBlue,
-    borderRightWidth: 2,
-
-    borderLeftColor: Colors.lightBlue,
-    borderLeftWidth: 2,
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
-
-    borderTopColor: Colors.lightBlue,
-    borderTopWidth: 2,
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.lightBlue,
-  },
-  buttonPlus: {
-    width: 40,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-
-    borderLeftColor: Colors.lightBlue,
-    borderLeftWidth: 2,
-
-    borderRightColor: Colors.lightBlue,
-    borderRightWidth: 2,
-    borderTopRightRadius: 10,
-    borderBottomRightRadius: 10,
-
-    borderTopColor: Colors.lightBlue,
-    borderTopWidth: 2,
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.lightBlue,
-  },
-  textContainer: {
-    borderTopColor: Colors.lightBlue,
-    borderTopWidth: 2,
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.lightBlue,
-    width: 40,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonText: {
-    fontSize: 20,
+  curvedView: {
+    height: 200,
+    backgroundColor: "white",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
 });

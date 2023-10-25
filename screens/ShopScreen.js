@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, ScrollView, Image, Pressable } from "react-native";
-import { globalStyles } from "../constants/globalcss";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View, ScrollView, Image, Pressable } from "react-native";
+
 import NotificationBell from "../components/ui/NotificationBell";
 import SearchInput from "../components/FormElements/SearchInput";
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
 import CategoriesCard from "../components/Cards/CategoriesCard";
 import ProductCard from "../components/Cards/ProductCard";
-import { useNavigation } from "@react-navigation/native";
-import { Path } from "../constants/path";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
+
+import { Path } from "../constants/path";
+
+import { globalStyles } from "../constants/globalcss";
 
 export default function ShopScreen({ route, navigation }) {
   const [products, setProducts] = useState([]);
@@ -20,12 +22,10 @@ export default function ShopScreen({ route, navigation }) {
     { category_id: "ALL", category_name: "ALL" },
   ]);
   const [selectedCategory, setSelectedCategory] = useState("ALL");
-  //fetching
 
+  //fetching
   const productsUrl = Path.API_URL + "products.php?action=all";
   const categoriesUrl = Path.API_URL + "products.php?action=categories";
-  // const queryParams = `doctor_id=${doctor.doctor_id}`;
-  // const url = `${productsUrl}?${queryParams}`;
 
   useEffect(() => {
     try {
@@ -66,7 +66,6 @@ export default function ShopScreen({ route, navigation }) {
 
   function handleCategoryClick(categoryKey) {
     setSelectedCategory(categoryKey);
-    console.log(`Selected option: ${categoryKey}`);
 
     if (categoryKey === "ALL") {
       setProducts(initialProducts);

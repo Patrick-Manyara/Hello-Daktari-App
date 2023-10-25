@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Pressable, StyleSheet, Platform } from "react-native";
 import { Colors } from "../../constants/styles";
+import NormalText from "./NormalText";
+import { globalStyles } from "../../constants/globalcss";
 
 export default function PrimaryButton({ children, onPress, styleProp }) {
   return (
     <Pressable
       android_ripple={{ color: "#ccc" }}
       style={({ pressed }) => [
-        styles.button,
-        pressed ? styles.buttonPressed : null,
+        globalStyles.button,
+        pressed ? globalStyles.buttonPressed : null,
       ]}
       onPress={onPress}
     >
       <View style={[styles.buttonContainer, styleProp]}>
-        <Text style={[styles.title]}>{children}</Text>
+        <NormalText styleProp={[styles.title]}>{children}</NormalText>
       </View>
     </Pressable>
   );
-}
+} 
 
 const styles = StyleSheet.create({
-  button: {
-    width: "auto",
-  },
-  buttonPressed: {
-    opacity: 0.5,
-  },
+
   title: {
     fontSize: 14,
     color: "white",

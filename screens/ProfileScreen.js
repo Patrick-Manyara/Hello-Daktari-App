@@ -20,6 +20,12 @@ import AuthContextProvider, { AuthContext } from "../store/auth-context";
 
 export default function ProfileScreen() {
   const authCtx = useContext(AuthContext);
+  const navigation = useNavigation();
+
+  function navigateToAddressScreen() {
+    navigation.navigate("AddressScreen");
+  }
+
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
       <NotificationBell />
@@ -58,8 +64,9 @@ export default function ProfileScreen() {
         />
         <ProfileCard
           src={require("../assets/images/pro_user.png")}
-          header="Account Information"
+          header="Address Information"
           info="Change your account information"
+          onPress={navigateToAddressScreen}
         />
         <ProfileCard
           src={require("../assets/images/pro_user.png")}

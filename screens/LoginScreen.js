@@ -15,7 +15,6 @@ function LoginScreen() {
     try {
       const token = await login(email, password);
       if (token === false) {
-        console.log("here");
       } else {
         authCtx.authenticate(token);
       }
