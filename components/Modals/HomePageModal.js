@@ -8,9 +8,14 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function HomePageModal({ visible, closeModal }) {
   const navigation = useNavigation();
- 
+
   const navigateToAvailableDoctors = () => {
     navigation.navigate("AutoDetailsScreen");
+    closeModal();
+  };
+
+  const navigateToManualDetails = () => {
+    navigation.navigate("ManualDetailsScreen");
     closeModal();
   };
 
@@ -19,10 +24,7 @@ export default function HomePageModal({ visible, closeModal }) {
       <View style={styles.modalView}>
         <View style={styles.modalInnerView}>
           <View style={styles.chooseView}>
-            <Pressable
-              style={styles.card}
-              onPress={navigateToAvailableDoctors}
-            >
+            <Pressable style={styles.card} onPress={navigateToAvailableDoctors}>
               <Image
                 style={styles.image}
                 source={require("../../assets/images/team.png")}
@@ -31,7 +33,7 @@ export default function HomePageModal({ visible, closeModal }) {
                 See Available Doctor
               </NormalText>
             </Pressable>
-            <Pressable style={styles.card}>
+            <Pressable style={styles.card} onPress={navigateToManualDetails}>
               <Image
                 style={styles.image}
                 source={require("../../assets/images/form.png")}

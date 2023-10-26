@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Image, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -13,9 +13,15 @@ import { Path } from "../constants/path";
 import { globalStyles } from "../constants/globalcss";
 
 export default function DoctorProfileScreen({ route, navigation }) {
-  const doctor = route.params.doctor;
-  const session_data = route.params.session_data;
   const [enteredChannel, setEnteredChannel] = useState("");
+
+  const [doctor, setDoctor] = useState([]);
+  const [session_data, setSessionData] = useState("");
+
+  useEffect(() => {
+    setDoctor(route.params.doctor);
+    setSessionData(route.params.session_data);
+  }, [route.params]);
 
   const channels = [
     { name: "audio", img: require("../assets/images/wave.png") },

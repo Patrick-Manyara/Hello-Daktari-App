@@ -10,7 +10,7 @@ export default function BannerBlock() {
 
   const openModal = () => {
     setIsModalVisible(true);
-  };
+  }; 
  
   const closeModal = () => {
     setIsModalVisible(false);

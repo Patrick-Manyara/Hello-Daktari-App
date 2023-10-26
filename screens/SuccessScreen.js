@@ -29,13 +29,7 @@ export default function SuccessScreen() {
             source={require("../assets/images/circle.png")}
           />
           <HeaderText styleProp={styles.title}>Payment Successful!</HeaderText>
-          <NormalText>
-            You have successfully booked an appointent with:
-          </NormalText>
-          <NormalText styleProp={styles.subTitle}>Dr. Adam Charles</NormalText>
-          <NormalText styleProp={styles.pinkText}>
-            06 Oct, 2023 7:30 AM
-          </NormalText>
+          <NormalText>You have successfully booked an appointent.</NormalText>
           <PrimaryButton onPress={navigateToHome}>Go Home</PrimaryButton>
         </View>
       </ScrollView>

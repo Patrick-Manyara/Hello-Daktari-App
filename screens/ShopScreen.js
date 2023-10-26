@@ -131,7 +131,7 @@ export default function ShopScreen({ route, navigation }) {
                 />
                 <NormalText>Sort By</NormalText>
               </Pressable>
-            </View>
+            </View> 
             {products && (
               <View style={styles.productContainer}>
                 {products.map((product, index) => (

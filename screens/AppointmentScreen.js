@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Image, View, ScrollView } from "react-native";
+import { StyleSheet, Image, View, ScrollView, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { globalStyles } from "../constants/globalcss";
@@ -51,7 +51,7 @@ export default function AppointmentScreen({ route, navigation }) {
 
   //fetching
 
-  const baseUrl = "https://hello.angacinemas.com/endpoints/schedule.php";
+  const baseUrl = Path.API_URL + "schedule.php";
   const queryParams = `doctor_id=${doctor.doctor_id}`;
   const url = `${baseUrl}?${queryParams}`;
 
@@ -95,16 +95,13 @@ export default function AppointmentScreen({ route, navigation }) {
       data.append("session", session_data.session_id);
       data.append("channel", channel);
 
-      let res = await fetch(
-        "https://hello.angacinemas.com/endpoints/session_update.php",
-        {
-          method: "post",
-          body: data,
-          headers: {
-            "Content-Type": "multipart/form-data; ",
-          },
-        }
-      );
+      let res = await fetch(Path.API_URL + "session.php?action=update", {
+        method: "POST",
+        body: data,
+        headers: {
+          "Content-Type": "multipart/form-data; ",
+        },
+      });
 
       let responseJson = await res.json();
       if (responseJson.status == 1) {
@@ -138,6 +135,27 @@ export default function AppointmentScreen({ route, navigation }) {
       }
     } else {
       alert("Please fill all the fields firsts");
+    }
+  };
+
+  //RENDER
+
+  const _maybeRenderUploadingOverlay = () => {
+    if (uploading) {
+      return (
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            {
+              backgroundColor: "rgba(0,0,0,0.4)",
+              alignItems: "center",
+              justifyContent: "center",
+            },
+          ]}
+        >
+          <ActivityIndicator color="#fff" animating size="large" />
+        </View>
+      );
     }
   };
 
@@ -209,6 +227,7 @@ export default function AppointmentScreen({ route, navigation }) {
           </View>
           <PrimaryButton onPress={submitForm}>Proceed To Payment</PrimaryButton>
         </View>
+        {_maybeRenderUploadingOverlay()}
       </ScrollView>
     </SafeAreaView>
   );

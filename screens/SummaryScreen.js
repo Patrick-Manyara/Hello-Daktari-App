@@ -1,5 +1,11 @@
-import React from "react";
-import { StyleSheet, Image, View, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Image,
+  View,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import { globalStyles } from "../constants/globalcss";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -7,21 +13,78 @@ import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
 import PrimaryButton from "../components/ui/PrimaryButton";
+import LoadingOverlay from "../components/ui/LoadingOverlay";
 
 import { getDayMonthAndYear } from "../util/dateFormat";
 import { Path } from "../constants/path";
 
 export default function SummaryScreen({ route, navigation }) {
-  const doctor = route.params.doctor;
-  const session_data = route.params.session_data;
-  const payment_method = route.params.payment_method;
-  const address = route.params.address;
+  const [doctor, setDoctor] = useState("");
+  const [session_data, setSessionData] = useState([]);
+  const [payment_method, setPaymentMethod] = useState("");
+  const [address, setAddress] = useState("");
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const [submitting, setIsSubmitting] = useState(false);
+  const [url, setUrl] = useState("");
 
-  console.log(address);
-  
-  function navigateToSuccess() {
+  useEffect(() => {
+    setDoctor(route.params.doctor);
+    setSessionData(route.params.session_data);
+    setPaymentMethod(route.params.payment_method);
+    setAddress(route.params.address);
+    setDataLoaded(true);
+    setUrl(Path.API_URL + "session.php?action=complete");
+  }, [route.params]);
+
+  let submitForm = async () => {
+    setIsSubmitting(true);
+    const data = new FormData();
+    data.append("session_id", session_data.session_id);
+    data.append("address", address);
+
+    let res = await fetch(url, {
+      method: "post",
+      body: data,
+      headers: {
+        "Content-Type": "multipart/form-data; ",
+      },
+    });
+
+    let responseJson = await res.json();
+    if (responseJson.status == 1) {
+      // navigation.navigate("SuccessScreen");
+    }
+
+    setIsSubmitting(false);
+
     navigation.navigate("SuccessScreen");
+  };
+
+  //RENDER
+
+  const _maybeRenderUploadingOverlay = () => {
+    if (submitting) {
+      return (
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            {
+              backgroundColor: "rgba(0,0,0,0.4)",
+              alignItems: "center",
+              justifyContent: "center",
+            },
+          ]}
+        >
+          <ActivityIndicator color="#fff" animating size="large" />
+        </View>
+      );
+    }
+  };
+
+  if (!dataLoaded) {
+    return <LoadingOverlay message="Still loading data" />;
   }
+
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
       <NotificationBell />
@@ -114,8 +177,9 @@ export default function SummaryScreen({ route, navigation }) {
             </View>
           </View>
 
-          <PrimaryButton onPress={navigateToSuccess}>Pay Now</PrimaryButton>
+          <PrimaryButton onPress={submitForm}>Pay Now</PrimaryButton>
         </View>
+        {_maybeRenderUploadingOverlay()}
       </ScrollView>
     </SafeAreaView>
   );

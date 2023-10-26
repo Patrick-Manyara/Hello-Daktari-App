@@ -22,7 +22,7 @@ export default function PaymentScreen({ route, navigation }) {
     if (route.params.address) {
       setUserAddress(address);
     }
-  }, []);
+  }, [route.params]);
 
   // console.log(session_data);
 

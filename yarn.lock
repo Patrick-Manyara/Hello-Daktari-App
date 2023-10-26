@@ -1170,6 +1170,21 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     "to-fast-properties" "^2.0.0"
 
+"@eva-design/dss@^2.2.0":
+  "integrity" "sha512-ip+iLpe8WFR1IyPGR9puJtXhkZQrWV9p+Xgg3u/3ruDNaObh/YlnfZdS0i29m6YZduW3I+lLuXSXwq5f4pAbRA=="
+  "resolved" "https://registry.npmjs.org/@eva-design/dss/-/dss-2.2.0.tgz"
+  "version" "2.2.0"
+
+"@eva-design/eva@^2.2.0":
+  "integrity" "sha512-Wh98ex5cCK+YYSQNpthX1bT4CA3zDRR1WnJv0YlyvULAkmjaEvqtoGMCXzu5DH8v1fGIggu/OpAokLS7UVPe+A=="
+  "resolved" "https://registry.npmjs.org/@eva-design/eva/-/eva-2.2.0.tgz"
+  "version" "2.2.0"
+
+"@eva-design/processor@^2.2.0":
+  "integrity" "sha512-fEvjvilmF/R9dqXDiMoaoXxrPIb5s1APVXbacXKAxjlWl231rzOxc5sdTtJPoFTTEon5KeaKwLHtbQvz5eVvIA=="
+  "resolved" "https://registry.npmjs.org/@eva-design/processor/-/processor-2.2.0.tgz"
+  "version" "2.2.0"
+
 "@expo-google-fonts/poppins@^0.2.3":
   "integrity" "sha512-PXkur1ZY/puy1PwVFYPJx8qiI3dtBzC2ig1bo53swCt7/sI7krCGYRO6hLBNp15M0kcNh2J4cCR9ZQyFxsving=="
   "resolved" "https://registry.npmjs.org/@expo-google-fonts/poppins/-/poppins-0.2.3.tgz"
@@ -2261,6 +2276,17 @@
   "version" "17.0.29"
   dependencies:
     "@types/yargs-parser" "*"
+
+"@ui-kitten/components@^5.3.1":
+  "integrity" "sha512-Oj1WePUQtpNfH7ftXGdkkFVmJI+JcR3cBryPJV0E+JAUdH2dbJ0oG/VA+UAgk27/u0K0OZSUkdMFuGnkDAVuYA=="
+  "resolved" "https://registry.npmjs.org/@ui-kitten/components/-/components-5.3.1.tgz"
+  "version" "5.3.1"
+  dependencies:
+    "@eva-design/dss" "^2.2.0"
+    "@eva-design/processor" "^2.2.0"
+    "fecha" "3.0.3"
+    "hoist-non-react-statics" "^3.2.1"
+    "lodash.merge" "^4.6.1"
 
 "@urql/core@>=2.3.1":
   "integrity" "sha512-wFm67yljv4uFAWNtPwcS1NMhF/n+p/68i+kZU6R1dPxhfq2nBW0142p4szeZsBDrtO7pBdOhp7YeSZROFFlXZg=="
@@ -3696,6 +3722,11 @@
     "setimmediate" "^1.0.5"
     "ua-parser-js" "^1.0.35"
 
+"fecha@3.0.3":
+  "integrity" "sha512-6LQK/1jud/FZnfEEZJ7y81vw7ge81DNd/XEsX0hgMUjhS+QMljkb1C0czBaP7dMNRVrd5mw/J2J7qI2Nw+TWZw=="
+  "resolved" "https://registry.npmjs.org/fecha/-/fecha-3.0.3.tgz"
+  "version" "3.0.3"
+
 "fetch-retry@^4.1.1":
   "integrity" "sha512-e6eB7zN6UBSwGVwrbWVH+gdLnkW9WwHhmq2YDK1Sh30pzx1onRVGBvogTlUeWxwTa+L86NYdo4hFkh7O8ZjSnA=="
   "resolved" "https://registry.npmjs.org/fetch-retry/-/fetch-retry-4.1.1.tgz"
@@ -4068,6 +4099,13 @@
   "version" "0.0.6"
   dependencies:
     "source-map" "^0.7.3"
+
+"hoist-non-react-statics@^3.2.1":
+  "integrity" "sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw=="
+  "resolved" "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz"
+  "version" "3.3.2"
+  dependencies:
+    "react-is" "^16.7.0"
 
 "hosted-git-info@^3.0.2":
   "integrity" "sha512-aXpmwoOhRBrw6X3j0h5RloK4x1OzsxMPyxqIHyNfSe2pypkVTZFpEiRoSipPEPlMrh0HW/XsjkJ5WgnCirpNUw=="
@@ -4645,6 +4683,11 @@
   "integrity" "sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow=="
   "resolved" "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
   "version" "4.0.8"
+
+"lodash.merge@^4.6.1":
+  "integrity" "sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ=="
+  "resolved" "https://registry.npmjs.org/lodash.merge/-/lodash.merge-4.6.2.tgz"
+  "version" "4.6.2"
 
 "lodash.throttle@^4.1.1":
   "integrity" "sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ=="
@@ -5806,6 +5849,11 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
+"react-is@^16.7.0":
+  "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
+  "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
+  "version" "16.13.1"
+
 "react-is@^17.0.1":
   "integrity" "sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
@@ -5858,7 +5906,7 @@
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
 
-"react-native-svg@9.8.5":
+"react-native-svg@*", "react-native-svg@^13.14.0", "react-native-svg@9.8.5":
   "integrity" "sha512-27ZnxUkHgWICimhuj6MuqBkISN53lVvgWJB7pIypjXysAyM+nqgQBPh4vXg+7MbqLBoYvR4PiBgKfwwGAqVxHg=="
   "resolved" "https://registry.npmjs.org/react-native-svg/-/react-native-svg-13.14.0.tgz"
   "version" "13.14.0"

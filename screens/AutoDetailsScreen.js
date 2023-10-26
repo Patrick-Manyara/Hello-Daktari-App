@@ -8,6 +8,7 @@ import {
   ToastAndroid,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AuthContext } from "../store/auth-context";
 import * as DocumentPicker from "expo-document-picker";
 
 import NotificationBell from "../components/ui/NotificationBell";
@@ -19,7 +20,7 @@ import UploadInput from "../components/FormElements/UploadInput";
 
 import { globalStyles } from "../constants/globalcss";
 
-import { AuthContext } from "../store/auth-context";
+import { Path } from "../constants/path";
 
 export default function AutoDetailsScreen({ navigation }) {
   //token fetching
@@ -127,6 +128,10 @@ export default function AutoDetailsScreen({ navigation }) {
     }
   }
 
+  const baseurl = Path.API_URL + "session.php";
+  const queryParams = `action=auto`;
+  const url = `${baseurl}?${queryParams}`;
+
   let submitForm = async () => {
     if (
       enteredDate != null &&
@@ -155,16 +160,13 @@ export default function AutoDetailsScreen({ navigation }) {
         uri: enteredRecords.assets[0].uri,
         name: enteredRecords.assets[0].name,
       });
-      let res = await fetch(
-        "https://hello.angacinemas.com/endpoints/auto_doctor.php",
-        {
-          method: "post",
-          body: data,
-          headers: {
-            "Content-Type": "multipart/form-data; ",
-          },
-        }
-      );
+      let res = await fetch(url, {
+        method: "post",
+        body: data,
+        headers: {
+          "Content-Type": "multipart/form-data; ",
+        },
+      });
 
       let responseJson = await res.json();
       if (responseJson.status == 1) {
