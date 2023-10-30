@@ -30,9 +30,9 @@ export default function AddressScreen({ route, navigation }) {
   const [addresses, setAddresses] = useState([]);
   const [deleting, setIsDeleting] = useState(false);
 
-  const [doctor, setDoctor] = useState('');
-  const [channel, setChannel] = useState('');
-  const [session_data, setSessionData] = useState('');
+  const [doctor, setDoctor] = useState("");
+  const [channel, setChannel] = useState("");
+  const [session_data, setSessionData] = useState("");
 
   const baseurl = Path.API_URL + "addresses.php";
 
@@ -44,7 +44,12 @@ export default function AddressScreen({ route, navigation }) {
         .then((response) => response.json())
         .then((data) => {
           setIsFetching(false);
-          setAddresses(data.addresses);
+          let arr = data.addresses;
+          if (Array.isArray(arr)) {
+            setAddresses(data.addresses);
+          } else {
+            console.log("No addresses");
+          }
         })
         .catch((error) => {
           setIsFetching(false);
@@ -68,11 +73,9 @@ export default function AddressScreen({ route, navigation }) {
         setSessionData(route.params.session_data);
       }
     }
-  
+
     fetchAddresses(); // Ensure this function is not dependent on the route parameters.
-  
   }, [route.params]);
-  
 
   // Add an event listener to refetch addresses when the screen is focused
   useEffect(() => {

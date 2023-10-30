@@ -44,7 +44,12 @@ export default function ProfileAddressScreen({ route, navigation }) {
         .then((response) => response.json())
         .then((data) => {
           setIsFetching(false);
-          setAddresses(data.addresses);
+          let arr = data.addresses;
+          if (Array.isArray(arr)) {
+            setAddresses(data.addresses);
+          } else {
+            console.log("No addresses");
+          }
         })
         .catch((error) => {
           setIsFetching(false);

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+ 
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
 import PrimaryButton from "../components/ui/PrimaryButton";

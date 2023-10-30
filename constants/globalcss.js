@@ -18,6 +18,12 @@ const globalStyles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 12,
   },
+  disabledContainer: {
+    backgroundColor: Colors.lightGrey,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    flexDirection: "column",
+  },
   input: {
     flex: 1,
     height: 40,

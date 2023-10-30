@@ -7,7 +7,7 @@ import PrimaryButton from "../ui/PrimaryButton";
 import HeaderText from "../ui/HeaderText";
 import { globalStyles } from "../../constants/globalcss";
 import { Path } from "../../constants/path";
-
+ 
 export default function ProductCard({
   image,
   title,
@@ -23,7 +23,7 @@ export default function ProductCard({
         <Pressable onPress={onPress}>
           <Image
             source={{
-              uri: Path.IMAGE_URL +  image ,
+              uri: Path.IMAGE_URL + image,
             }}
             style={styles.image}
           />
@@ -31,10 +31,10 @@ export default function ProductCard({
       </View>
       <View style={styles.textBlock}>
         <Pressable onPress={onPress}>
-          <NormalText>{title}</NormalText>
+          <HeaderText styleProp={{ fontSize: 12 }}>{title}</HeaderText>
         </Pressable>
 
-        <NormalText>{price}</NormalText>
+        <NormalText>Ksh. {price}</NormalText>
         <NormalText>{newPrice}</NormalText>
       </View>
       <View
@@ -44,7 +44,7 @@ export default function ProductCard({
           justifyContent: "flex-end",
         }}
       >
-        <Pressable style={styles.tagContainer}>
+        <Pressable onPress={onAddToCart} style={styles.tagContainer}>
           <Image
             source={require("../../assets/images/cart.png")}
             style={styles.addCartBtn}

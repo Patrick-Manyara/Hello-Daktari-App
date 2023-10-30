@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, View, ScrollView, Image, Pressable } from "react-native";
-
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Image,
+  Pressable,
+  ToastAndroid,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+ 
 import NotificationBell from "../components/ui/NotificationBell";
 import SearchInput from "../components/FormElements/SearchInput";
 import HeaderText from "../components/ui/HeaderText";
@@ -26,6 +34,7 @@ export default function ShopScreen({ route, navigation }) {
   //fetching
   const productsUrl = Path.API_URL + "products.php?action=all";
   const categoriesUrl = Path.API_URL + "products.php?action=categories";
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     try {
@@ -92,7 +101,49 @@ export default function ShopScreen({ route, navigation }) {
     navigation.navigate("SingleProductScreen", { product: product });
   };
 
-  function addToCartHandler() {}
+  const addToCart = async (product) => {
+    let itemArray = await AsyncStorage.getItem("cartItems");
+    const newItem = { product: product, quantity: quantity };
+    itemArray = JSON.parse(itemArray);
+    if (itemArray) {
+      let array = itemArray;
+
+      // Check if the product already exists in the cart
+      const existingProductIndex = array.findIndex(
+        (item) => item.product.product_id === product.product_id
+      );
+
+      if (existingProductIndex !== -1) {
+        // Product already exists, update the quantity
+        array[existingProductIndex].quantity = quantity;
+      } else {
+        // Product doesn't exist, add it to the cart
+        array.push(newItem);
+      }
+
+      try {
+        await AsyncStorage.setItem("cartItems", JSON.stringify(array));
+        ToastAndroid.show(
+          "Item Added Successfully to cart",
+          ToastAndroid.SHORT
+        );
+      } catch (error) {
+        return error;
+      }
+    } else {
+      let array = [];
+      array.push(newItem);
+      try {
+        await AsyncStorage.setItem("cartItems", JSON.stringify(array));
+        ToastAndroid.show(
+          "Item Added Successfully to cart",
+          ToastAndroid.SHORT
+        );
+      } catch (error) {
+        return error;
+      }
+    }
+  };
 
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
@@ -131,7 +182,7 @@ export default function ShopScreen({ route, navigation }) {
                 />
                 <NormalText>Sort By</NormalText>
               </Pressable>
-            </View> 
+            </View>
             {products && (
               <View style={styles.productContainer}>
                 {products.map((product, index) => (
@@ -143,7 +194,7 @@ export default function ShopScreen({ route, navigation }) {
                     newPrice={product.product_offer_price}
                     onPress={() => navigateToSingleProduct(product)}
                     style={styles.column}
-                    onAddToCart={addToCartHandler}
+                    onAddToCart={() => addToCart(product)}
                   />
                 ))}
               </View>
