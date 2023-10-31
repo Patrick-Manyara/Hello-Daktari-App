@@ -1,19 +1,6 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  ScrollView,
-  ActivityIndicator,
-  Pressable,
-  Alert,
-  Button,
-} from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import NormalText from "../ui/NormalText";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCloudUpload } from "@fortawesome/free-solid-svg-icons";
-import { Colors } from "../../constants/styles";
 import { globalStyles } from "../../constants/globalcss";
 
 export default function DisabledInput({ placeholder, txt }) {
@@ -27,10 +14,12 @@ export default function DisabledInput({ placeholder, txt }) {
       ]}
     >
       <View style={[globalStyles.disabledContainer, styles.customInput]}>
-        <NormalText styleProp={{ color: "#00000066", fontSize: 8 }}>
+        <NormalText
+          styleProp={{ color: "#00000066", fontSize: 8, marginLeft: 5 }}
+        >
           {placeholder}
         </NormalText>
-        <NormalText>{txt}</NormalText>
+        <NormalText styleProp={{ marginLeft: 5 }}>{txt}</NormalText>
       </View>
     </Pressable>
   );

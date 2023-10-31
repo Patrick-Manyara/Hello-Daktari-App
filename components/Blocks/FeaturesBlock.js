@@ -1,14 +1,20 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import FeaturesCard from "../Cards/FeaturesCard";
+import { useNavigation } from "@react-navigation/native";
 
 export default function FeaturesBlock() {
+  const navigation = useNavigation();
+  function navigateToScreen(screenName) {
+    navigation.navigate(screenName);
+  }
   return (
     <View style={styles.container}>
       <FeaturesCard
         src={require("../../assets/images/woman.png")}
         text="Consult a doctor"
         style={styles.column}
+        onPress={() => navigateToScreen("ManualDetailsScreen")}
       />
       <FeaturesCard
         src={require("../../assets/images/ambulance.png")}
@@ -29,6 +35,7 @@ export default function FeaturesBlock() {
         src={require("../../assets/images/meds.png")}
         text="Pharmacy"
         style={styles.column}
+        onPress={() => navigateToScreen("Shop")}
       />
     </View>
   );

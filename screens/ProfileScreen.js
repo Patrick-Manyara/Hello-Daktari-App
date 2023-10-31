@@ -1,23 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-  Image,
-  Pressable,
-} from "react-native";
-import { globalStyles } from "../constants/globalcss";
+import { StyleSheet, View, ScrollView, Image, Pressable } from "react-native";
+import { AuthContext } from "../store/auth-context";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Colors } from "../constants/styles";
+import { useNavigation } from "@react-navigation/native";
+
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
-
-import { useNavigation } from "@react-navigation/native";
 import ProfileCard from "../components/Cards/ProfileCard";
-import AuthContextProvider, { AuthContext } from "../store/auth-context";
+
 import { Path } from "../constants/path";
+
+import { globalStyles } from "../constants/globalcss";
+import { Colors } from "../constants/styles";
 
 export default function ProfileScreen() {
   const authCtx = useContext(AuthContext);
@@ -37,8 +32,8 @@ export default function ProfileScreen() {
 
   const navigation = useNavigation();
 
-  function navigateToAddressScreen() {
-    navigation.navigate("ProfileAddressScreen");
+  function navigateToScreen(screenName) {
+    navigation.navigate(screenName);
   }
 
   return (
@@ -61,7 +56,7 @@ export default function ProfileScreen() {
                 {token.user_name}
               </NormalText>
               <NormalText styleProp={globalStyles.whiteText}>
-              {token.user_email}
+                {token.user_email}
               </NormalText>
             </View>
           </View>
@@ -71,22 +66,27 @@ export default function ProfileScreen() {
           src={require("../assets/images/pro_user.png")}
           header="Account Information"
           info="Change your account information"
+          onPress={() => navigateToScreen("EditProfileScreen")}
         />
+
         <ProfileCard
           src={require("../assets/images/pro_user.png")}
           header="Medical Records"
           info="History about your medical records"
         />
+
         <ProfileCard
           src={require("../assets/images/pro_user.png")}
-          header="Account Information"
-          info="Change your account information"
+          header="Shopping History"
+          info="View your Shopping History"
+          onPress={() => navigateToScreen("ShoppingHistoryScreen")}
         />
+
         <ProfileCard
           src={require("../assets/images/pro_user.png")}
-          header="Address Information"
-          info="Change your account information"
-          onPress={navigateToAddressScreen}
+          header="Session History"
+          info="View Your Session History"
+          onPress={() => navigateToScreen("ProfileAddressScreen")}
         />
         <ProfileCard
           src={require("../assets/images/pro_user.png")}

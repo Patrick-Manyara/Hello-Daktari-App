@@ -1,16 +1,20 @@
+import React, { useState, useEffect } from "react";
+import * as Font from "expo-font";
+
 import { View, Text, TextInput, StyleSheet } from "react-native";
 
 import { Colors } from "../../constants/styles";
-import * as Font from "expo-font";
-import React, { useState, useEffect } from "react";
+import NormalText from "../ui/NormalText";
+import { globalStyles } from "../../constants/globalcss";
 
-function Input({
+export default function InputHybrid({
   label,
   keyboardType,
   secure,
   onUpdateValue,
   value,
   isInvalid,
+  placeholder,
 }) {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -24,30 +28,16 @@ function Input({
   useEffect(() => {
     loadFonts();
   }, []);
- 
-  // return (
-  // <View style={styles.inputContainer}>
-  //   <TextInput
-  //     style={[styles.input, isInvalid && styles.inputInvalid]}
-  //     keyboardType={keyboardType}
-  //     secureTextEntry={secure}
-  //     onChangeText={onUpdateValue}
-  //     value={value}
-  //     placeholder={label}
-  //   />
-  // </View>
-  // );
 
   return (
     <>
       {fontsLoaded ? (
-        <View style={styles.inputContainer}>
+        <View style={[globalStyles.disabledContainer, styles.customInput]}>
+          <NormalText styleProp={{ color: "#00000066", fontSize: 8 }}>
+            {placeholder}
+          </NormalText>
           <TextInput
-            style={[
-              styles.input,
-              isInvalid && styles.inputInvalid,
-              { fontFamily: "poppins-regular" },
-            ]}
+            style={[styles.input, isInvalid && styles.inputInvalid]}
             keyboardType={keyboardType}
             secureTextEntry={secure}
             onChangeText={onUpdateValue}
@@ -64,8 +54,6 @@ function Input({
   );
 }
 
-export default Input;
-
 const styles = StyleSheet.create({
   inputContainer: {
     marginVertical: 8,
@@ -78,11 +66,8 @@ const styles = StyleSheet.create({
     color: Colors.error500,
   },
   input: {
-    paddingVertical: 8,
-    paddingHorizontal: 6,
-    backgroundColor: Colors.lightGrey,
-    borderRadius: 10,
     fontSize: 14,
+    fontFamily: "poppins-regular",
   },
   inputInvalid: {
     backgroundColor: Colors.error100,

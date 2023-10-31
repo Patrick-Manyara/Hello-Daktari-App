@@ -2,9 +2,9 @@ import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { Colors } from "../../constants/styles";
 import NormalText from "../ui/NormalText";
 
-export default function FeaturesCard({ src, text }) {
+export default function FeaturesCard({ src, text, onPress }) {
   return (
-    <Pressable style={{ width: "33.33%" }}>
+    <Pressable onPress={onPress} style={{ width: "33.33%" }}>
       <View style={styles.featuresCard}>
         <Image style={styles.image} source={src} />
         <NormalText styleProp={styles.text}>{text}</NormalText>

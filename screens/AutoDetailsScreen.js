@@ -37,7 +37,7 @@ export default function AutoDetailsScreen({ navigation }) {
   const [enteredPrescriptionName, setEnteredPrescriptionName] = useState("");
   const [enteredRecords, setEnteredRecords] = useState("");
   const [enteredRecordsName, setEnteredRecordsName] = useState("");
-  const [uploading, setUploading] = React.useState(false);
+  const [uploading, setUploading] = useState(false);
   //uploads
 
   const [enteredVisitType, setEnteredVisitType] = useState(null);
@@ -127,6 +127,8 @@ export default function AutoDetailsScreen({ navigation }) {
         break;
     }
   }
+  
+  //SUBMISSION
 
   const baseurl = Path.API_URL + "session.php";
   const queryParams = `action=auto`;
@@ -187,7 +189,7 @@ export default function AutoDetailsScreen({ navigation }) {
     <SafeAreaView style={globalStyles.safeAreaView}>
       <NotificationBell />
       <ScrollView>
-        <HeaderText>Enter Your Details!</HeaderText>
+        <HeaderText>Consult Available Doctor</HeaderText>
         <View>
           <Input
             label="Date"

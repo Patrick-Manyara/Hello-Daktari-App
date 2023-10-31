@@ -23,6 +23,7 @@ const globalStyles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 12,
     flexDirection: "column",
+    marginVertical: 5,
   },
   input: {
     flex: 1,

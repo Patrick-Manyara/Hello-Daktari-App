@@ -153,7 +153,7 @@ export default function ShopScreen({ route, navigation }) {
           <LoadingOverlay message="Fetching products." />
         ) : (
           <View>
-            <HeaderText>Shop</HeaderText>
+            <HeaderText>Pharmacy</HeaderText>
             <SearchInput />
             <ScrollView horizontal>
               <View style={{ flexDirection: "row" }}>

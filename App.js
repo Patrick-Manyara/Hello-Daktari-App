@@ -36,6 +36,7 @@ import AddressManager from "./screens/AddressManager";
 import ProfileAddressScreen from "./screens/ProfileAddressScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
 import OrderSuccess from "./screens/OrderSuccess";
+import ShoppingHistoryScreen from "./screens/ShoppingHistoryScreen";
 
 //COMPONENTS
 import TabBlocks from "./components/Blocks/TabBlocks";
@@ -178,6 +179,10 @@ function HomeStack() {
         component={ProfileAddressScreen}
       />
       <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
+      <Stack.Screen
+        name="ShoppingHistoryScreen"
+        component={ShoppingHistoryScreen}
+      />
       <Stack.Screen name="OrderSuccess" component={OrderSuccess} />
     </Stack.Navigator>
   );
