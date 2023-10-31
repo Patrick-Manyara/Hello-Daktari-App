@@ -33,11 +33,10 @@ export default function DoctorProfileScreen({ route, navigation }) {
     setEnteredChannel(name);
   };
 
-  function navigateToAppointment() {
-    navigation.navigate("AppointmentScreen", {
+  function navigateToScreen(screenName) {
+    navigation.navigate(screenName, {
       doctor: doctor,
       session_data: session_data,
-      channel: enteredChannel,
     });
   }
 
@@ -47,6 +46,12 @@ export default function DoctorProfileScreen({ route, navigation }) {
       <ScrollView>
         <View>
           <HeaderText>Specialist Profile</HeaderText>
+
+          {session_data.session_consultation == "general" && (
+            <View>
+              <NormalText>The system has found this doctor for you.</NormalText>
+            </View>
+          )}
           <View style={styles.innerView}>
             <Image
               style={styles.image}
@@ -65,27 +70,6 @@ export default function DoctorProfileScreen({ route, navigation }) {
                 Years of Experience: {doctor.doctor_experience} Years
               </NormalText>
 
-              {session_data.session_visit != "home" && (
-                <View>
-                  <HeaderText styleProp={globalStyles.centerText}>
-                    Channel
-                  </HeaderText>
-
-                  <View style={globalStyles.optionContainer}>
-                    {channels.map((channel, index) => (
-                      <VisitOption
-                        key={index}
-                        style={globalStyles.optionColumn}
-                        name={channel.name}
-                        img={channel.img}
-                        onPress={() => handleChannelClick(channel.name)}
-                        isSelected={enteredChannel === channel.name}
-                      />
-                    ))}
-                  </View>
-                </View>
-              )}
-
               <View style={styles.ratingArea}>
                 <Image source={require("../assets/images/star.png")} />
                 <NormalText>4.5</NormalText>
@@ -101,9 +85,28 @@ export default function DoctorProfileScreen({ route, navigation }) {
                 <NormalText styleProp={styles.aboutText}>
                   {doctor.doctor_bio}
                 </NormalText>
-                <PrimaryButton onPress={navigateToAppointment}>
-                  Check Availability
-                </PrimaryButton>
+
+                {session_data.session_consultation == "general" ? (
+                  <View>
+                    <PrimaryButton
+                      onPress={
+                        session_data.session_visit == "home"
+                          ? () => navigateToScreen("AddressScreen")
+                          : () => navigateToScreen("PaymentScreen")
+                      }
+                    >
+                      Proceed
+                    </PrimaryButton>
+                  </View>
+                ) : (
+                  <View>
+                    <PrimaryButton
+                      onPress={() => navigateToScreen("AppointmentScreen")}
+                    >
+                      Check Availability
+                    </PrimaryButton>
+                  </View>
+                )}
               </View>
             </View>
           </View>

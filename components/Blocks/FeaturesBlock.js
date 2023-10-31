@@ -37,6 +37,12 @@ export default function FeaturesBlock() {
         style={styles.column}
         onPress={() => navigateToScreen("Shop")}
       />
+      <FeaturesCard
+        src={require("../../assets/images/microscope.png")}
+        text="Lab Services"
+        style={styles.column}
+        onPress={() => navigateToScreen("LabScreen")}
+      />
     </View>
   );
 }

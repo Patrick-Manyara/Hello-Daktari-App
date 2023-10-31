@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Image, View, ScrollView, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  View,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { globalStyles } from "../constants/globalcss";
@@ -18,7 +24,6 @@ export default function AppointmentScreen({ route, navigation }) {
   const [timesArray, setTimesArray] = useState([]);
   const doctor = route.params.doctor;
   const session_data = route.params.session_data;
-  const channel = route.params.channel;
 
   //console.log(session_data);
 
@@ -93,7 +98,6 @@ export default function AppointmentScreen({ route, navigation }) {
       data.append("end_time", selectedEndTime);
       data.append("doctor", doctor.doctor_id);
       data.append("session", session_data.session_id);
-      data.append("channel", channel);
 
       let res = await fetch(Path.API_URL + "session.php?action=update", {
         method: "POST",
@@ -104,35 +108,21 @@ export default function AppointmentScreen({ route, navigation }) {
       });
 
       let responseJson = await res.json();
-      if (responseJson.status == 1) {
-        // console.log(responseJson);
+      if (responseJson.data == true) {
+        if (responseJson.vt == "home") {
+          navigation.navigate("AddressScreen", {
+            doctor: doctor,
+            session_data: responseJson.session_data,
+          });
+        } else {
+          navigation.navigate("PaymentScreen", {
+            doctor: doctor,
+            session_data: responseJson.session_data,
+          });
+        }
       }
 
       setUploading(false);
-
-      if (session_data.session_visit == "home") {
-        navigation.navigate("AddressScreen", {
-          doctor: doctor,
-          session_data: {
-            ...session_data,
-            selectedDate,
-            selectedTime,
-            selectedEndTime,
-            channel,
-          },
-        });
-      } else {
-        navigation.navigate("PaymentScreen", {
-          doctor: doctor,
-          session_data: {
-            ...session_data,
-            selectedDate,
-            selectedTime,
-            selectedEndTime,
-            channel,
-          },
-        });
-      }
     } else {
       alert("Please fill all the fields firsts");
     }

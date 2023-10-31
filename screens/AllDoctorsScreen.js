@@ -11,7 +11,7 @@ import DoctorCard from "../components/Cards/DoctorCard";
 
 export default function AllDoctorsScreen({ route, navigation }) {
   const [doctors, setDoctors] = useState([]);
-  const [sessionData, setSessionData] = useState("");
+  const [session_data, setSessionData] = useState("");
 
   useEffect(() => {
     setDoctors(route.params.doctors);
@@ -21,7 +21,7 @@ export default function AllDoctorsScreen({ route, navigation }) {
   const navigateToDoctorProfile = (doctor) => {
     navigation.navigate("DoctorProfileScreen", {
       doctor: doctor,
-      session_data: sessionData,
+      session_data: session_data,
     });
   };
 
@@ -43,6 +43,7 @@ export default function AllDoctorsScreen({ route, navigation }) {
                     post={doctor.doctor_qualifications}
                     years={doctor.doctor_experience}
                     rating="4.5"
+                    price={doctor.doctor_rate}
                     onPress={() => navigateToDoctorProfile(doctor)}
                   />
                 ))

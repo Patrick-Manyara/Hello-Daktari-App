@@ -124,8 +124,8 @@ export default function SummaryScreen({ route, navigation }) {
               <NormalText>Date & hour</NormalText>
               <NormalText>
                 {" "}
-                {getDayMonthAndYear(session_data.selectedDate)} |{" "}
-                {session_data.selectedTime}
+                {getDayMonthAndYear(session_data.session_date)} |{" "}
+                {session_data.session_start_time}
               </NormalText>
             </View>
             <View

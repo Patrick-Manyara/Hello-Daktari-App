@@ -5,13 +5,14 @@ import React, { useState, useEffect } from "react";
 
 import { Colors } from "../../constants/styles";
 
-export default function HeaderText({ children, styleProp }) {
+export default function HeaderText({ children, styleProp, fontProp }) {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   async function loadFonts() {
     await Font.loadAsync({
       "poppins-regular": require("../../assets/fonts/Poppins-Regular.ttf"),
       "poppins-bold": require("../../assets/fonts/Poppins-Bold.ttf"),
+      "poppins-semibold": require("../../assets/fonts/Poppins-SemiBold.ttf"),
     });
     setFontsLoaded(true);
   }
@@ -28,7 +29,7 @@ export default function HeaderText({ children, styleProp }) {
           style={[
             styles.headerText,
             styleProp,
-            { fontFamily: "poppins-bold" },
+            fontProp ? { fontFamily: fontProp } : "",
           ]}
         >
           {children}
@@ -44,5 +45,6 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     color: Colors.mainBlue,
+    fontFamily: "poppins-bold",
   },
 });

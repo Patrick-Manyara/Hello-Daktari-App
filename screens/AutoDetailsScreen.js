@@ -6,10 +6,12 @@ import {
   ScrollView,
   ActivityIndicator,
   ToastAndroid,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../store/auth-context";
 import * as DocumentPicker from "expo-document-picker";
+import { Datepicker, Layout } from "@ui-kitten/components";
 
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
@@ -21,28 +23,30 @@ import UploadInput from "../components/FormElements/UploadInput";
 import { globalStyles } from "../constants/globalcss";
 
 import { Path } from "../constants/path";
+import { Picker } from "@react-native-picker/picker";
 
 export default function AutoDetailsScreen({ navigation }) {
-  //token fetching
+  //TOKEN
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
 
-  //navigation
+  //DATE TIME
+  const [date, setDate] = useState(new Date());
 
-  const [enteredDate, setEnteredDate] = useState("");
-  const [enteredTime, setEnteredTime] = useState("");
+  const [selectedTimeRange, setSelectedTimeRange] = useState(null);
 
-  //uploads
-  const [enteredPrescription, setEnteredPrescription] = useState("");
-  const [enteredPrescriptionName, setEnteredPrescriptionName] = useState("");
-  const [enteredRecords, setEnteredRecords] = useState("");
-  const [enteredRecordsName, setEnteredRecordsName] = useState("");
-  const [uploading, setUploading] = useState(false);
-  //uploads
+  const timeRangeOptions = [];
+  for (let i = 8; i <= 20; i += 2) {
+    const startTime = `${i}:00`;
+    const endTime = `${i + 2}:00`;
+    const label = `${startTime} - ${endTime}`;
+    timeRangeOptions.push({ label, value: i });
+  }
+
+  //VISIT TYPE AND CHANNEL
 
   const [enteredVisitType, setEnteredVisitType] = useState(null);
-
-  //VISIT TYPE
+  const [enteredChannel, setEnteredChannel] = useState("");
 
   const visitTypes = [
     { name: "home", img: require("../assets/images/home.png") },
@@ -54,44 +58,14 @@ export default function AutoDetailsScreen({ navigation }) {
     setEnteredVisitType(name);
   };
 
-  //FILE UPLOADS
+  const channels = [
+    { name: "audio", img: require("../assets/images/wave.png") },
+    { name: "video", img: require("../assets/images/camera.png") },
+    { name: "message", img: require("../assets/images/comment.png") },
+  ];
 
-  const selectFile = async () => {
-    let r = await DocumentPicker.getDocumentAsync({
-      type: "application/pdf/*",
-    });
-    if (r.canceled == false) {
-      setEnteredPrescription(r);
-      setEnteredPrescriptionName(r.name);
-      ToastAndroid.show("Prescription loaded", ToastAndroid.SHORT);
-    }
-  };
-
-  const selectFile2 = async () => {
-    let r = await DocumentPicker.getDocumentAsync({
-      type: "application/pdf/*",
-    });
-    if (r.canceled == false) {
-      setEnteredRecords(r);
-      setEnteredRecordsName(r.name);
-      ToastAndroid.show("Medical records loaded", ToastAndroid.SHORT);
-    }
-  };
-
-  const NAME = () => {
-    if (enteredPrescription == null) {
-      return <Text></Text>;
-    } else {
-      return <Text>{enteredPrescription.name}</Text>;
-    }
-  };
-
-  const NAME2 = () => {
-    if (enteredRecords == null) {
-      return <Text></Text>;
-    } else {
-      return <Text>{enteredRecords.name}</Text>;
-    }
+  const handleChannelClick = (name) => {
+    setEnteredChannel(name);
   };
 
   //RENDER
@@ -115,73 +89,72 @@ export default function AutoDetailsScreen({ navigation }) {
     }
   };
 
-  //DATE AND TIME INPUT HANDLER
-
-  function updateInputValueHandler(inputType, enteredValue) {
-    switch (inputType) {
-      case "date":
-        setEnteredDate(enteredValue);
-        break;
-      case "time":
-        setEnteredTime(enteredValue);
-        break;
-    }
-  }
-  
   //SUBMISSION
+
+  const [uploading, setUploading] = useState(false);
 
   const baseurl = Path.API_URL + "session.php";
   const queryParams = `action=auto`;
   const url = `${baseurl}?${queryParams}`;
 
   let submitForm = async () => {
-    if (
-      enteredDate != null &&
-      enteredTime != null &&
-      enteredPrescription != null &&
-      enteredRecords != null &&
-      enteredVisitType != null
-    ) {
-      setUploading(true);
+    try {
+      if (
+        date != null &&
+        selectedTimeRange != null &&
+        enteredVisitType != null
+      ) {
+        setUploading(true);
 
-      const fileToUpload = enteredPrescription;
-      const fileToUpload2 = enteredRecords;
+        const data = new FormData();
 
-      const data = new FormData();
-      data.append("date", enteredDate);
-      data.append("time", enteredTime);
-      data.append("visitTpe", enteredVisitType);
-      data.append("user_id", token.user_id);
-      data.append("prescription", {
-        type: "application/pdf",
-        uri: enteredPrescription.assets[0].uri,
-        name: enteredPrescription.assets[0].name,
-      });
-      data.append("records", {
-        type: "application/pdf",
-        uri: enteredRecords.assets[0].uri,
-        name: enteredRecords.assets[0].name,
-      });
-      let res = await fetch(url, {
-        method: "post",
-        body: data,
-        headers: {
-          "Content-Type": "multipart/form-data; ",
-        },
-      });
+        const originalDate = new Date(date);
 
-      let responseJson = await res.json();
-      if (responseJson.status == 1) {
-        // console.log(responseJson);
+        // Add one day (24 hours) to the date
+        originalDate.setDate(originalDate.getDate() + 1);
+
+        // Format the date as YYYY-MM-DD
+        const formattedDate = originalDate.toISOString().split("T")[0];
+
+        data.append("date", formattedDate);
+        data.append("time", selectedTimeRange);
+        data.append("visitType", enteredVisitType);
+        if (enteredChannel != "") {
+          data.append("channel", enteredChannel);
+        }
+        data.append("user_id", token.user_id);
+
+        let res = await fetch(url, {
+          method: "POST",
+          body: data,
+        });
+        console.log(data);
+        if (res.ok) {
+          let responseJson = await res.json();
+          if (responseJson.data === true) {
+            navigation.navigate("DoctorProfileScreen", {
+              doctor: responseJson.doctor,
+              session_data: responseJson.session_data,
+            });
+          } else {
+            Alert.alert("Error");
+            console.log("error here");
+          }
+        } else {
+          // Handle non-successful HTTP status codes here
+          console.log("error here");
+        }
+
+        setUploading(false);
+      } else {
+        setUploading(false);
+        alert("Please fill all the fields first");
       }
-
-      setUploading(false);
-      navigation.navigate("DoctorProfileScreen", {
-        doctor: responseJson.doctor,
-        session_data: responseJson.session_data,
-      });
-    } else {
-      alert("Please fill all the fields firsts");
+    } catch (error) {
+      // Handle any errors that occur during the try block
+      console.error("An error occurred:", error);
+      // You can also display an error message to the user if needed
+      // alert("An error occurred while submitting the form.");
     }
   };
 
@@ -191,23 +164,33 @@ export default function AutoDetailsScreen({ navigation }) {
       <ScrollView>
         <HeaderText>Consult Available Doctor</HeaderText>
         <View>
-          <Input
-            label="Date"
-            onUpdateValue={updateInputValueHandler.bind(this, "date")}
-            value={enteredDate}
-          />
-          <Input
-            label="Time"
-            onUpdateValue={updateInputValueHandler.bind(this, "time")}
-            value={enteredTime}
-          />
-          <UploadInput txt="Upload Prescriptions" onPress={selectFile} />
-          <NAME />
-          <UploadInput txt="Upload Medical Records" onPress={selectFile2} />
+          <Layout style={styles.container} level="1">
+            <Datepicker
+              date={date}
+              onSelect={(nextDate) => setDate(nextDate)}
+            />
+          </Layout>
 
-          <NAME2 />
+          <Picker
+            style={[globalStyles.disabledContainer, styles.customInput]}
+            selectedValue={selectedTimeRange}
+            onValueChange={(itemValue, itemIndex) => {
+              setSelectedTimeRange(itemValue);
+            }}
+          >
+            <Picker.Item label="Time" value={null} />
+            {timeRangeOptions.map((item) => (
+              <Picker.Item
+                key={item.value}
+                label={item.label}
+                value={item.label}
+              />
+            ))}
+          </Picker>
 
-          <HeaderText>Type of visit</HeaderText>
+          <HeaderText styleProp={globalStyles.centerText}>
+            Type of visit
+          </HeaderText>
           <View style={globalStyles.optionContainer}>
             {visitTypes.map((visitType, index) => (
               <VisitOption
@@ -221,6 +204,27 @@ export default function AutoDetailsScreen({ navigation }) {
             ))}
           </View>
 
+          {enteredVisitType === "online" && (
+            <View>
+              <HeaderText styleProp={globalStyles.centerText}>
+                Channel
+              </HeaderText>
+
+              <View style={globalStyles.optionContainer}>
+                {channels.map((channel, index) => (
+                  <VisitOption
+                    key={index}
+                    style={globalStyles.optionColumn}
+                    name={channel.name}
+                    img={channel.img}
+                    onPress={() => handleChannelClick(channel.name)}
+                    isSelected={enteredChannel === channel.name}
+                  />
+                ))}
+              </View>
+            </View>
+          )}
+
           <PrimaryButton onPress={submitForm}>Submit</PrimaryButton>
         </View>
         {_maybeRenderUploadingOverlay()}
@@ -229,4 +233,12 @@ export default function AutoDetailsScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  customInput: {
+    height: 50,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingVertical: 8,
+    marginVertical: 2,
+  },
+});

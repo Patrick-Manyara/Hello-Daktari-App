@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,11 +6,13 @@ import {
   ScrollView,
   ActivityIndicator,
   ToastAndroid,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AuthContext } from "../store/auth-context";
 import * as DocumentPicker from "expo-document-picker";
 
-import { AuthContext } from "../store/auth-context";
+import LoadingOverlay from "../components/ui/LoadingOverlay";
 
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
@@ -22,34 +24,52 @@ import UploadInput from "../components/FormElements/UploadInput";
 import { globalStyles } from "../constants/globalcss";
 
 import { Path } from "../constants/path";
+import { Picker } from "@react-native-picker/picker";
 
 export default function ManualDetailsScreen({ navigation }) {
+  //TOKEN
   const authCtx = useContext(AuthContext);
+  const token = authCtx.token;
 
-  const [token, setToken] = useState("");
-  const [url, setUrl] = useState("");
+  // SPECIALTIES
+
+  const [specialties, setSpecialties] = useState([]);
+  const [selectedSpecialty, setSelectedSpecialty] = useState(null);
+  const [isFetching, setIsFetching] = useState(true);
+
+  const fetchSpecialties = () => {
+    const fetchurl = Path.API_URL + "session.php?action=specialties";
+    try {
+      fetch(fetchurl)
+        .then((response) => response.json())
+        .then((data) => {
+          setIsFetching(false);
+          let arr = data.specialties;
+          if (Array.isArray(arr)) {
+            setSpecialties(data.specialties);
+            console.log(data.specialties);
+          } else {
+            console.log("No specialties");
+          }
+        })
+        .catch((error) => {
+          setIsFetching(false);
+          console.error("Fetch error:", error);
+        });
+    } catch (error) {
+      setIsFetching(false);
+      console.error("Request setup error:", error);
+    }
+  };
 
   useEffect(() => {
-    setToken(authCtx.token);
-    setUrl(Path.API_URL + "session.php?action=manual");
+    fetchSpecialties();
   }, []);
 
-  //navigation
-
-  const [enteredDate, setEnteredDate] = useState("");
-  const [enteredTime, setEnteredTime] = useState("");
-
-  //uploads
-  const [enteredPrescription, setEnteredPrescription] = useState("");
-  const [enteredPrescriptionName, setEnteredPrescriptionName] = useState("");
-  const [enteredRecords, setEnteredRecords] = useState("");
-  const [enteredRecordsName, setEnteredRecordsName] = useState("");
-  const [uploading, setUploading] = React.useState(false);
-  //uploads
+  //VISIT TYPE AND CHANNEL
 
   const [enteredVisitType, setEnteredVisitType] = useState(null);
-
-  //VISIT TYPE
+  const [enteredChannel, setEnteredChannel] = useState("");
 
   const visitTypes = [
     { name: "home", img: require("../assets/images/home.png") },
@@ -61,44 +81,14 @@ export default function ManualDetailsScreen({ navigation }) {
     setEnteredVisitType(name);
   };
 
-  //FILE UPLOADS
+  const channels = [
+    { name: "audio", img: require("../assets/images/wave.png") },
+    { name: "video", img: require("../assets/images/camera.png") },
+    { name: "message", img: require("../assets/images/comment.png") },
+  ];
 
-  const selectFile = async () => {
-    let r = await DocumentPicker.getDocumentAsync({
-      type: "application/pdf/*",
-    });
-    if (r.canceled == false) {
-      setEnteredPrescription(r);
-      setEnteredPrescriptionName(r.name);
-      ToastAndroid.show("Prescription loaded", ToastAndroid.SHORT);
-    }
-  };
-
-  const selectFile2 = async () => {
-    let r = await DocumentPicker.getDocumentAsync({
-      type: "application/pdf/*",
-    });
-    if (r.canceled == false) {
-      setEnteredRecords(r);
-      setEnteredRecordsName(r.name);
-      ToastAndroid.show("Medical records loaded", ToastAndroid.SHORT);
-    }
-  };
-
-  const NAME = () => {
-    if (enteredPrescription == null) {
-      return <Text></Text>;
-    } else {
-      return <Text>{enteredPrescription.name}</Text>;
-    }
-  };
-
-  const NAME2 = () => {
-    if (enteredRecords == null) {
-      return <Text></Text>;
-    } else {
-      return <Text>{enteredRecords.name}</Text>;
-    }
+  const handleChannelClick = (name) => {
+    setEnteredChannel(name);
   };
 
   //RENDER
@@ -122,112 +112,139 @@ export default function ManualDetailsScreen({ navigation }) {
     }
   };
 
-  //DATE AND TIME INPUT HANDLER
+  //SUBMISSION
 
-  function updateInputValueHandler(inputType, enteredValue) {
-    switch (inputType) {
-      case "date":
-        setEnteredDate(enteredValue);
-        break;
-      case "time":
-        setEnteredTime(enteredValue);
-        break;
-    }
-  }
+  const [uploading, setUploading] = useState(false);
+
+  const baseurl = Path.API_URL + "session.php";
+  const queryParams = `action=manual`;
+  const url = `${baseurl}?${queryParams}`;
 
   let submitForm = async () => {
-    if (
-      enteredDate != null &&
-      enteredTime != null &&
-      enteredPrescription != null &&
-      enteredRecords != null &&
-      enteredVisitType != null
-    ) {
-      setUploading(true);
+    try {
+      if (enteredVisitType != null && selectedSpecialty != null) {
+        setUploading(true);
 
-      const fileToUpload = enteredPrescription;
-      const fileToUpload2 = enteredRecords;
+        const fd = new FormData();
+        fd.append("specialty", selectedSpecialty);
+        fd.append("visitType", enteredVisitType);
+        if (enteredChannel != "") {
+          fd.append("channel", enteredChannel);
+        }
+        fd.append("user_id", token.user_id);
 
-      const data = new FormData();
-      data.append("date", enteredDate);
-      data.append("time", enteredTime);
-      data.append("visitTpe", enteredVisitType);
-      data.append("user_id", token.user_id);
-      data.append("prescription", {
-        type: "application/pdf",
-        uri: enteredPrescription.assets[0].uri,
-        name: enteredPrescription.assets[0].name,
-      });
-      data.append("records", {
-        type: "application/pdf",
-        uri: enteredRecords.assets[0].uri,
-        name: enteredRecords.assets[0].name,
-      });
-      let res = await fetch(url, {
-        method: "post",
-        body: data,
-        headers: {
-          "Content-Type": "multipart/form-data; ",
-        },
-      });
+        let res = await fetch(url, {
+          method: "POST",
+          body: fd,
+        });
+        if (res.ok) {
+          let responseJson = await res.json();
+          if (responseJson.data === true) {
+            navigation.navigate("AllDoctorsScreen", {
+              doctors: responseJson.doctors,
+              session_data: responseJson.session_data,
+            });
+          } else {
+            Alert.alert("Error");
+            console.log("error here");
+          }
+        } else {
+          // Handle non-successful HTTP status codes here
+          console.log("error here");
+        }
 
-      let responseJson = await res.json();
-      if (responseJson.status == 1) {
-        // console.log(responseJson);
+        setUploading(false);
+      } else {
+        setUploading(false);
+        alert("Please fill all the fields first");
       }
-
-      setUploading(false);
-      navigation.navigate("AllDoctorsScreen", {
-        doctors: responseJson.doctors,
-        session_data: responseJson.session_data,
-      });
-    } else {
-      alert("Please fill all the fields firsts");
+    } catch (error) {
+      // Handle any errors that occur during the try block
+      console.error("An error occurred:", error);
+      // You can also display an error message to the user if needed
+      // alert("An error occurred while submitting the form.");
     }
   };
 
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
       <NotificationBell />
-      <ScrollView>
-        <HeaderText>Enter Your Details!</HeaderText>
-        <View>
-          <Input
-            label="Date"
-            onUpdateValue={updateInputValueHandler.bind(this, "date")}
-            value={enteredDate}
-          />
-          <Input
-            label="Time"
-            onUpdateValue={updateInputValueHandler.bind(this, "time")}
-            value={enteredTime}
-          />
-          <UploadInput txt="Upload Prescriptions" onPress={selectFile} />
-          <NAME />
-          <UploadInput txt="Upload Medical Records" onPress={selectFile2} />
+      {isFetching ? (
+        <LoadingOverlay message="Getting all doctor specialties" />
+      ) : (
+        <ScrollView>
+          <HeaderText>Consult Available Doctor</HeaderText>
+          <View>
+            {specialties.length > 0 && (
+              <Picker
+                style={[globalStyles.disabledContainer, styles.customInput]}
+                selectedValue={selectedSpecialty}
+                onValueChange={(itemValue, itemIndex) => {
+                  setSelectedSpecialty(itemValue);
+                }}
+              >
+                <Picker.Item label="Select a specialty" value={null} />
+                {specialties.map((item) => (
+                  <Picker.Item
+                    key={item.doc_category_id}
+                    label={item.doc_category_name}
+                    value={item.doc_category_id}
+                  />
+                ))}
+              </Picker>
+            )}
+            <HeaderText styleProp={globalStyles.centerText}>
+              Type of visit
+            </HeaderText>
+            <View style={globalStyles.optionContainer}>
+              {visitTypes.map((visitType, index) => (
+                <VisitOption
+                  key={index}
+                  style={globalStyles.optionColumn}
+                  name={visitType.name}
+                  img={visitType.img}
+                  onPress={() => handleVisitTypeClick(visitType.name)}
+                  isSelected={enteredVisitType === visitType.name}
+                />
+              ))}
+            </View>
 
-          <NAME2 />
+            {enteredVisitType === "online" && (
+              <View>
+                <HeaderText styleProp={globalStyles.centerText}>
+                  Channel
+                </HeaderText>
 
-          <HeaderText>Type of visit</HeaderText>
-          <View style={globalStyles.optionContainer}>
-            {visitTypes.map((visitType, index) => (
-              <VisitOption
-                key={index}
-                style={globalStyles.optionColumn}
-                name={visitType.name}
-                img={visitType.img}
-                onPress={() => handleVisitTypeClick(visitType.name)}
-                isSelected={enteredVisitType === visitType.name}
-              />
-            ))}
+                <View style={globalStyles.optionContainer}>
+                  {channels.map((channel, index) => (
+                    <VisitOption
+                      key={index}
+                      style={globalStyles.optionColumn}
+                      name={channel.name}
+                      img={channel.img}
+                      onPress={() => handleChannelClick(channel.name)}
+                      isSelected={enteredChannel === channel.name}
+                    />
+                  ))}
+                </View>
+              </View>
+            )}
+
+            <PrimaryButton onPress={submitForm}>Submit</PrimaryButton>
           </View>
-
-          <PrimaryButton onPress={submitForm}>Submit</PrimaryButton>
-        </View>
-        {_maybeRenderUploadingOverlay()}
-      </ScrollView>
+          {_maybeRenderUploadingOverlay()}
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  customInput: {
+    height: 50,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingVertical: 8,
+    marginVertical: 2,
+  },
+});

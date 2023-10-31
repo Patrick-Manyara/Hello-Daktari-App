@@ -12,6 +12,7 @@ export default function DoctorCard({
   years,
   rating,
   onPress,
+  price
 }) {
   return (
     <Pressable style={{ width: "50%" }}>
@@ -28,11 +29,12 @@ export default function DoctorCard({
           </View>
 
           <NormalText>{role}</NormalText>
-          <NormalText>Years of Experience: {years} Years</NormalText>
+          <NormalText>Experience: {years} Years</NormalText>
           <View style={styles.ratingArea}>
             <Image source={require("../../assets/images/star.png")} />
             <NormalText>4.5</NormalText>
           </View>
+          <NormalText>Rate/hr: Ksh. {price} </NormalText>
           <PrimaryButton onPress={onPress}>See Profile</PrimaryButton>
         </View>
       </View>

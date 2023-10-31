@@ -15,7 +15,6 @@ export default function PaymentScreen({ route, navigation }) {
   const [userAddress, setUserAddress] = useState("");
   const doctor = route.params.doctor;
   const session_data = route.params.session_data;
-  const channel = route.params.channel;
   const address = route.params?.address;
 
   useEffect(() => {
@@ -33,7 +32,7 @@ export default function PaymentScreen({ route, navigation }) {
       payment_method: selectedOption,
       address: userAddress,
     });
-  }
+  } 
 
   const paymentOptions = [
     {

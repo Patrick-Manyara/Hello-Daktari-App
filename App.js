@@ -7,10 +7,12 @@ import * as SplashScreen from "expo-splash-screen";
 import { Colors } from "./constants/styles";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import { CartProvider } from "./store/cart-context";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import IconButton from "./components/ui/IconButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import * as eva from "@eva-design/eva";
+import { ApplicationProvider } from "@ui-kitten/components";
 
 // SCREENS
 import LandingScreen from "./screens/LandingScreen";
@@ -37,6 +39,7 @@ import ProfileAddressScreen from "./screens/ProfileAddressScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
 import OrderSuccess from "./screens/OrderSuccess";
 import ShoppingHistoryScreen from "./screens/ShoppingHistoryScreen";
+import LabScreen from "./screens/LabScreen";
 
 //COMPONENTS
 import TabBlocks from "./components/Blocks/TabBlocks";
@@ -184,6 +187,7 @@ function HomeStack() {
         component={ShoppingHistoryScreen}
       />
       <Stack.Screen name="OrderSuccess" component={OrderSuccess} />
+      <Stack.Screen name="LabScreen" component={LabScreen} />
     </Stack.Navigator>
   );
 }
@@ -237,9 +241,11 @@ export default function App() {
   return (
     <>
       <StatusBar style="dark" />
-      <AuthContextProvider>
-        <Root />
-      </AuthContextProvider>
+      <ApplicationProvider {...eva} theme={eva.light}>
+        <AuthContextProvider>
+          <Root />
+        </AuthContextProvider>
+      </ApplicationProvider>
     </>
   );
 }

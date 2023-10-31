@@ -30,7 +30,7 @@ export default function HomePageModal({ visible, closeModal }) {
                 source={require("../../assets/images/team.png")}
               />
               <NormalText styleProp={styles.consultText}>
-                See Available Doctor
+                Consult Available Doctor
               </NormalText>
             </Pressable>
             <Pressable style={styles.card} onPress={navigateToManualDetails}>

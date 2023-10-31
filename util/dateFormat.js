@@ -33,9 +33,58 @@ export function getDayMonthAndYear(dayDate) {
   return "Invalid Date";
 }
 
-
 function getOrdinal(n) {
   const suffixes = ["th", "st", "nd", "rd"];
   const v = n % 100;
   return n + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
+}
+
+export function formatMonthToMonthName(month) {
+  const [year, monthNumber] = month.split("-");
+  const date = new Date(year, monthNumber - 1, 1); // Month number is 0-based
+  return date.toLocaleString("default", { month: "long" });
+}
+
+export function formatDateTime(dateTime) {
+  const date = new Date(dateTime);
+  const options = {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
+
+  const day = date.getDate();
+  const month = date.toLocaleString("default", { month: "short" });
+  const year = date.getFullYear();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const ampm = hour >= 12 ? "pm" : "am";
+
+  const formattedTime = `${hour % 12 || 12}:${String(minute).padStart(
+    2,
+    "0"
+  )}${ampm}`;
+
+  return `${day}${getDaySuffix(day)} ${month} ${year} | ${formattedTime}`;
+}
+
+// Helper function to get the day suffix (e.g., "st", "nd", "rd", "th")
+function getDaySuffix(day) {
+  if (day >= 11 && day <= 13) {
+    return "th";
+  }
+  switch (day % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
 }

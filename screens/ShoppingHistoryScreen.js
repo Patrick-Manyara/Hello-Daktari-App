@@ -21,6 +21,9 @@ import { Path } from "../constants/path";
 
 import { globalStyles } from "../constants/globalcss";
 import { Colors } from "../constants/styles";
+import { formatMonthToMonthName, formatDateTime } from "../util/dateFormat";
+import OrderDetailsModal from "../components/Modals/OrderDetailsModal";
+import PrimaryButton from "../components/ui/PrimaryButton";
 
 export default function ShoppingHistoryScreen({ navigation }) {
   //token fetching
@@ -48,7 +51,8 @@ export default function ShoppingHistoryScreen({ navigation }) {
           if (Array.isArray(arr)) {
             setOrders(data.orders);
             const groupedData = processOrders(data.orders); // Process the data
-            setGroupedOrdersByMonthAndOrderId(groupedData); // Set the processed data
+            setGroupedOrdersByMonthAndOrderId(groupedData); // Set the processed datac
+            console.log(groupedData);
           } else {
           }
         })
@@ -116,6 +120,19 @@ export default function ShoppingHistoryScreen({ navigation }) {
     return unsubscribe;
   }, [navigation]);
 
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedOrderData, setSelectedOrderData] = useState([]);
+
+  const openOrderDetailsModal = (orderData) => {
+    setSelectedOrderData(orderData);
+    setModalVisible(true);
+  };
+
+  const closeOrderDetailsModal = () => {
+    setModalVisible(false);
+    setSelectedOrderData([]);
+  };
+
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
       <NotificationBell />
@@ -130,25 +147,45 @@ export default function ShoppingHistoryScreen({ navigation }) {
               {ordersGrouped ? (
                 Object.keys(ordersGrouped).map((month, index) => (
                   <View key={month}>
-                    <Text>Month {index + 1}</Text>
-                    <Text>Num orders For {month}:</Text>
-                    <Text>Total Amount For This Month:</Text>
+                    <HeaderText
+                      styleProp={styles.headerText}
+                      fontProp="poppins-semibold"
+                    >
+                      {formatMonthToMonthName(month)}:
+                    </HeaderText>
                     <View>
                       {Object.keys(ordersGrouped[month]).map((orderId) => (
-                        <View key={orderId}>
-                          <Text>
-                            Order {orderId} For {month}
-                          </Text>
-                          <Text>
-                            Order Code:
-                            {ordersGrouped[month][orderId][0].order_code}
-                          </Text>
-                          <Text>
-                            Order Amount:
-                            {ordersGrouped[month][orderId][0].order_amount}
-                          </Text>
-                          <View>
-                            <Text>Details about order {orderId}</Text>
+                        <View>
+                          <View key={orderId} style={styles.card}>
+                            <Text>
+                              {formatDateTime(
+                                ordersGrouped[month][orderId][0].date_created
+                              )}
+                            </Text>
+                            <Text>
+                              Order Code:
+                              {ordersGrouped[month][orderId][0].order_code}
+                            </Text>
+                            <Text>
+                              Order Amount: Ksh.
+                              {ordersGrouped[month][orderId][0].order_amount}
+                            </Text>
+                            <PrimaryButton
+                              key={ordersGrouped[month][orderId][0].id}
+                              onPress={() =>
+                                openOrderDetailsModal(
+                                  ordersGrouped[month][orderId]
+                                )
+                              }
+                            >
+                              Details about order {orderId}
+                            </PrimaryButton>
+
+                            <OrderDetailsModal
+                              isVisible={isModalVisible}
+                              onClose={closeOrderDetailsModal}
+                              orderData={selectedOrderData}
+                            />
                           </View>
                         </View>
                       ))}
@@ -165,3 +202,25 @@ export default function ShoppingHistoryScreen({ navigation }) {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  card: {
+    width: "95%",
+    backgroundColor: Colors.lightGrey,
+    margin: 5,
+    borderRadius: 8,
+    elevation: 4,
+    padding: 5,
+    // IOS
+    shadowColor: "black",
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    backgroundColor: "white",
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
+  },
+  headerText: {
+    color: "black",
+    fontSize: 16,
+  },
+});

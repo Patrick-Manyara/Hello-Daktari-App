@@ -20,18 +20,19 @@ import LoadingOverlay from "../components/ui/LoadingOverlay";
 
 import { Colors } from "../constants/styles";
 import { globalStyles } from "../constants/globalcss";
+import NormalText from "../components/ui/NormalText";
 
 export default function AddressScreen({ route, navigation }) {
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
 
   const [selectedOption, setSelectedOption] = useState(null);
+  const [optionExists, setoptionExists] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
   const [addresses, setAddresses] = useState([]);
   const [deleting, setIsDeleting] = useState(false);
 
   const [doctor, setDoctor] = useState("");
-  const [channel, setChannel] = useState("");
   const [session_data, setSessionData] = useState("");
 
   const baseurl = Path.API_URL + "addresses.php";
@@ -65,9 +66,6 @@ export default function AddressScreen({ route, navigation }) {
     if (route.params) {
       if (route.params.doctor) {
         setDoctor(route.params.doctor);
-      }
-      if (route.params.channel) {
-        setChannel(route.params.channel);
       }
       if (route.params.session_data) {
         setSessionData(route.params.session_data);
@@ -104,6 +102,7 @@ export default function AddressScreen({ route, navigation }) {
 
   function handleAddressSelection(keyProp) {
     setSelectedOption(keyProp);
+    setoptionExists(true);
     console.log(`Selected option: ${keyProp}`);
   }
 
@@ -168,10 +167,10 @@ export default function AddressScreen({ route, navigation }) {
       <NotificationBell />
       <ScrollView>
         {isFetching ? (
-          <LoadingOverlay message="Fetching products." />
+          <LoadingOverlay message="Getting your addresses" />
         ) : (
           <View>
-            <HeaderText>Enter Your Address</HeaderText>
+            <HeaderText>Select An Address</HeaderText>
             <View>
               {addresses.length > 0 ? (
                 addresses.map((address) => (
@@ -187,7 +186,9 @@ export default function AddressScreen({ route, navigation }) {
                   />
                 ))
               ) : (
-                <Text>No addresses to display.</Text>
+                <View>
+                  <NormalText>You have not saved any addresses.</NormalText>
+                </View>
               )}
             </View>
             <PrimaryButton
@@ -196,8 +197,11 @@ export default function AddressScreen({ route, navigation }) {
             >
               Add Address
             </PrimaryButton>
-
-            <PrimaryButton onPress={navigateToPayment}>Next</PrimaryButton>
+            {optionExists && (
+              <View>
+                <PrimaryButton onPress={navigateToPayment}>Next</PrimaryButton>
+              </View>
+            )}
           </View>
         )}
         {_maybeRenderUploadingOverlay()}
