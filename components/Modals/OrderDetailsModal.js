@@ -15,8 +15,8 @@ export default function OrderDetailsModal({ isVisible, onClose, orderData }) {
       </View>
     </Modal>
   );
-}
-
+} 
+ 
 const styles = StyleSheet.create({
   modalView: {
     flex: 1,
