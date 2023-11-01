@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Colors } from "../../constants/styles";
+import NormalText from "../ui/NormalText";
 
 export default function CategoriesCard({ categoryName, isSelected, onPress }) {
   return (
@@ -13,8 +14,8 @@ export default function CategoriesCard({ categoryName, isSelected, onPress }) {
           },
         ]}
       >
-        <Text
-          style={[
+        <NormalText
+          styleProp={[
             styles.text,
             {
               color: isSelected ? Colors.whiteBg : Colors.textColor,
@@ -22,7 +23,7 @@ export default function CategoriesCard({ categoryName, isSelected, onPress }) {
           ]}
         >
           {categoryName}
-        </Text>
+        </NormalText>
       </View>
     </Pressable>
   );
@@ -39,7 +40,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   text: {
-    fontSize: 10,
+    fontSize: 9,
     color: "black",
+    textTransform: "capitalize",
   },
 });

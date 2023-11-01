@@ -43,6 +43,7 @@ import LabScreen from "./screens/LabScreen";
 import SearchResultsScreen from "./screens/SearchResultsScreen";
 import MedicalRecordsScreen from "./screens/MedicalRecordsScreen";
 import BasePaymentScreen from "./screens/BasePaymentScreen";
+import SessionHistoryScreen from "./screens/SessionHistoryScreen";
 
 //COMPONENTS
 import TabBlocks from "./components/Blocks/TabBlocks";
@@ -189,6 +190,10 @@ function HomeStack() {
         name="ShoppingHistoryScreen"
         component={ShoppingHistoryScreen}
       />
+      <Stack.Screen
+        name="SessionHistoryScreen"
+        component={SessionHistoryScreen}
+      />
       <Stack.Screen name="OrderSuccess" component={OrderSuccess} />
       <Stack.Screen name="LabScreen" component={LabScreen} />
       <Stack.Screen
@@ -196,7 +201,10 @@ function HomeStack() {
         component={SearchResultsScreen}
       />
       <Stack.Screen name="HomeVisitScreen" component={HomeVisitScreen} />
-      <Stack.Screen name="MedicalRecordsScreen" component={MedicalRecordsScreen} />
+      <Stack.Screen
+        name="MedicalRecordsScreen"
+        component={MedicalRecordsScreen}
+      />
       <Stack.Screen name="BasePaymentScreen" component={BasePaymentScreen} />
     </Stack.Navigator>
   );

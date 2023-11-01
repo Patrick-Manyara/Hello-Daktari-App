@@ -1,3 +1,26 @@
+// Helper functions to get the day suffix (e.g., "st", "nd", "rd", "th")
+function getOrdinal(n) {
+  const suffixes = ["th", "st", "nd", "rd"];
+  const v = n % 100;
+  return n + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
+}
+
+function getDaySuffix(day) {
+  if (day >= 11 && day <= 13) {
+    return "th";
+  }
+  switch (day % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+}
+
 export function getDayAndMonth(dayDate) {
   const parts = dayDate.split("-");
   if (parts.length === 3) {
@@ -33,19 +56,13 @@ export function getDayMonthAndYear(dayDate) {
   return "Invalid Date";
 }
 
-function getOrdinal(n) {
-  const suffixes = ["th", "st", "nd", "rd"];
-  const v = n % 100;
-  return n + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
-}
-
 export function formatMonthToMonthName(month) {
   const [year, monthNumber] = month.split("-");
   const date = new Date(year, monthNumber - 1, 1); // Month number is 0-based
   return date.toLocaleString("default", { month: "long" });
 }
 
-export function formatDateTime(dateTime) {
+export function getOrdinalDateAndTime(dateTime) {
   const date = new Date(dateTime);
   const options = {
     year: "numeric",
@@ -72,19 +89,17 @@ export function formatDateTime(dateTime) {
   return `${day}${getDaySuffix(day)} ${month} ${year} | ${formattedTime}`;
 }
 
-// Helper function to get the day suffix (e.g., "st", "nd", "rd", "th")
-function getDaySuffix(day) {
-  if (day >= 11 && day <= 13) {
-    return "th";
-  }
-  switch (day % 10) {
-    case 1:
-      return "st";
-    case 2:
-      return "nd";
-    case 3:
-      return "rd";
-    default:
-      return "th";
-  }
+export function getTimeInAmPm(timeString) {
+  const [hours, minutes] = timeString.split(":");
+
+  const hour = parseInt(hours, 10); // Convert to an integer
+  const minute = parseInt(minutes, 10); // Convert to an integer
+  const ampm = hour >= 12 ? "pm" : "am";
+
+  const formattedTime = `${hour % 12 || 12}:${String(minute).padStart(
+    2,
+    "0"
+  )}${ampm}`;
+
+  return formattedTime;
 }

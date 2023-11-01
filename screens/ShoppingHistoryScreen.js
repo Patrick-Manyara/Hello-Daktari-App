@@ -21,7 +21,7 @@ import { Path } from "../constants/path";
 
 import { globalStyles } from "../constants/globalcss";
 import { Colors } from "../constants/styles";
-import { formatMonthToMonthName, formatDateTime } from "../util/dateFormat";
+import { formatMonthToMonthName, getOrdinalDateAndTime } from "../util/dateFormat";
 import OrderDetailsModal from "../components/Modals/OrderDetailsModal";
 import PrimaryButton from "../components/ui/PrimaryButton";
 
@@ -167,7 +167,7 @@ export default function ShoppingHistoryScreen({ navigation }) {
                               {ordersGrouped[month][orderId][0].order_code}
                             </NormalText>
                             <NormalText>
-                              {formatDateTime(
+                              {getOrdinalDateAndTime(
                                 ordersGrouped[month][orderId][0].date_created
                               )}
                             </NormalText>
