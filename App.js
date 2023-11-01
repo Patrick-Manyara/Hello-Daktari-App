@@ -40,6 +40,9 @@ import EditProfileScreen from "./screens/EditProfileScreen";
 import OrderSuccess from "./screens/OrderSuccess";
 import ShoppingHistoryScreen from "./screens/ShoppingHistoryScreen";
 import LabScreen from "./screens/LabScreen";
+import SearchResultsScreen from "./screens/SearchResultsScreen";
+import MedicalRecordsScreen from "./screens/MedicalRecordsScreen";
+import BasePaymentScreen from "./screens/BasePaymentScreen";
 
 //COMPONENTS
 import TabBlocks from "./components/Blocks/TabBlocks";
@@ -188,6 +191,13 @@ function HomeStack() {
       />
       <Stack.Screen name="OrderSuccess" component={OrderSuccess} />
       <Stack.Screen name="LabScreen" component={LabScreen} />
+      <Stack.Screen
+        name="SearchResultsScreen"
+        component={SearchResultsScreen}
+      />
+      <Stack.Screen name="HomeVisitScreen" component={HomeVisitScreen} />
+      <Stack.Screen name="MedicalRecordsScreen" component={MedicalRecordsScreen} />
+      <Stack.Screen name="BasePaymentScreen" component={BasePaymentScreen} />
     </Stack.Navigator>
   );
 }

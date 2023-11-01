@@ -1,22 +1,43 @@
 import React from "react";
-import { Modal, View, Text, Button, StyleSheet } from "react-native";
+import { Modal, View, Text, Button, StyleSheet, Image } from "react-native";
 import { Colors } from "../../constants/styles";
+import { Path } from "../../constants/path";
+import NormalText from "../ui/NormalText";
+import TransparentButton from "../ui/TransparentButton";
 export default function OrderDetailsModal({ isVisible, onClose, orderData }) {
   return (
     <Modal visible={isVisible} animationType="fade" transparent={true}>
       <View style={styles.modalView}>
         <View style={styles.modalInnerView}>
-          <Text>Order Details</Text>
           {orderData.map((order) => (
-            <Text key={order.id}>{order.product_name}</Text>
+            <View style={styles.card}>
+              <View key={order.product_id}>
+                <Image
+                  source={{
+                    uri: Path.IMAGE_URL + order.product_image,
+                  }}
+                  style={styles.image}
+                />
+              </View>
+              <View key={order.id} style={{ marginLeft: 3 }}>
+                <NormalText
+                  styleProp={{ fontSize: 10 }}
+                  fontProp="poppins-semibold"
+                >
+                  {order.product_name}
+                </NormalText>
+                <NormalText>QTY: {order.quantity}</NormalText>
+                <NormalText>Ksh. {order.total_price}</NormalText>
+              </View>
+            </View>
           ))}
-          <Button title="Close" onPress={onClose} />
+          <TransparentButton onPress={onClose}>Close</TransparentButton>
         </View>
       </View>
     </Modal>
   );
-} 
- 
+}
+
 const styles = StyleSheet.create({
   modalView: {
     flex: 1,
@@ -39,11 +60,11 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: Colors.whiteSmoke,
-    justifyContent: "center",
     alignItems: "center",
-    margin: 5,
-    padding: 5,
-    borderRadius: 10,
+    marginVertical: 5,
+    padding: 2,
+    borderRadius: 5,
+    flexDirection: "row",
   },
   consultText: {
     fontSize: 10,

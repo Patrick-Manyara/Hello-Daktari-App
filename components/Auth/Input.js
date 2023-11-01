@@ -25,18 +25,6 @@ function Input({
     loadFonts();
   }, []);
  
-  // return (
-  // <View style={styles.inputContainer}>
-  //   <TextInput
-  //     style={[styles.input, isInvalid && styles.inputInvalid]}
-  //     keyboardType={keyboardType}
-  //     secureTextEntry={secure}
-  //     onChangeText={onUpdateValue}
-  //     value={value}
-  //     placeholder={label}
-  //   />
-  // </View>
-  // );
 
   return (
     <>

@@ -25,6 +25,7 @@ import { globalStyles } from "../constants/globalcss";
 
 import { Path } from "../constants/path";
 import { Picker } from "@react-native-picker/picker";
+import NormalText from "../components/ui/NormalText";
 
 export default function ManualDetailsScreen({ navigation }) {
   //TOKEN
@@ -47,7 +48,6 @@ export default function ManualDetailsScreen({ navigation }) {
           let arr = data.specialties;
           if (Array.isArray(arr)) {
             setSpecialties(data.specialties);
-            console.log(data.specialties);
           } else {
             console.log("No specialties");
           }
@@ -173,7 +173,18 @@ export default function ManualDetailsScreen({ navigation }) {
         <LoadingOverlay message="Getting all doctor specialties" />
       ) : (
         <ScrollView>
-          <HeaderText>Consult Available Doctor</HeaderText>
+          <HeaderText>Consult A Specialist</HeaderText>
+          <NormalText>
+            Seamlessly schedule both virtual and physical appointments according
+            to your convenience.
+          </NormalText>
+          <NormalText
+            fontProp="poppins-semibold"
+            styleProp={{ marginVertical: 5 }}
+          >
+            Select a specialist category and enter your preferred visit type,
+            then proceed to select the doctor that best suits your preferences.
+          </NormalText>
           <View>
             {specialties.length > 0 && (
               <Picker

@@ -1,22 +1,23 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, Pressable, Modal } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Pressable,
+  Modal,
+  Linking,
+} from "react-native";
 import { globalStyles } from "../../constants/globalcss";
 import { Colors } from "../../constants/styles";
 import PrimaryButton from "../ui/PrimaryButton";
 import NormalText from "../ui/NormalText";
-import { useNavigation } from "@react-navigation/native";
 
-export default function HomePageModal({ visible, closeModal }) {
-  const navigation = useNavigation();
+export default function AmbulanceModal({ visible, closeModal }) {
+  const phoneNumber = "+254758535448"; // Replace with the actual phone number
 
-  const navigateToAvailableDoctors = () => {
-    navigation.navigate("AutoDetailsScreen");
-    closeModal();
-  };
-
-  const navigateToManualDetails = () => {
-    navigation.navigate("ManualDetailsScreen");
-    closeModal();
+  const makePhoneCall = () => {
+    Linking.openURL(`tel:${phoneNumber}`);
   };
 
   return (
@@ -24,22 +25,23 @@ export default function HomePageModal({ visible, closeModal }) {
       <View style={styles.modalView}>
         <View style={styles.modalInnerView}>
           <View style={styles.chooseView}>
-            <Pressable style={styles.card} onPress={navigateToAvailableDoctors}>
+            <Pressable style={styles.card} onPress={makePhoneCall}>
               <Image
                 style={styles.image}
-                source={require("../../assets/images/team.png")}
+                source={require("../../assets/images/out.png")}
               />
               <NormalText styleProp={styles.consultText}>
-                Consult Available Doctor
+                External Call
               </NormalText>
             </Pressable>
-            <Pressable style={styles.card} onPress={navigateToManualDetails}>
+            <Pressable style={styles.card}>
               <Image
                 style={styles.image}
-                source={require("../../assets/images/form.png")}
+                source={require("../../assets/images/in.png")}
               />
+              <NormalText styleProp={styles.consultText}>In-App</NormalText>
               <NormalText styleProp={styles.consultText}>
-                Consult A Specialist
+                (Coming Soon)
               </NormalText>
             </Pressable>
           </View>

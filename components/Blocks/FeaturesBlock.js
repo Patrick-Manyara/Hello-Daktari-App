@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import FeaturesCard from "../Cards/FeaturesCard";
 import { useNavigation } from "@react-navigation/native";
+import AmbulanceModal from "../Modals/AmbulanceModal";
 
 export default function FeaturesBlock() {
   const navigation = useNavigation();
   function navigateToScreen(screenName) {
     navigation.navigate(screenName);
   }
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const openModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
   return (
     <View style={styles.container}>
       <FeaturesCard
         src={require("../../assets/images/woman.png")}
-        text="Consult a doctor"
+        text="Consult a specialist"
         style={styles.column}
         onPress={() => navigateToScreen("ManualDetailsScreen")}
       />
@@ -20,16 +31,19 @@ export default function FeaturesBlock() {
         src={require("../../assets/images/ambulance.png")}
         text="Ambulance"
         style={styles.column}
+        onPress={openModal}
       />
       <FeaturesCard
         src={require("../../assets/images/house.png")}
         text="Home Visit"
         style={styles.column}
+        onPress={() => navigateToScreen("HomeVisitScreen")}
       />
       <FeaturesCard
         src={require("../../assets/images/board.png")}
         text="Medical Records"
         style={styles.column}
+        onPress={() => navigateToScreen("MedicalRecordsScreen")}
       />
       <FeaturesCard
         src={require("../../assets/images/meds.png")}
@@ -43,6 +57,7 @@ export default function FeaturesBlock() {
         style={styles.column}
         onPress={() => navigateToScreen("LabScreen")}
       />
+      <AmbulanceModal visible={isModalVisible} closeModal={closeModal} />
     </View>
   );
 }

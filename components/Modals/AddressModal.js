@@ -73,7 +73,7 @@ export default function ({ visible, closeModal, isEdit, addressData }) {
       ) : (
         <PrimaryButton onPress={saveAddress}>Save Address</PrimaryButton>
       )}
-      <PrimaryButton onPress={closeModal}>Close Modal</PrimaryButton>
+      <PrimaryButton onPress={closeModal}>Close</PrimaryButton>
     </Modal>
   );
 }

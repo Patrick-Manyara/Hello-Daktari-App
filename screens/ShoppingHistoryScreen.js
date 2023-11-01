@@ -52,7 +52,7 @@ export default function ShoppingHistoryScreen({ navigation }) {
             setOrders(data.orders);
             const groupedData = processOrders(data.orders); // Process the data
             setGroupedOrdersByMonthAndOrderId(groupedData); // Set the processed datac
-            console.log(groupedData);
+            // console.log(groupedData);
           } else {
           }
         })
@@ -142,11 +142,13 @@ export default function ShoppingHistoryScreen({ navigation }) {
         ) : (
           <View>
             <HeaderText>Order History</HeaderText>
-
+            <NormalText>
+              Click on the order icon to view more details about each order.
+            </NormalText>
             <View>
               {ordersGrouped ? (
                 Object.keys(ordersGrouped).map((month, index) => (
-                  <View key={month}>
+                  <View key={month} style={{ marginVertical: 10 }}>
                     <HeaderText
                       styleProp={styles.headerText}
                       fontProp="poppins-semibold"
@@ -155,38 +157,54 @@ export default function ShoppingHistoryScreen({ navigation }) {
                     </HeaderText>
                     <View>
                       {Object.keys(ordersGrouped[month]).map((orderId) => (
-                        <View>
-                          <View key={orderId} style={styles.card}>
-                            <Text>
+                        <View key={orderId} style={styles.card}>
+                          <View>
+                            <NormalText
+                              styleProp={styles.codeText}
+                              fontProp="poppins-semibold"
+                            >
+                              Order Code:
+                              {ordersGrouped[month][orderId][0].order_code}
+                            </NormalText>
+                            <NormalText>
                               {formatDateTime(
                                 ordersGrouped[month][orderId][0].date_created
                               )}
-                            </Text>
-                            <Text>
-                              Order Code:
-                              {ordersGrouped[month][orderId][0].order_code}
-                            </Text>
-                            <Text>
-                              Order Amount: Ksh.
+                            </NormalText>
+
+                            <NormalText fontProp="poppins-semibold">
+                              Ksh.
                               {ordersGrouped[month][orderId][0].order_amount}
-                            </Text>
-                            <PrimaryButton
-                              key={ordersGrouped[month][orderId][0].id}
+                            </NormalText>
+                            
+                          </View>
+
+                          <View key={ordersGrouped[month][orderId][0].id}>
+                            <Pressable
+                              android_ripple={{ color: "#ccc" }}
+                              style={({ pressed }) => [
+                                globalStyles.button,
+                                styles.orderBtn,
+                                pressed ? globalStyles.buttonPressed : null,
+                              ]}
                               onPress={() =>
                                 openOrderDetailsModal(
                                   ordersGrouped[month][orderId]
                                 )
                               }
                             >
-                              Details about order {orderId}
-                            </PrimaryButton>
-
-                            <OrderDetailsModal
-                              isVisible={isModalVisible}
-                              onClose={closeOrderDetailsModal}
-                              orderData={selectedOrderData}
-                            />
+                              <Image
+                                source={require("../assets/images/cargo.png")}
+                                style={styles.orderImg}
+                              />
+                            </Pressable>
                           </View>
+
+                          <OrderDetailsModal
+                            isVisible={isModalVisible}
+                            onClose={closeOrderDetailsModal}
+                            orderData={selectedOrderData}
+                          />
                         </View>
                       ))}
                     </View>
@@ -205,22 +223,44 @@ export default function ShoppingHistoryScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   card: {
-    width: "95%",
+    width: "96%",
     backgroundColor: Colors.lightGrey,
     margin: 5,
-    borderRadius: 8,
-    elevation: 4,
+    borderRadius: 5,
+    elevation: 1,
     padding: 5,
     // IOS
     shadowColor: "black",
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
+    shadowOpacity: 0.125,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 4,
     backgroundColor: "white",
     overflow: Platform.OS === "android" ? "hidden" : "visible",
+    //LAYOUT
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   headerText: {
     color: "black",
     fontSize: 16,
+  },
+  codeText: {
+    fontSize: 12,
+    color: Colors.mainBlue,
+  },
+  orderBtn: {
+    width: 50,
+    height: 50,
+    backgroundColor: Colors.lightGrey,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  orderImg: {
+    width: 30,
+    height: 30,
+    objectFit: "contain",
   },
 });
