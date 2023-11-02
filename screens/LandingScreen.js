@@ -15,6 +15,7 @@ const FirstRoute = ({ setIndex }) => (
     />
     <View style={styles.buttonView}>
       <TransparentButton
+        styleProp={styles.btnStyle}
         onPress={() => {
           setIndex(1);
         }}
@@ -42,6 +43,7 @@ const SecondRoute = ({ setIndex }) => (
     />
     <View style={styles.buttonView}>
       <TransparentButton
+        styleProp={styles.btnStyle}
         onPress={() => {
           setIndex(2);
         }}

@@ -47,7 +47,7 @@ export default function CheckoutScreen({ navigation }) {
     loadCartData();
     fetchAddresses();
   }, []);
-
+ 
   const loadCartData = async () => {
     try {
       const cartData = await AsyncStorage.getItem("cartItems");

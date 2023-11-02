@@ -1,7 +1,8 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { Colors } from '../../constants/styles';
-import { useFonts, Poppins_400Regular } from '@expo-google-fonts/poppins';
+import { Colors } from "../../constants/styles";
+import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
+import NormalText from "./NormalText";
 
 function FlatButton({ children, onPress }) {
   return (
@@ -10,7 +11,9 @@ function FlatButton({ children, onPress }) {
       onPress={onPress}
     >
       <View>
-        <Text style={styles.buttonText}>{children}</Text>
+        <NormalText fontProp="poppins-semibold" styleProp={styles.buttonText}>
+          {children}
+        </NormalText>
       </View>
     </Pressable>
   );
@@ -27,7 +30,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   buttonText: {
-    textAlign: 'center',
+    textAlign: "center",
     color: Colors.mainBlue,
   },
 });

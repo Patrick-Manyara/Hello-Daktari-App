@@ -56,8 +56,8 @@ export default function LabScreen({ route, navigation }) {
     fetchLabServices();
   }, []);
 
-  const navigateToSingleProduct = (product) => {
-    navigation.navigate("SingleProductScreen", { product: product });
+  const navigateToAddressScreen = (item) => {
+    navigation.navigate("AddressScreen", { lab: item });
   };
 
   return (
@@ -77,7 +77,7 @@ export default function LabScreen({ route, navigation }) {
                   name={item.lab_care_name}
                   code={item.lab_care_code}
                   price={item.lab_amount}
-                  onPress={() => navigateToSingleProduct(product)}
+                  onPress={() => navigateToAddressScreen(item)}
                 />
               )}
             />

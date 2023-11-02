@@ -35,7 +35,7 @@ export default function SearchInput() {
 
         const fd = new FormData();
         fd.append("query", enteredQuery);
-
+ 
         let res = await fetch(url, {
           method: "POST",
           body: fd,

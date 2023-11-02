@@ -24,6 +24,7 @@ import { Path } from "../constants/path";
 import { globalStyles } from "../constants/globalcss";
 import { Colors } from "../constants/styles";
 import PrimaryButton from "../components/ui/PrimaryButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function EditProfileScreen({ navigation }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -86,6 +87,7 @@ export default function EditProfileScreen({ navigation }) {
     let r = await DocumentPicker.getDocumentAsync({
       type: "image/*",
     });
+    console.log(r);
     if (r.canceled == false) {
       setEnteredImage(r);
       setEnteredImageName(r.name);
@@ -119,7 +121,7 @@ export default function EditProfileScreen({ navigation }) {
     body.append("user_weight", inputs.user_weight.value);
     body.append("user_blood_group", inputs.user_blood_group.value);
     body.append("user_id", token.user_id);
-    if (enteredImageName != "") {
+    if (enteredImage != "") {
       body.append("user_image", {
         type: "image/*",
         uri: enteredImage.assets[0].uri,
@@ -134,11 +136,14 @@ export default function EditProfileScreen({ navigation }) {
           "Content-Type": "multipart/form-data; ",
         },
       })
-        .then((response) => response.text())
+        .then((response) => response.json())
         .then((data) => {
           console.log(data);
           setIsSubmitting(false);
-          // navigation.navigate("ProfileScreen");
+          // console.log(data.token);
+          newtoken = JSON.stringify(data.token);
+          AsyncStorage.setItem("token", newtoken);
+          navigation.navigate("Profile", { newtoken: data.token });
         })
         .catch((error) => {
           setIsSubmitting(false);
@@ -223,7 +228,7 @@ export default function EditProfileScreen({ navigation }) {
             Edit Profile
           </PrimaryButton>
         </View>
-        {/* {_maybeRenderUploadingOverlay()} */}
+        {_maybeRenderUploadingOverlay()}
       </ScrollView>
     </SafeAreaView>
   );

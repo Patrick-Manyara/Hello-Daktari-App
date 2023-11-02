@@ -26,8 +26,8 @@ export default function OrderSuccess() {
     }
   };
   useEffect(() => {
-    emptyCart(); 
-  }, []); 
+    emptyCart();
+  }, []);
 
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
@@ -41,7 +41,11 @@ export default function OrderSuccess() {
             source={require("../assets/images/circle.png")}
           />
           <HeaderText styleProp={styles.title}>Payment Successful!</HeaderText>
-          <NormalText>You have successfully booked an appointent.</NormalText>
+          <NormalText>
+            Your payment has been received and your details have been logged.
+            Kindly check your email for more information. Thank you for choosing
+            Hello Daktari
+          </NormalText>
           <PrimaryButton onPress={navigateToHome}>Go Home</PrimaryButton>
         </View>
       </ScrollView>

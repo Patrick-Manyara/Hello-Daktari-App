@@ -35,6 +35,9 @@ export default function AddressScreen({ route, navigation }) {
   const [doctor, setDoctor] = useState("");
   const [session_data, setSessionData] = useState("");
 
+  const [labItem, setLabItem] = useState({});
+  const [isLab, setIsLab] = useState(false);
+
   const baseurl = Path.API_URL + "addresses.php";
 
   const fetchAddresses = () => {
@@ -70,7 +73,16 @@ export default function AddressScreen({ route, navigation }) {
       if (route.params.session_data) {
         setSessionData(route.params.session_data);
       }
+      if (route.params.lab) {
+        setLabItem(route.params.lab);
+        setIsLab(true);
+        console.log(isLab);
+      } else {
+        console.log("Lab parameter is not defined");
+      }
     }
+
+    console.log(route.params);
 
     fetchAddresses(); // Ensure this function is not dependent on the route parameters.
   }, [route.params]);
@@ -92,6 +104,13 @@ export default function AddressScreen({ route, navigation }) {
     });
   };
 
+  const navigateToBasePayment = () => {
+    navigation.navigate("BasePaymentScreen", {
+      lab: labItem,
+      address: selectedOption,
+    });
+  };
+
   const navigateToAddressManager = (address) => {
     navigation.navigate("AddressManager", { address: address });
   };
@@ -103,7 +122,6 @@ export default function AddressScreen({ route, navigation }) {
   function handleAddressSelection(keyProp) {
     setSelectedOption(keyProp);
     setoptionExists(true);
-    console.log(`Selected option: ${keyProp}`);
   }
 
   //RENDER
@@ -199,7 +217,13 @@ export default function AddressScreen({ route, navigation }) {
             </PrimaryButton>
             {optionExists && (
               <View>
-                <PrimaryButton onPress={navigateToPayment}>Next</PrimaryButton>
+                <PrimaryButton
+                  onPress={
+                    route.params.lab ? navigateToBasePayment : navigateToPayment
+                  }
+                >
+                  Proceed
+                </PrimaryButton>
               </View>
             )}
           </View>

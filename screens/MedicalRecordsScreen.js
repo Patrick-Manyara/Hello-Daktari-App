@@ -32,6 +32,7 @@ export default function MedicalRecordsScreen({ navigation }) {
   //TOKEN
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
+  
 
   //UPLOADS
 
@@ -103,7 +104,7 @@ export default function MedicalRecordsScreen({ navigation }) {
 
         const fileToUpload2 = enteredRecords;
 
-        data.append("records", {
+        data.append("upload_file", {
           type: "application/pdf",
           uri: enteredRecords.assets[0].uri,
           name: enteredRecords.assets[0].name,
@@ -118,12 +119,13 @@ export default function MedicalRecordsScreen({ navigation }) {
             "Content-Type": "multipart/form-data; ",
           },
         });
-        console.log(data);
+
         if (res.ok) {
           let responseJson = await res.json();
           if (responseJson.data === true) {
             navigation.navigate("BasePaymentScreen", {
               from: responseJson.from,
+              table_id: responseJson.table_id,
             });
           } else {
             Alert.alert("Error");

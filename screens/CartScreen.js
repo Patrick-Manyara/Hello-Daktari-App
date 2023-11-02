@@ -39,14 +39,14 @@ export default function CartScreen({ navigation }) {
       if (cartData) {
         const parsedCartData = JSON.parse(cartData);
         setCartData(parsedCartData);
-        setIsLoadingData(false);
       }
+      setIsLoadingData(false);
     } catch (error) {
       console.error("Error loading cart data:", error);
       setIsLoadingData(false);
     }
   };
-
+  
   const removeFromCart = async (productId) => {
     try {
       const cartData = await AsyncStorage.getItem("cartItems");
@@ -98,48 +98,49 @@ export default function CartScreen({ navigation }) {
       <NotificationBell />
       <ScrollView>
         <HeaderText>Cart</HeaderText>
-        {!isLoadingData ? (
-          <View>
-            {cartData.length > 0 ? (
-              cartData.map((cartItem) => (
-                <CartCard
-                  onDelete={() => removeFromCart(cartItem.product.product_id)}
-                  key={cartItem.product.product_id}
-                  productImage={cartItem.product.product_image}
-                  productName={cartItem.product.product_name}
-                  productQty={cartItem.quantity}
-                  productTotal={(
-                    parseFloat(cartItem.product.product_price) *
-                    cartItem.quantity
-                  ).toFixed(2)}
-                  productPrice={parseFloat(
-                    cartItem.product.product_price
-                  ).toFixed(2)}
-                />
-              ))
-            ) : (
-              <Text>No addresses to display.</Text>
-            )}
+        <View>
+          {isLoadingData ? (
+            <LoadingOverlay message="Loading cart data" />
+          ) : (
             <View>
-              <HeaderText>Order Info:</HeaderText>
-              <View style={globalStyles.subTotal}>
-                <NormalText>Subtotal:</NormalText>
-                <NormalText>Ksh. 1</NormalText>
-              </View>
-              <View style={globalStyles.subTotal}>
-                <NormalText>Shipping Fee:</NormalText>
-                <NormalText>Ksh. 1</NormalText>
-              </View>
-              <View style={globalStyles.subTotal}>
-                <NormalText>Total:</NormalText>
-                <NormalText>Ksh. 1</NormalText>
+              {cartData.length > 0 ? (
+                cartData.map((cartItem) => (
+                  <CartCard
+                    onDelete={() => removeFromCart(cartItem.product.product_id)}
+                    key={cartItem.product.product_id}
+                    productImage={cartItem.product.product_image}
+                    productName={cartItem.product.product_name}
+                    productQty={cartItem.quantity}
+                    productTotal={(
+                      parseFloat(cartItem.product.product_price) *
+                      cartItem.quantity
+                    ).toFixed(2)}
+                    productPrice={parseFloat(
+                      cartItem.product.product_price
+                    ).toFixed(2)}
+                  />
+                ))
+              ) : (
+                <Text>No items in the cart.</Text>
+              )}
+              <View>
+                <HeaderText>Order Info:</HeaderText>
+                <View style={globalStyles.subTotal}>
+                  <NormalText>Subtotal:</NormalText>
+                  <NormalText>Ksh. 1</NormalText>
+                </View>
+                <View style={globalStyles.subTotal}>
+                  <NormalText>Shipping Fee:</NormalText>
+                  <NormalText>Ksh. 1</NormalText>
+                </View>
+                <View style={globalStyles.subTotal}>
+                  <NormalText>Total:</NormalText>
+                  <NormalText>Ksh. 1</NormalText>
+                </View>
               </View>
             </View>
-          </View>
-        ) : (
-          <LoadingOverlay message="Loading cart data" />
-        )}
-
+          )}
+        </View>
         <PrimaryButton onPress={navigateToCheckout}>
           Proceed To Checkout
         </PrimaryButton>

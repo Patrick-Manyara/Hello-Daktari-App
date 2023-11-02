@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, View, ScrollView, Image, Pressable } from "react-native";
 import { AuthContext } from "../store/auth-context";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
@@ -14,21 +14,25 @@ import { Path } from "../constants/path";
 import { globalStyles } from "../constants/globalcss";
 import { Colors } from "../constants/styles";
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ route }) {
   const authCtx = useContext(AuthContext);
 
   const [token, setToken] = useState("");
   const [userimg, setUserImg] = useState("");
 
-  useEffect(() => {
-    setToken(authCtx.token);
+  useFocusEffect(() => {
+    if (route.params.newtoken) {
+      setToken(route.params.newtoken);
+    } else {
+      setToken(authCtx.token);
+    }
+
     if (token.user_image == "") {
       setUserImg("white_bg_image.png");
     } else {
       setUserImg(token.user_image);
     }
-    // console.log(token);
-  }, [authCtx, userimg]);
+  });
 
   const navigation = useNavigation();
 

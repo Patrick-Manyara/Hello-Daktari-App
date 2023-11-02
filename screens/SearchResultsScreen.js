@@ -20,9 +20,10 @@ export default function SearchResultsScreen({ route, navigation }) {
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
+    console.log(route.params);
     if (route.params) {
-      if (route.params.doctor) {
-        setDoctors(route.params.doctor);
+      if (route.params.doctors) {
+        setDoctors(route.params.doctors);
       }
       if (route.params.labs) {
         setLabs(route.params.labs);
@@ -31,7 +32,7 @@ export default function SearchResultsScreen({ route, navigation }) {
         setProducts(route.params.products);
       }
     }
-  }, [route.params]);
+  }, []);
 
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
@@ -106,7 +107,7 @@ export default function SearchResultsScreen({ route, navigation }) {
           </View>
         ) : null}
 
-        {labs.length === 0 && products.length === 0 && doctors.length === 0 && (
+        {labs.length < 1 && products.length < 1 && doctors.length < 1 && (
           <NormalText>Nothing found</NormalText>
         )}
       </View>
