@@ -21,7 +21,7 @@ export default function ProfileScreen({ route }) {
   const [userimg, setUserImg] = useState("");
 
   useFocusEffect(() => {
-    if (route.params.newtoken) {
+    if (route.params?.newtoken) {
       setToken(route.params.newtoken);
     } else {
       setToken(authCtx.token);

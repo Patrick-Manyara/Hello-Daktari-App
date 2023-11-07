@@ -15,8 +15,9 @@ import * as eva from "@eva-design/eva";
 import { ApplicationProvider } from "@ui-kitten/components";
 
 // SCREENS
-import LandingScreen from "./screens/LandingScreen";
+// import LandingScreen from "./screens/LandingScreen";
 import LoginScreen from "./screens/LoginScreen";
+import StartScreen from "./screens/StartScreen";
 import SignupScreen from "./screens/SignupScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import AllDoctorsScreen from "./screens/AllDoctorsScreen";
@@ -45,9 +46,6 @@ import MedicalRecordsScreen from "./screens/MedicalRecordsScreen";
 import BasePaymentScreen from "./screens/BasePaymentScreen";
 import SessionHistoryScreen from "./screens/SessionHistoryScreen";
 
-//COMPONENTS
-import TabBlocks from "./components/Blocks/TabBlocks";
-
 //ICONS
 import Icon from "react-native-vector-icons/FontAwesome5"; // Import FontAwesome 5 icon set
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -62,8 +60,6 @@ import {
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
-
-SplashScreen.preventAutoHideAsync();
 
 function BottomTabNavigator() {
   const authCtx = useContext(AuthContext);
@@ -126,7 +122,7 @@ function AuthStack() {
         contentStyle: { backgroundColor: Colors.whiteBg },
       }}
     >
-      <Stack.Screen name="Landing" component={LandingScreen} />
+      <Stack.Screen name="StartScreen" component={StartScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
     </Stack.Navigator>
@@ -239,7 +235,7 @@ function Root() {
         // loading its initial state and rendering its first pixels. So instead,
         // we hide the splash screen once we know the root view has already
         // performed layout.
-        await SplashScreen.hideAsync();
+        //  await SplashScreen.hideAsync();
       }
     }
     fetchToken();
@@ -248,9 +244,9 @@ function Root() {
   // if (isTryingLogin) {
   //   return <AppLoading />
   // }
-  if (!appIsReady) {
-    return null;
-  }
+  // if (!appIsReady) {
+  //   return null;
+  // }
 
   return <Navigation />;
 }
