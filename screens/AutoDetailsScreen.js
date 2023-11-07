@@ -37,7 +37,7 @@ export default function AutoDetailsScreen({ navigation }) {
 
   const timeRangeOptions = [];
   for (let i = 8; i <= 20; i += 2) {
-    const startTime = `${i}:00`;
+    const startTime = i.toString().padStart(2, "0") + ":00";
     const endTime = `${i + 2}:00`;
     const label = `${startTime} - ${endTime}`;
     timeRangeOptions.push({ label, value: i });
@@ -137,8 +137,8 @@ export default function AutoDetailsScreen({ navigation }) {
               session_data: responseJson.session_data,
             });
           } else {
-            Alert.alert("Error");
-            console.log("error here");
+            Alert.alert(responseJson.message);
+            console.log(responseJson);
           }
         } else {
           // Handle non-successful HTTP status codes here
@@ -153,8 +153,7 @@ export default function AutoDetailsScreen({ navigation }) {
     } catch (error) {
       // Handle any errors that occur during the try block
       console.error("An error occurred:", error);
-      // You can also display an error message to the user if needed
-      // alert("An error occurred while submitting the form.");
+      Alert.alert("An error occured when submitting the form");
     }
   };
 
