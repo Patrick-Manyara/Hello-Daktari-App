@@ -27,15 +27,7 @@ export default function LabCard({ code, name, price, onPress }) {
       ]}
     >
       <View style={styles.card}>
-        <View style={styles.topView}>
-          <NormalText
-            styleProp={styles.topViewText}
-            fontProp="poppins-semibold"
-          >
-            CODE:
-          </NormalText>
-          <NormalText styleProp={styles.topViewText}>{code}</NormalText>
-        </View>
+       
         <View
           style={{
             flexDirection: "row",
