@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, View, ScrollView, Image, Pressable } from "react-native";
-import { AuthContext } from "../store/auth-context";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+
+import { Path } from "../constants/path";
+import { AuthContext } from "../store/auth-context";
 
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
 import ProfileCard from "../components/Cards/ProfileCard";
-
-import { Path } from "../constants/path";
 
 import { globalStyles } from "../constants/globalcss";
 import { Colors } from "../constants/styles";

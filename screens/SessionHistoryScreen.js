@@ -1,27 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  Image,
-  Text,
-  Pressable,
-} from "react-native";
-import { AuthContext } from "../store/auth-context";
+import { StyleSheet, View, ScrollView, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { Path } from "../constants/path";
+import { AuthContext } from "../store/auth-context";
+import { getDayMonthAndYear, getTimeInAmPm } from "../util/dateFormat";
 
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
-import { getDayMonthAndYear, getTimeInAmPm } from "../util/dateFormat";
-
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 
-import { Path } from "../constants/path";
+import CategoriesCard from "../components/Cards/CategoriesCard";
 
 import { globalStyles } from "../constants/globalcss";
 import { Colors } from "../constants/styles";
-import CategoriesCard from "../components/Cards/CategoriesCard";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 

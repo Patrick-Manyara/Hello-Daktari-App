@@ -6,25 +6,22 @@ import {
   ActivityIndicator,
   ToastAndroid,
 } from "react-native";
-import { AuthContext } from "../store/auth-context";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as DocumentPicker from "expo-document-picker";
+
+import { Path } from "../constants/path";
+import { AuthContext } from "../store/auth-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
-import ProfileCard from "../components/Cards/ProfileCard";
-import Input from "../components/Auth/Input";
 import DisabledInput from "../components/FormElements/DisabledInput";
 import UploadInput from "../components/FormElements/UploadInput";
 import InputHybrid from "../components/FormElements/InputHybrid";
-
-import { Path } from "../constants/path";
+import PrimaryButton from "../components/ui/PrimaryButton";
 
 import { globalStyles } from "../constants/globalcss";
-import { Colors } from "../constants/styles";
-import PrimaryButton from "../components/ui/PrimaryButton";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function EditProfileScreen({ navigation }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -181,6 +178,13 @@ export default function EditProfileScreen({ navigation }) {
       <NotificationBell />
       <ScrollView>
         <HeaderText>Edit Your Profile</HeaderText>
+        <NormalText>
+          Edit your profile details to make sure your healthcare experience is
+          tailored to your preferences. Providing accurate information about
+          yourself helps us connect you with the right doctors and services,
+          ensuring that you receive care that suits your needs, location, and
+          schedule.
+        </NormalText>
         <View>
           <UploadInput txt="Upload A New Image" onPress={selectFile} />
           <NAME />

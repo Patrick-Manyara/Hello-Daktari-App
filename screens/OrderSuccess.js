@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Image, View, ScrollView } from "react-native";
-import { globalStyles } from "../constants/globalcss";
-import { Colors } from "../constants/styles";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import NotificationBell from "../components/ui/NotificationBell";
@@ -11,6 +9,9 @@ import PrimaryButton from "../components/ui/PrimaryButton";
 
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { globalStyles } from "../constants/globalcss";
+import { Colors } from "../constants/styles";
 
 export default function OrderSuccess() {
   const navigation = useNavigation();

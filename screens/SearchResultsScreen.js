@@ -1,18 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, FlatList } from "react-native";
-import { AuthContext } from "../store/auth-context";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { globalStyles } from "../constants/globalcss";
+
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
 import SearchInput from "../components/FormElements/SearchInput";
-import BannerBlock from "../components/Blocks/BannerBlock";
-import FeaturesBlock from "../components/Blocks/FeaturesBlock";
-import AdBlock from "../components/Blocks/AdBlock";
 import LabCard from "../components/Cards/LabCard";
 import SearchShopCard from "../components/Cards/SearchShopCard";
 import SearchDoctorCard from "../components/Cards/SearchDoctorCard";
 import NormalText from "../components/ui/NormalText";
+
+import { globalStyles } from "../constants/globalcss";
 
 export default function SearchResultsScreen({ route, navigation }) {
   const [labs, setLabs] = useState([]);

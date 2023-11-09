@@ -1,29 +1,25 @@
 import React, { useState, useContext } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   ScrollView,
   ActivityIndicator,
-  ToastAndroid,
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../store/auth-context";
-import * as DocumentPicker from "expo-document-picker";
 import { Datepicker, Layout } from "@ui-kitten/components";
 
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
-import Input from "../components/Auth/Input";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import VisitOption from "../components/Cards/VisitOption";
-import UploadInput from "../components/FormElements/UploadInput";
-
-import { globalStyles } from "../constants/globalcss";
+import NormalText from "../components/ui/NormalText";
 
 import { Path } from "../constants/path";
 import { Picker } from "@react-native-picker/picker";
+
+import { globalStyles } from "../constants/globalcss";
 
 export default function AutoDetailsScreen({ navigation }) {
   //TOKEN
@@ -44,19 +40,7 @@ export default function AutoDetailsScreen({ navigation }) {
   }
 
   //VISIT TYPE AND CHANNEL
-
-  const [enteredVisitType, setEnteredVisitType] = useState(null);
   const [enteredChannel, setEnteredChannel] = useState("");
-
-  const visitTypes = [
-    { name: "home", img: require("../assets/images/home.png") },
-    { name: "online", img: require("../assets/images/camera.png") },
-    { name: "physical", img: require("../assets/images/hospital.png") },
-  ];
-
-  const handleVisitTypeClick = (name) => {
-    setEnteredVisitType(name);
-  };
 
   const channels = [
     { name: "audio", img: require("../assets/images/wave.png") },
@@ -99,11 +83,7 @@ export default function AutoDetailsScreen({ navigation }) {
 
   let submitForm = async () => {
     try {
-      if (
-        date != null &&
-        selectedTimeRange != null &&
-        enteredVisitType != null
-      ) {
+      if (date != null && selectedTimeRange != null && enteredChannel != null) {
         setUploading(true);
 
         const data = new FormData();
@@ -118,10 +98,9 @@ export default function AutoDetailsScreen({ navigation }) {
 
         data.append("date", formattedDate);
         data.append("time", selectedTimeRange);
-        data.append("visitType", enteredVisitType);
-        if (enteredChannel != "") {
-          data.append("channel", enteredChannel);
-        }
+
+        data.append("channel", enteredChannel);
+
         data.append("user_id", token.user_id);
 
         let res = await fetch(url, {
@@ -163,10 +142,19 @@ export default function AutoDetailsScreen({ navigation }) {
       <ScrollView>
         <HeaderText>Consult Available Doctor</HeaderText>
         <View>
+          <NormalText
+            styleProp={{ marginVertical: 5, fontSize: 14 }}
+            fontProp="poppins-semibold"
+          >
+            Welcome! Please provide us with the date and time you're available,
+            along with your preferred channel of assistance. We'll match you
+            with a doctor shortly to assist you with your needs.
+          </NormalText>
           <Layout style={styles.container} level="1">
             <Datepicker
               date={date}
               onSelect={(nextDate) => setDate(nextDate)}
+              label={() => <NormalText>Select A Date Below</NormalText>}
             />
           </Layout>
 
@@ -177,7 +165,7 @@ export default function AutoDetailsScreen({ navigation }) {
               setSelectedTimeRange(itemValue);
             }}
           >
-            <Picker.Item label="Time" value={null} />
+            <Picker.Item label="Pick a Time Slot" value={null} />
             {timeRangeOptions.map((item) => (
               <Picker.Item
                 key={item.value}
@@ -187,42 +175,22 @@ export default function AutoDetailsScreen({ navigation }) {
             ))}
           </Picker>
 
-          <HeaderText styleProp={globalStyles.centerText}>
-            Type of visit
-          </HeaderText>
-          <View style={globalStyles.optionContainer}>
-            {visitTypes.map((visitType, index) => (
-              <VisitOption
-                key={index}
-                style={globalStyles.optionColumn}
-                name={visitType.name}
-                img={visitType.img}
-                onPress={() => handleVisitTypeClick(visitType.name)}
-                isSelected={enteredVisitType === visitType.name}
-              />
-            ))}
-          </View>
+          <View>
+            <HeaderText styleProp={globalStyles.centerText}>Channel</HeaderText>
 
-          {enteredVisitType === "online" && (
-            <View>
-              <HeaderText styleProp={globalStyles.centerText}>
-                Channel
-              </HeaderText>
-
-              <View style={globalStyles.optionContainer}>
-                {channels.map((channel, index) => (
-                  <VisitOption
-                    key={index}
-                    style={globalStyles.optionColumn}
-                    name={channel.name}
-                    img={channel.img}
-                    onPress={() => handleChannelClick(channel.name)}
-                    isSelected={enteredChannel === channel.name}
-                  />
-                ))}
-              </View>
+            <View style={globalStyles.optionContainer}>
+              {channels.map((channel, index) => (
+                <VisitOption
+                  key={index}
+                  style={globalStyles.optionColumn}
+                  name={channel.name}
+                  img={channel.img}
+                  onPress={() => handleChannelClick(channel.name)}
+                  isSelected={enteredChannel === channel.name}
+                />
+              ))}
             </View>
-          )}
+          </View>
 
           <PrimaryButton onPress={submitForm}>Submit</PrimaryButton>
         </View>

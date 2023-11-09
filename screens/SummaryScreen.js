@@ -15,7 +15,7 @@ import NormalText from "../components/ui/NormalText";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 
-import { getDayMonthAndYear } from "../util/dateFormat";
+import { getDayMonthAndYear, getTimeInAmPm } from "../util/dateFormat";
 import { Path } from "../constants/path";
 
 export default function SummaryScreen({ route, navigation }) {
@@ -28,10 +28,20 @@ export default function SummaryScreen({ route, navigation }) {
   const [url, setUrl] = useState("");
 
   useEffect(() => {
-    setDoctor(route.params.doctor);
-    setSessionData(route.params.session_data);
-    setPaymentMethod(route.params.payment_method);
-    setAddress(route.params.address);
+    if (route.params) {
+      if (route.params?.doctor) {
+        setDoctor(route.params.doctor);
+      }
+      if (route.params?.session_data) {
+        setSessionData(route.params.session_data);
+      }
+      if (route.params?.payment_method) {
+        setPaymentMethod(route.params.payment_method);
+      }
+      if (route.params?.address) {
+        setAddress(route.params.address);
+      }
+    }
     setDataLoaded(true);
     setUrl(Path.API_URL + "session.php?action=complete");
   }, [route.params]);
@@ -123,9 +133,8 @@ export default function SummaryScreen({ route, navigation }) {
             >
               <NormalText>Date & hour</NormalText>
               <NormalText>
-                {" "}
-                {getDayMonthAndYear(session_data.session_date)} |{" "}
-                {session_data.session_start_time}
+                {getDayMonthAndYear(session_data.session_date)} |
+                {getTimeInAmPm(session_data.session_start_time)}
               </NormalText>
             </View>
             <View
@@ -136,7 +145,9 @@ export default function SummaryScreen({ route, navigation }) {
               }}
             >
               <NormalText>Package</NormalText>
-              <NormalText> {session_data.session_mode}</NormalText>
+              <NormalText styleProp={{ textTransform: "capitalize" }}>
+                {session_data.session_mode}
+              </NormalText>
             </View>
           </View>
 
@@ -163,7 +174,9 @@ export default function SummaryScreen({ route, navigation }) {
               }}
             >
               <NormalText>Payment</NormalText>
-              <NormalText>{payment_method} </NormalText>
+              <NormalText styleProp={{ textTransform: "capitalize" }}>
+                {payment_method}{" "}
+              </NormalText>
             </View>
             <View
               style={{

@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { globalStyles } from "../constants/globalcss";
+
 import { SafeAreaView } from "react-native-safe-area-context";
+
 import NotificationBell from "../components/ui/NotificationBell";
 import SearchInput from "../components/FormElements/SearchInput";
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import DoctorCard from "../components/Cards/DoctorCard";
+
+import { globalStyles } from "../constants/globalcss";
 
 export default function AllDoctorsScreen({ route, navigation }) {
   const [doctors, setDoctors] = useState([]);
@@ -31,6 +34,12 @@ export default function AllDoctorsScreen({ route, navigation }) {
       <ScrollView>
         <View>
           <HeaderText>Doctors</HeaderText>
+          <NormalText>
+            Choose a doctor whose rate, location, and working hours align with
+            your preferences. Selecting the right doctor ensures that you
+            receive care on your terms, making your healthcare experience as
+            convenient and comfortable as possible.
+          </NormalText>
           <SearchInput />
           <View style={globalStyles.viewCard}>
             <View style={styles.container}>

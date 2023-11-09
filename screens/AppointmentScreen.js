@@ -8,7 +8,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { globalStyles } from "../constants/globalcss";
+import { Path } from "../constants/path";
+import { getDayAndMonth } from "../util/dateFormat";
 
 import DayTimeCard from "../components/Cards/DayTimeCard";
 import NotificationBell from "../components/ui/NotificationBell";
@@ -16,16 +17,13 @@ import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
 import PrimaryButton from "../components/ui/PrimaryButton";
 
-import { Path } from "../constants/path";
-import { getDayAndMonth } from "../util/dateFormat";
+import { globalStyles } from "../constants/globalcss";
 
 export default function AppointmentScreen({ route, navigation }) {
   const [sessionData, setSessionData] = useState();
   const [timesArray, setTimesArray] = useState([]);
   const doctor = route.params.doctor;
   const session_data = route.params.session_data;
-
-  //console.log(session_data);
 
   //days data
   const [selectedDay, setSelectedDay] = useState(null);
@@ -37,7 +35,7 @@ export default function AppointmentScreen({ route, navigation }) {
 
     if (selectedDay) {
       setSelectedDate(selectedDay.dayDate);
-      setTimesArray(selectedDay.times);
+      setTimesArray(Object.values(selectedDay.times));
       setSelectedTime("");
     } else {
       console.log("Day not found");
@@ -94,8 +92,10 @@ export default function AppointmentScreen({ route, navigation }) {
 
       const data = new FormData();
       data.append("date", selectedDate);
+
       data.append("start_time", selectedTime);
       data.append("end_time", selectedEndTime);
+
       data.append("doctor", doctor.doctor_id);
       data.append("session", session_data.session_id);
 
@@ -155,6 +155,9 @@ export default function AppointmentScreen({ route, navigation }) {
       <ScrollView>
         <View>
           <HeaderText>Book Appointment</HeaderText>
+          <NormalText>
+            Select a date and time that align with your preferences.
+          </NormalText>
           <View style={styles.profileIntro}>
             <View>
               <Image

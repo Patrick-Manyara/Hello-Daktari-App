@@ -10,29 +10,22 @@ import {
   TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { AuthContext } from "../store/auth-context";
 import * as DocumentPicker from "expo-document-picker";
 
-import LoadingOverlay from "../components/ui/LoadingOverlay";
+import { Path } from "../constants/path";
+import { AuthContext } from "../store/auth-context";
 
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
-import Input from "../components/Auth/Input";
 import PrimaryButton from "../components/ui/PrimaryButton";
-import VisitOption from "../components/Cards/VisitOption";
 import UploadInput from "../components/FormElements/UploadInput";
 
 import { globalStyles } from "../constants/globalcss";
-
-import { Path } from "../constants/path";
-import { Picker } from "@react-native-picker/picker";
-import NormalText from "../components/ui/NormalText";
 
 export default function MedicalRecordsScreen({ navigation }) {
   //TOKEN
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
-  
 
   //UPLOADS
 

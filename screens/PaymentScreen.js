@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { globalStyles } from "../constants/globalcss";
-import { useNavigation } from "@react-navigation/native";
 
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
@@ -10,20 +8,30 @@ import NormalText from "../components/ui/NormalText";
 import PaymentCard from "../components/Cards/PaymentCard";
 import PrimaryButton from "../components/ui/PrimaryButton";
 
+import { globalStyles } from "../constants/globalcss";
+
 export default function PaymentScreen({ route, navigation }) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [userAddress, setUserAddress] = useState("");
-  const doctor = route.params.doctor;
-  const session_data = route.params.session_data;
+  const [doctor, setDoctor] = useState("");
+  const [session_data, setSessionData] = useState("");
   const address = route.params?.address;
 
   useEffect(() => {
-    if (route.params.address) {
-      setUserAddress(address);
+    if (route.params) {
+      if (route.params?.doctor) {
+        setDoctor(route.params.doctor);
+      }
+      if (route.params?.session_data) {
+        setSessionData(route.params.session_data);
+        console.log(session_data);
+      }
+      if (route.params.address) {
+        setUserAddress(address);
+      }
     }
   }, [route.params]);
 
-  // console.log(session_data);
 
   function navigateToSummary() {
     navigation.navigate("SummaryScreen", {
@@ -32,7 +40,7 @@ export default function PaymentScreen({ route, navigation }) {
       payment_method: selectedOption,
       address: userAddress,
     });
-  } 
+  }
 
   const paymentOptions = [
     {

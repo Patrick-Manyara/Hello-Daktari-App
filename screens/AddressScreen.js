@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   ScrollView,
   ToastAndroid,
@@ -17,10 +16,11 @@ import PrimaryButton from "../components/ui/PrimaryButton";
 import NotificationBell from "../components/ui/NotificationBell";
 import AddressCard from "../components/Cards/AddressCard";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
+import NormalText from "../components/ui/NormalText";
 
 import { Colors } from "../constants/styles";
 import { globalStyles } from "../constants/globalcss";
-import NormalText from "../components/ui/NormalText";
+
 
 export default function AddressScreen({ route, navigation }) {
   const authCtx = useContext(AuthContext);
@@ -67,22 +67,19 @@ export default function AddressScreen({ route, navigation }) {
 
   useEffect(() => {
     if (route.params) {
-      if (route.params.doctor) {
+      if (route.params?.doctor) {
         setDoctor(route.params.doctor);
       }
-      if (route.params.session_data) {
+      if (route.params?.session_data) {
         setSessionData(route.params.session_data);
       }
-      if (route.params.lab) {
+      if (route.params?.lab) {
         setLabItem(route.params.lab);
         setIsLab(true);
-        console.log(isLab);
       } else {
         console.log("Lab parameter is not defined");
       }
     }
-
-    console.log(route.params);
 
     fetchAddresses(); // Ensure this function is not dependent on the route parameters.
   }, [route.params]);
@@ -189,6 +186,12 @@ export default function AddressScreen({ route, navigation }) {
         ) : (
           <View>
             <HeaderText>Select An Address</HeaderText>
+            <NormalText>
+              Please provide or select an address to help us tailor our care and
+              services to your location. Your address helps us ensure that you
+              receive the best care possible, conveniently tailored to your
+              needs.
+            </NormalText>
             <View>
               {addresses.length > 0 ? (
                 addresses.map((address) => (
@@ -219,7 +222,9 @@ export default function AddressScreen({ route, navigation }) {
               <View>
                 <PrimaryButton
                   onPress={
-                    route.params.lab ? navigateToBasePayment : navigateToPayment
+                    route.params?.lab
+                      ? navigateToBasePayment
+                      : navigateToPayment
                   }
                 >
                   Proceed

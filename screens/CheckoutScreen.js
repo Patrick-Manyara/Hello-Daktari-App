@@ -2,33 +2,26 @@ import React, { useState, useContext, useEffect } from "react";
 import {
   StyleSheet,
   View,
-  Text,
   ScrollView,
-  Image,
-  Pressable,
-  TextInput,
-  FlatList,
   ActivityIndicator,
+  Alert,
 } from "react-native";
-import { globalStyles } from "../constants/globalcss";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Picker } from "@react-native-picker/picker";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Path } from "../constants/path";
 import { AuthContext } from "../store/auth-context";
+
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
-import NormalText from "../components/ui/NormalText";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import DisabledInput from "../components/FormElements/DisabledInput";
 import Input from "../components/Auth/Input";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import { Path } from "../constants/path";
-import { Picker } from "@react-native-picker/picker";
-
-import { useNavigation } from "@react-navigation/native";
-
 import PaymentCard from "../components/Cards/PaymentCard";
 import PrimaryButton from "../components/ui/PrimaryButton";
-import { Alert } from "react-native";
+
+import { globalStyles } from "../constants/globalcss";
 
 export default function CheckoutScreen({ navigation }) {
   const [addresses, setAddresses] = useState([]);
@@ -47,7 +40,7 @@ export default function CheckoutScreen({ navigation }) {
     loadCartData();
     fetchAddresses();
   }, []);
- 
+
   const loadCartData = async () => {
     try {
       const cartData = await AsyncStorage.getItem("cartItems");

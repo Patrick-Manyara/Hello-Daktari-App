@@ -6,15 +6,12 @@ import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
 import PrimaryButton from "../components/ui/PrimaryButton";
-import VisitOption from "../components/Cards/VisitOption";
 
 import { Path } from "../constants/path";
 
 import { globalStyles } from "../constants/globalcss";
 
 export default function DoctorProfileScreen({ route, navigation }) {
-  const [enteredChannel, setEnteredChannel] = useState("");
-
   const [doctor, setDoctor] = useState([]);
   const [session_data, setSessionData] = useState("");
 
@@ -22,16 +19,6 @@ export default function DoctorProfileScreen({ route, navigation }) {
     setDoctor(route.params.doctor);
     setSessionData(route.params.session_data);
   }, [route.params]);
-
-  const channels = [
-    { name: "audio", img: require("../assets/images/wave.png") },
-    { name: "video", img: require("../assets/images/camera.png") },
-    { name: "message", img: require("../assets/images/comment.png") },
-  ];
-
-  const handleChannelClick = (name) => {
-    setEnteredChannel(name);
-  };
 
   function navigateToScreen(screenName) {
     navigation.navigate(screenName, {
@@ -89,11 +76,7 @@ export default function DoctorProfileScreen({ route, navigation }) {
                 {session_data.session_consultation == "general" ? (
                   <View>
                     <PrimaryButton
-                      onPress={
-                        session_data.session_visit == "home"
-                          ? () => navigateToScreen("AddressScreen")
-                          : () => navigateToScreen("PaymentScreen")
-                      }
+                      onPress={() => navigateToScreen("PaymentScreen")}
                     >
                       Proceed
                     </PrimaryButton>
@@ -101,7 +84,13 @@ export default function DoctorProfileScreen({ route, navigation }) {
                 ) : (
                   <View>
                     <PrimaryButton
-                      onPress={() => navigateToScreen("AppointmentScreen")}
+                      onPress={() =>
+                        navigateToScreen(
+                          session_data.session_urgency == "urgent"
+                            ? "AddressScreen"
+                            : "AppointmentScreen"
+                        )
+                      }
                     >
                       Check Availability
                     </PrimaryButton>

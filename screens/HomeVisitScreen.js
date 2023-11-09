@@ -1,32 +1,26 @@
 import React, { useState, useContext, useEffect } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   ScrollView,
   ActivityIndicator,
-  ToastAndroid,
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../store/auth-context";
-import * as DocumentPicker from "expo-document-picker";
-import { Datepicker, Layout } from "@ui-kitten/components";
+import { Picker } from "@react-native-picker/picker";
+
+import { Path } from "../constants/path";
 
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
-import Input from "../components/Auth/Input";
 import PrimaryButton from "../components/ui/PrimaryButton";
-import VisitOption from "../components/Cards/VisitOption";
-import UploadInput from "../components/FormElements/UploadInput";
+import NormalText from "../components/ui/NormalText";
+import UrgencyCard from "../components/Cards/UrgencyCard";
 
 import { globalStyles } from "../constants/globalcss";
-
-import { Path } from "../constants/path";
-import { Picker } from "@react-native-picker/picker";
-import NormalText from "../components/ui/NormalText";
 
 export default function HomeVisitScreen({ navigation }) {
   //TOKEN
@@ -38,6 +32,26 @@ export default function HomeVisitScreen({ navigation }) {
   const [specialties, setSpecialties] = useState([]);
   const [selectedSpecialty, setSelectedSpecialty] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
+
+  //URGENCY
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const urgencyOptions = [
+    {
+      text: "Urgent. Would like to see available doctor immediately.",
+      keyProp: "urgent",
+    },
+    {
+      text: "Scheduled. Select a date and time to see a doctor",
+      keyProp: "scheduled",
+    },
+  ];
+
+  function handleUrgencyOption(keyProp) {
+    setSelectedOption(keyProp);
+  }
+
+  // FETCH
 
   const fetchSpecialties = () => {
     const fetchurl = Path.API_URL + "session.php?action=specialties";
@@ -104,7 +118,7 @@ export default function HomeVisitScreen({ navigation }) {
         const fd = new FormData();
 
         fd.append("specialty", selectedSpecialty);
-
+        fd.append("urgency", selectedOption);
         fd.append("user_id", token.user_id);
 
         let res = await fetch(url, {
@@ -179,7 +193,18 @@ export default function HomeVisitScreen({ navigation }) {
                 ))}
               </Picker>
             )}
-
+          </View>
+          <View>
+            {urgencyOptions.map((option, index) => (
+              <UrgencyCard
+                key={index}
+                text={option.text}
+                onPress={() => handleUrgencyOption(option.keyProp)}
+                isSelected={selectedOption === option.keyProp}
+              />
+            ))}
+          </View>
+          <View>
             <PrimaryButton onPress={submitForm}>Submit</PrimaryButton>
           </View>
           {_maybeRenderUploadingOverlay()}

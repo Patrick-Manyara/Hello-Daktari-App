@@ -7,23 +7,24 @@ import {
   Text,
   Pressable,
 } from "react-native";
-import { AuthContext } from "../store/auth-context";
+
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+
+import { AuthContext } from "../store/auth-context";
+import { Path } from "../constants/path";
+import {
+  formatMonthToMonthName,
+  getOrdinalDateAndTime,
+} from "../util/dateFormat";
 
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
-import ProfileCard from "../components/Cards/ProfileCard";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
-
-import { Path } from "../constants/path";
+import OrderDetailsModal from "../components/Modals/OrderDetailsModal";
 
 import { globalStyles } from "../constants/globalcss";
 import { Colors } from "../constants/styles";
-import { formatMonthToMonthName, getOrdinalDateAndTime } from "../util/dateFormat";
-import OrderDetailsModal from "../components/Modals/OrderDetailsModal";
-import PrimaryButton from "../components/ui/PrimaryButton";
 
 export default function ShoppingHistoryScreen({ navigation }) {
   //token fetching
@@ -176,7 +177,6 @@ export default function ShoppingHistoryScreen({ navigation }) {
                               Ksh.
                               {ordersGrouped[month][orderId][0].order_amount}
                             </NormalText>
-                            
                           </View>
 
                           <View key={ordersGrouped[month][orderId][0].id}>
