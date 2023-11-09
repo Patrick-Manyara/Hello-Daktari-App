@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, View, ScrollView, Image } from "react-native";
+import { StyleSheet, FlatList, View, ScrollView, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Path } from "../constants/path";
@@ -93,6 +93,29 @@ export default function SessionHistoryScreen({ navigation }) {
     }
   }
 
+  const renderItem = ({ item, index }) => (
+    <View style={styles.card} key={index}>
+      <View>
+        <Image
+          style={{ width: 50, height: 50, borderRadius: 25 }}
+          source={{ uri: Path.IMAGE_URL + item.doctor_image }}
+        />
+      </View>
+      <View style={{ marginLeft: 10 }}>
+        <HeaderText styleProp={{ fontSize: 14 }} fontProp="poppins-semibold">
+          {item.doctor_name}
+        </HeaderText>
+        <View style={{ flexDirection: "row", marginVertical: 5 }}>
+          <FontAwesomeIcon icon={faClock} color="black" />
+          <NormalText styleProp={{ marginLeft: 5 }}>
+            {getDayMonthAndYear(item.session_date)} |
+            {getTimeInAmPm(item.session_start_time)}
+          </NormalText>
+        </View>
+      </View>
+    </View>
+  );
+
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
       <NotificationBell />
@@ -100,7 +123,7 @@ export default function SessionHistoryScreen({ navigation }) {
       {isFetching ? (
         <LoadingOverlay message="Getting your session history" />
       ) : sessions.length > 0 ? (
-        <View>
+        <View style={{ marginBottom: 150 }}>
           <ScrollView horizontal>
             <View style={{ flexDirection: "row" }}>
               {channels.map((channel, index) => (
@@ -113,33 +136,11 @@ export default function SessionHistoryScreen({ navigation }) {
               ))}
             </View>
           </ScrollView>
-          <View>
-            {sessions.map((session, index) => (
-              <View style={styles.card} key={index}>
-                <View>
-                  <Image
-                    style={{ width: 50, height: 50, borderRadius: 25 }}
-                    source={{ uri: Path.IMAGE_URL + session.doctor_image }}
-                  />
-                </View>
-                <View style={{ marginLeft: 10 }}>
-                  <HeaderText
-                    styleProp={{ fontSize: 14 }}
-                    fontProp="poppins-semibold"
-                  >
-                    {session.doctor_name}
-                  </HeaderText>
-                  <View style={{ flexDirection: "row", marginVertical: 5 }}>
-                    <FontAwesomeIcon icon={faClock} color="black" />
-                    <NormalText styleProp={{ marginLeft: 5 }}>
-                      {getDayMonthAndYear(session.session_date)} |{" "}
-                      {getTimeInAmPm(session.session_start_time)}
-                    </NormalText>
-                  </View>
-                </View>
-              </View>
-            ))}
-          </View>
+          <FlatList
+            data={sessions}
+            keyExtractor={(item, index) => index.toString()} // Use the index as the key
+            renderItem={renderItem}
+          />
         </View>
       ) : (
         <View>
