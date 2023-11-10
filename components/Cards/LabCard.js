@@ -1,20 +1,11 @@
-import React, { useState } from "react";
-import {
-  View,
-  Image,
-  Text,
-  StyleSheet,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
-import { Colors } from "../../constants/styles";
-import NormalText from "../ui/NormalText";
-import PrimaryButton from "../ui/PrimaryButton";
+import React from "react";
+import { View, StyleSheet, Pressable } from "react-native";
+
 import HeaderText from "../ui/HeaderText";
+import IconButton from "../ui/IconButton";
+
+import { Colors } from "../../constants/styles";
 import { globalStyles } from "../../constants/globalcss";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Path } from "../../constants/path";
 
 export default function LabCard({ code, name, price, onPress }) {
   return (
@@ -27,7 +18,6 @@ export default function LabCard({ code, name, price, onPress }) {
       ]}
     >
       <View style={styles.card}>
-       
         <View
           style={{
             flexDirection: "row",
@@ -37,7 +27,7 @@ export default function LabCard({ code, name, price, onPress }) {
             padding: 5,
           }}
         >
-          <View style={{ width: "70%" }}>
+          <View style={{ width: "80%" }}>
             <HeaderText
               styleProp={styles.labName}
               numberOfLines={2}
@@ -47,8 +37,13 @@ export default function LabCard({ code, name, price, onPress }) {
             </HeaderText>
             <HeaderText styleProp={styles.labPrice}>Ksh. {price}</HeaderText>
           </View>
-          <View style={{ width: "30%" }}>
-            <PrimaryButton onPress={onPress}>Get Test</PrimaryButton>
+          <View style={{ width: "20%", justifyContent: "flex-end" }}>
+            <IconButton
+              icon="arrow-forward"
+              color={Colors.mainBlue}
+              size={20}
+              onPress={onPress}
+            />
           </View>
         </View>
       </View>

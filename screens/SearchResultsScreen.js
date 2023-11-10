@@ -18,7 +18,6 @@ export default function SearchResultsScreen({ route, navigation }) {
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
-    console.log(route.params);
     if (route.params) {
       if (route.params.doctors) {
         setDoctors(route.params.doctors);
@@ -30,12 +29,27 @@ export default function SearchResultsScreen({ route, navigation }) {
         setProducts(route.params.products);
       }
     }
-  }, []);
+  }, [route.params]);
+
+  const navigateToAddressScreen = (item) => {
+    navigation.navigate("AddressScreen", { lab: item });
+  };
+
+  const navigateToSingleProduct = (product) => {
+    navigation.navigate("SingleProductScreen", { product: product });
+  };
+
+  const navigateToDoctorProfile = (doctor) => {
+    navigation.navigate("DoctorProfileScreen", {
+      doctor: doctor,
+      fromSearch: true,
+    });
+  };
 
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
       <NotificationBell />
-      <SearchInput />
+      <SearchInput message="Doctors, Products or Services" />
       <View style={{ marginBottom: 100 }}>
         {labs.length > 0 ? (
           <View>
@@ -43,7 +57,7 @@ export default function SearchResultsScreen({ route, navigation }) {
               styleProp={styles.headerText}
               fontProp="poppins-semibold"
             >
-              Lab Results
+              laboratory tests
             </HeaderText>
 
             <FlatList
@@ -52,9 +66,8 @@ export default function SearchResultsScreen({ route, navigation }) {
               renderItem={({ item }) => (
                 <LabCard
                   name={item.lab_care_name}
-                  code={item.lab_care_code}
                   price={item.lab_amount}
-                  onPress={() => navigateToSingleProduct(item)}
+                  onPress={() => navigateToAddressScreen(item)}
                 />
               )}
             />
@@ -62,18 +75,19 @@ export default function SearchResultsScreen({ route, navigation }) {
         ) : null}
 
         {products.length > 0 ? (
-          <View>
+          <View style={{ marginVertical: 24 }}>
             <HeaderText
               styleProp={styles.headerText}
               fontProp="poppins-semibold"
             >
-              Lab Results
+              Products In Our Pharmacy
             </HeaderText>
             <FlatList
               data={products}
               keyExtractor={(item) => item.product_id}
               renderItem={({ item }) => (
                 <SearchShopCard
+                  image={item.product_image}
                   name={item.product_name}
                   price={item.product_price}
                   onPress={() => navigateToSingleProduct(item)}
@@ -89,16 +103,17 @@ export default function SearchResultsScreen({ route, navigation }) {
               styleProp={styles.headerText}
               fontProp="poppins-semibold"
             >
-              Lab Results
+              Doctors We Have For You
             </HeaderText>
             <FlatList
               data={doctors}
               keyExtractor={(item) => item.doctor_id}
               renderItem={({ item }) => (
                 <SearchDoctorCard
+                  image={item.doctor_image}
                   name={item.doctor_name}
                   price={item.doctor_rate}
-                  onPress={() => navigateToSingleProduct(item)}
+                  onPress={() => navigateToDoctorProfile(item)}
                 />
               )}
             />
@@ -118,5 +133,6 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 16,
     textAlign: "center",
+    textTransform: "capitalize",
   },
 });

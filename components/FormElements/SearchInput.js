@@ -12,7 +12,7 @@ import { globalStyles } from "../../constants/globalcss";
 import { Path } from "../../constants/path";
 import { useNavigation } from "@react-navigation/native";
 
-export default function SearchInput() {
+export default function SearchInput({ message }) {
   const navigation = useNavigation();
   //SUBMISSION
   const [enteredQuery, setEnteredQuery] = useState("");
@@ -35,12 +35,11 @@ export default function SearchInput() {
 
         const fd = new FormData();
         fd.append("query", enteredQuery);
- 
+
         let res = await fetch(url, {
           method: "POST",
           body: fd,
         });
-        console.log(fd);
         if (res.ok) {
           let responseJson = await res.json();
           if (responseJson.data === true) {
@@ -50,7 +49,7 @@ export default function SearchInput() {
               products: responseJson.products,
             });
           } else {
-            Alert.alert("Error");
+            Alert.alert("No results found");
             console.log("error here");
           }
         } else {
@@ -94,7 +93,7 @@ export default function SearchInput() {
     <View style={[globalStyles.inputContainer, styles.extra]}>
       <TextInput
         style={globalStyles.input}
-        placeholder="Search Doctors, Products or Services"
+        placeholder={`Search ${message}`}
         placeholderTextColor="black"
         onChangeText={updateInputValueHandler.bind(this, "query")}
         value={enteredQuery}

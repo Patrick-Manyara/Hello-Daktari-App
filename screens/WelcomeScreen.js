@@ -13,7 +13,7 @@ import AdBlock from "../components/Blocks/AdBlock";
 export default function WelcomeScreen() {
   const authCtx = useContext(AuthContext);
 
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     setToken(authCtx.token);
@@ -25,7 +25,7 @@ export default function WelcomeScreen() {
       <ScrollView>
         <View>
           <HeaderText>Welcome Back {token.user_name}!</HeaderText>
-          <SearchInput />
+          <SearchInput message="Doctors, Products or Services" />
           <BannerBlock />
           <HeaderText styleProp={globalStyles.smallerText}>
             What we have prepared for you!

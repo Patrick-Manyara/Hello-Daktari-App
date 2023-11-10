@@ -154,7 +154,7 @@ export default function ShopScreen({ route, navigation }) {
         ) : (
           <View>
             <HeaderText>Pharmacy</HeaderText>
-            <SearchInput />
+            <SearchInput message="Products/Items"  />
             <ScrollView horizontal>
               <View style={{ flexDirection: "row" }}>
                 {categories.map((category) => (

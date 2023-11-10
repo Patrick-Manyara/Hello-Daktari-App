@@ -40,7 +40,7 @@ export default function AllDoctorsScreen({ route, navigation }) {
             receive care on your terms, making your healthcare experience as
             convenient and comfortable as possible.
           </NormalText>
-          <SearchInput />
+          <SearchInput message="Doctors"  />
           <View style={globalStyles.viewCard}>
             <View style={styles.container}>
               {doctors.length > 0 ? (
