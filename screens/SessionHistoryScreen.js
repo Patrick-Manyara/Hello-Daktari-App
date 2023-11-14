@@ -125,7 +125,7 @@ export default function SessionHistoryScreen({ navigation }) {
       ) : sessions.length > 0 ? (
         <View style={{ marginBottom: 150 }}>
           <ScrollView horizontal>
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", marginVertical: 10 }}>
               {channels.map((channel, index) => (
                 <CategoriesCard
                   key={index}

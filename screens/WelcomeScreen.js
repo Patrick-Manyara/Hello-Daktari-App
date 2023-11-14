@@ -1,14 +1,17 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { AuthContext } from "../store/auth-context";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { globalStyles } from "../constants/globalcss";
+
+import { AuthContext } from "../store/auth-context";
+
 import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
 import SearchInput from "../components/FormElements/SearchInput";
 import BannerBlock from "../components/Blocks/BannerBlock";
 import FeaturesBlock from "../components/Blocks/FeaturesBlock";
 import AdBlock from "../components/Blocks/AdBlock";
+
+import { globalStyles } from "../constants/globalcss";
 
 export default function WelcomeScreen() {
   const authCtx = useContext(AuthContext);

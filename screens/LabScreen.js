@@ -9,7 +9,7 @@ import NotificationBell from "../components/ui/NotificationBell";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import LabCard from "../components/Cards/LabCard";
 import NormalText from "../components/ui/NormalText";
-
+import SearchInput from "../components/FormElements/SearchInput";
 import { globalStyles } from "../constants/globalcss";
 
 export default function LabScreen({ route, navigation }) {
@@ -63,6 +63,7 @@ export default function LabScreen({ route, navigation }) {
         <LoadingOverlay message="Getting Lab Services." />
       ) : (
         <View style={{ marginBottom: 100 }}>
+          <SearchInput message="Lab Tests" />
           <HeaderText>Select A Service</HeaderText>
           <NormalText>
             Which lab service(s) would you like to access?

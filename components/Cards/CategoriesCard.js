@@ -15,6 +15,7 @@ export default function CategoriesCard({ categoryName, isSelected, onPress }) {
         ]}
       >
         <NormalText
+          fontProp="poppins-semibold"
           styleProp={[
             styles.text,
             {
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   text: {
-    fontSize: 9,
+    fontSize: 8,
     color: "black",
     textTransform: "capitalize",
   },
