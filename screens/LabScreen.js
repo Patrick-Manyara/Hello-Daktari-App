@@ -68,6 +68,7 @@ export default function LabScreen({ route, navigation }) {
           <NormalText>
             Which lab service(s) would you like to access?
           </NormalText>
+       
           {labs.length > 0 ? (
             <FlatList
               data={labs}

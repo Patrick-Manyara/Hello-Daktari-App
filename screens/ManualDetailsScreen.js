@@ -18,12 +18,14 @@ import HeaderText from "../components/ui/HeaderText";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import VisitOption from "../components/Cards/VisitOption";
 import NormalText from "../components/ui/NormalText";
+import UrgencyCard from "../components/Cards/UrgencyCard";
 
 import { globalStyles } from "../constants/globalcss";
 
 export default function ManualDetailsScreen({ navigation }) {
   //TOKEN
   const authCtx = useContext(AuthContext);
+  const [hasDoctor, setHasDoctor] = useState(false);
   const token = authCtx.token;
 
   // SPECIALTIES
@@ -58,7 +60,10 @@ export default function ManualDetailsScreen({ navigation }) {
 
   useEffect(() => {
     fetchSpecialties();
-  }, []);
+    if (token.doctor_id != null) {
+      setHasDoctor(true);
+    }
+  }, [token]);
 
   //VISIT TYPE AND CHANNEL
 
@@ -84,6 +89,24 @@ export default function ManualDetailsScreen({ navigation }) {
   const handleChannelClick = (name) => {
     setEnteredChannel(name);
   };
+
+  //REBOOKING
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const rebookOptions = [
+    {
+      text: "Rebook With The Same Doctor",
+      keyProp: "rebook",
+    },
+    {
+      text: "Find A New Doctor",
+      keyProp: "new",
+    },
+  ];
+
+  function handleRebookOption(keyProp) {
+    setSelectedOption(keyProp);
+  }
 
   //RENDER
 
@@ -111,12 +134,18 @@ export default function ManualDetailsScreen({ navigation }) {
   const [uploading, setUploading] = useState(false);
 
   const baseurl = Path.API_URL + "session.php";
-  const queryParams = `action=manual`;
+  let queryParams;
+  if (selectedOption === "rebook") {
+    queryParams = `action=rebook`;
+  } else if (selectedOption === "new") {
+    queryParams = `action=manual`;
+  }
+
   const url = `${baseurl}?${queryParams}`;
 
   let submitForm = async () => {
     try {
-      if (enteredVisitType != null && selectedSpecialty != null) {
+      if (enteredVisitType != null) {
         setUploading(true);
 
         const fd = new FormData();
@@ -133,9 +162,14 @@ export default function ManualDetailsScreen({ navigation }) {
         });
         if (res.ok) {
           let responseJson = await res.json();
-          if (responseJson.data === true) {
+          if (responseJson.type === "new") {
             navigation.navigate("AllDoctorsScreen", {
               doctors: responseJson.doctors,
+              session_data: responseJson.session_data,
+            });
+          } else if (responseJson.type === "rebook") {
+            navigation.navigate("DoctorProfileScreen", {
+              doctor: responseJson.doctor,
               session_data: responseJson.session_data,
             });
           } else {
@@ -172,71 +206,208 @@ export default function ManualDetailsScreen({ navigation }) {
             Seamlessly schedule both virtual and physical appointments according
             to your convenience.
           </NormalText>
-          <NormalText
-            fontProp="poppins-semibold"
-            styleProp={{ marginVertical: 5 }}
-          >
-            Select a specialist category and enter your preferred visit type,
-            then proceed to select the doctor that best suits your preferences.
-          </NormalText>
-          <View>
-            {specialties.length > 0 && (
-              <Picker
-                style={[globalStyles.disabledContainer, styles.customInput]}
-                selectedValue={selectedSpecialty}
-                onValueChange={(itemValue, itemIndex) => {
-                  setSelectedSpecialty(itemValue);
-                }}
+          {hasDoctor ? (
+            <View>
+              <NormalText
+                fontProp="poppins-semibold"
+                styleProp={{ marginVertical: 5 }}
               >
-                <Picker.Item label="Select a specialty" value={null} />
-                {specialties.map((item) => (
-                  <Picker.Item
-                    key={item.doc_category_id}
-                    label={item.doc_category_name}
-                    value={item.doc_category_id}
+                You already have a doctor registered to your account. Would you
+                like to rebook a session with the same doctor or find a new
+                doctor.
+              </NormalText>
+
+              <View>
+                {rebookOptions.map((option, index) => (
+                  <UrgencyCard
+                    key={index}
+                    text={option.text}
+                    onPress={() => handleRebookOption(option.keyProp)}
+                    isSelected={selectedOption === option.keyProp}
                   />
                 ))}
-              </Picker>
-            )}
-            <HeaderText styleProp={globalStyles.centerText}>
-              Type of visit
-            </HeaderText>
-            <View style={globalStyles.optionContainer}>
-              {visitTypes.map((visitType, index) => (
-                <VisitOption
-                  key={index}
-                  style={globalStyles.optionColumn}
-                  name={visitType.name}
-                  img={visitType.img}
-                  onPress={() => handleVisitTypeClick(visitType.name)}
-                  isSelected={enteredVisitType === visitType.name}
-                />
-              ))}
+              </View>
+
+              {selectedOption === "rebook" && (
+                <View style={{ marginVertical: 5 }}>
+                  <View style={globalStyles.optionContainer}>
+                    {visitTypes.map((visitType, index) => (
+                      <VisitOption
+                        key={index}
+                        style={globalStyles.optionColumn}
+                        name={visitType.name}
+                        img={visitType.img}
+                        onPress={() => handleVisitTypeClick(visitType.name)}
+                        isSelected={enteredVisitType === visitType.name}
+                      />
+                    ))}
+                  </View>
+
+                  {enteredVisitType === "online" && (
+                    <View>
+                      <HeaderText styleProp={globalStyles.centerText}>
+                        Channel
+                      </HeaderText>
+
+                      <View style={globalStyles.optionContainer}>
+                        {channels.map((channel, index) => (
+                          <VisitOption
+                            key={index}
+                            style={globalStyles.optionColumn}
+                            name={channel.name}
+                            img={channel.img}
+                            onPress={() => handleChannelClick(channel.name)}
+                            isSelected={enteredChannel === channel.name}
+                          />
+                        ))}
+                      </View>
+                    </View>
+                  )}
+                  <PrimaryButton onPress={submitForm}>
+                    Proceed With Same Doctor
+                  </PrimaryButton>
+                </View>
+              )}
+
+              {selectedOption === "new" && (
+                <View>
+                  {specialties.length > 0 && (
+                    <Picker
+                      style={[
+                        globalStyles.disabledContainer,
+                        styles.customInput,
+                      ]}
+                      selectedValue={selectedSpecialty}
+                      onValueChange={(itemValue, itemIndex) => {
+                        setSelectedSpecialty(itemValue);
+                      }}
+                    >
+                      <Picker.Item label="Select a specialty" value={null} />
+                      {specialties.map((item) => (
+                        <Picker.Item
+                          key={item.doc_category_id}
+                          label={item.doc_category_name}
+                          value={item.doc_category_id}
+                        />
+                      ))}
+                    </Picker>
+                  )}
+                  <HeaderText styleProp={globalStyles.centerText}>
+                    Type of visit
+                  </HeaderText>
+                  <View style={globalStyles.optionContainer}>
+                    {visitTypes.map((visitType, index) => (
+                      <VisitOption
+                        key={index}
+                        style={globalStyles.optionColumn}
+                        name={visitType.name}
+                        img={visitType.img}
+                        onPress={() => handleVisitTypeClick(visitType.name)}
+                        isSelected={enteredVisitType === visitType.name}
+                      />
+                    ))}
+                  </View>
+
+                  {enteredVisitType === "online" && (
+                    <View>
+                      <HeaderText styleProp={globalStyles.centerText}>
+                        Channel
+                      </HeaderText>
+
+                      <View style={globalStyles.optionContainer}>
+                        {channels.map((channel, index) => (
+                          <VisitOption
+                            key={index}
+                            style={globalStyles.optionColumn}
+                            name={channel.name}
+                            img={channel.img}
+                            onPress={() => handleChannelClick(channel.name)}
+                            isSelected={enteredChannel === channel.name}
+                          />
+                        ))}
+                      </View>
+                    </View>
+                  )}
+
+                  <PrimaryButton onPress={submitForm}>
+                    Find New Doctor
+                  </PrimaryButton>
+                </View>
+              )}
             </View>
-
-            {enteredVisitType === "online" && (
+          ) : (
+            <View>
+              <NormalText
+                fontProp="poppins-semibold"
+                styleProp={{ marginVertical: 5 }}
+              >
+                Select a specialist category and enter your preferred visit
+                type, then proceed to select the doctor that best suits your
+                preferences.
+              </NormalText>
               <View>
+                {specialties.length > 0 && (
+                  <Picker
+                    style={[globalStyles.disabledContainer, styles.customInput]}
+                    selectedValue={selectedSpecialty}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setSelectedSpecialty(itemValue);
+                    }}
+                  >
+                    <Picker.Item label="Select a specialty" value={null} />
+                    {specialties.map((item) => (
+                      <Picker.Item
+                        key={item.doc_category_id}
+                        label={item.doc_category_name}
+                        value={item.doc_category_id}
+                      />
+                    ))}
+                  </Picker>
+                )}
                 <HeaderText styleProp={globalStyles.centerText}>
-                  Channel
+                  Type of visit
                 </HeaderText>
-
                 <View style={globalStyles.optionContainer}>
-                  {channels.map((channel, index) => (
+                  {visitTypes.map((visitType, index) => (
                     <VisitOption
                       key={index}
                       style={globalStyles.optionColumn}
-                      name={channel.name}
-                      img={channel.img}
-                      onPress={() => handleChannelClick(channel.name)}
-                      isSelected={enteredChannel === channel.name}
+                      name={visitType.name}
+                      img={visitType.img}
+                      onPress={() => handleVisitTypeClick(visitType.name)}
+                      isSelected={enteredVisitType === visitType.name}
                     />
                   ))}
                 </View>
-              </View>
-            )}
 
-            <PrimaryButton onPress={submitForm}>Submit</PrimaryButton>
-          </View>
+                {enteredVisitType === "online" && (
+                  <View>
+                    <HeaderText styleProp={globalStyles.centerText}>
+                      Channel
+                    </HeaderText>
+
+                    <View style={globalStyles.optionContainer}>
+                      {channels.map((channel, index) => (
+                        <VisitOption
+                          key={index}
+                          style={globalStyles.optionColumn}
+                          name={channel.name}
+                          img={channel.img}
+                          onPress={() => handleChannelClick(channel.name)}
+                          isSelected={enteredChannel === channel.name}
+                        />
+                      ))}
+                    </View>
+                  </View>
+                )}
+
+                <PrimaryButton onPress={submitForm}>
+                  Find New Doctor
+                </PrimaryButton>
+              </View>
+            </View>
+          )}
+
           {_maybeRenderUploadingOverlay()}
         </ScrollView>
       )}
