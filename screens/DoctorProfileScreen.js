@@ -87,7 +87,7 @@ export default function DoctorProfileScreen({ route, navigation }) {
                       onPress={() =>
                         navigateToScreen(
                           session_data.session_urgency == "urgent"
-                            ? "AddressScreen"
+                            ? "PaymentScreen"
                             : "AppointmentScreen"
                         )
                       }

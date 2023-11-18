@@ -37,7 +37,7 @@ export default function FeaturesBlock() {
         src={require("../../assets/images/house.png")}
         text="Home Visit"
         style={styles.column}
-        onPress={() => navigateToScreen("HomeVisitScreen")}
+        onPress={() => navigateToScreen("HouseVisitScreen")}
       />
       <FeaturesCard
         src={require("../../assets/images/board.png")}

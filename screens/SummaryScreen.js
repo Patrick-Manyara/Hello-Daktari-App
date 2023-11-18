@@ -21,7 +21,7 @@ import { Path } from "../constants/path";
 export default function SummaryScreen({ route, navigation }) {
   const [doctor, setDoctor] = useState("");
   const [session_data, setSessionData] = useState([]);
-  const [payment_method, setPaymentMethod] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
   const [address, setAddress] = useState("");
   const [dataLoaded, setDataLoaded] = useState(false);
   const [submitting, setIsSubmitting] = useState(false);
@@ -35,8 +35,8 @@ export default function SummaryScreen({ route, navigation }) {
       if (route.params?.session_data) {
         setSessionData(route.params.session_data);
       }
-      if (route.params?.payment_method) {
-        setPaymentMethod(route.params.payment_method);
+      if (route.params?.paymentMethod) {
+        setPaymentMethod(route.params.paymentMethod);
       }
       if (route.params?.address) {
         setAddress(route.params.address);
@@ -50,7 +50,10 @@ export default function SummaryScreen({ route, navigation }) {
     setIsSubmitting(true);
     const data = new FormData();
     data.append("session_id", session_data.session_id);
-    data.append("address", address);
+    data.append("payment_method", paymentMethod);
+    if (address != "") {
+      data.append("address", address);
+    }
 
     let res = await fetch(url, {
       method: "post",
@@ -175,7 +178,7 @@ export default function SummaryScreen({ route, navigation }) {
             >
               <NormalText>Payment</NormalText>
               <NormalText styleProp={{ textTransform: "capitalize" }}>
-                {payment_method}{" "}
+                {paymentMethod}{" "}
               </NormalText>
             </View>
             <View

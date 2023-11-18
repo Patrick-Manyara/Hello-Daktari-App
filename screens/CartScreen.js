@@ -46,7 +46,7 @@ export default function CartScreen({ navigation }) {
       setIsLoadingData(false);
     }
   };
-  
+
   const removeFromCart = async (productId) => {
     try {
       const cartData = await AsyncStorage.getItem("cartItems");
@@ -87,6 +87,8 @@ export default function CartScreen({ navigation }) {
     try {
       // Clear the cart items in AsyncStorage
       await AsyncStorage.removeItem("cartItems");
+      // Reload the cart data
+      loadCartData();
       ToastAndroid.show("Cart is empty", ToastAndroid.SHORT);
     } catch (error) {
       console.error("Error emptying cart:", error);

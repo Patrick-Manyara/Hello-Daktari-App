@@ -146,9 +146,7 @@ export default function AutoDetailsScreen({ navigation }) {
             styleProp={{ marginVertical: 5, fontSize: 14 }}
             fontProp="poppins-semibold"
           >
-            Welcome! Please provide us with the date and time you're available,
-            along with your preferred channel of assistance. We'll match you
-            with a doctor shortly to assist you with your needs.
+            Welcome! Please provide us with the date and time of your availability.
           </NormalText>
           <Layout style={styles.container} level="1">
             <Datepicker

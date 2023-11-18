@@ -9,7 +9,7 @@ import {
   ToastAndroid,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
- 
+
 import NotificationBell from "../components/ui/NotificationBell";
 import SearchInput from "../components/FormElements/SearchInput";
 import HeaderText from "../components/ui/HeaderText";
@@ -21,6 +21,10 @@ import LoadingOverlay from "../components/ui/LoadingOverlay";
 import { Path } from "../constants/path";
 
 import { globalStyles } from "../constants/globalcss";
+
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+
+import { faBagShopping, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 export default function ShopScreen({ route, navigation }) {
   const [products, setProducts] = useState([]);
@@ -101,6 +105,7 @@ export default function ShopScreen({ route, navigation }) {
     navigation.navigate("SingleProductScreen", { product: product });
   };
 
+  //ADD TO CART
   const addToCart = async (product) => {
     let itemArray = await AsyncStorage.getItem("cartItems");
     const newItem = { product: product, quantity: quantity };
@@ -123,6 +128,7 @@ export default function ShopScreen({ route, navigation }) {
 
       try {
         await AsyncStorage.setItem("cartItems", JSON.stringify(array));
+        setIcon("faCheck");
         ToastAndroid.show(
           "Item Added Successfully to cart",
           ToastAndroid.SHORT
@@ -154,7 +160,7 @@ export default function ShopScreen({ route, navigation }) {
         ) : (
           <View>
             <HeaderText>Pharmacy</HeaderText>
-            <SearchInput message="Products/Items"  />
+            <SearchInput message="Products/Items" />
             <ScrollView horizontal>
               <View style={{ flexDirection: "row" }}>
                 {categories.map((category) => (
@@ -195,6 +201,7 @@ export default function ShopScreen({ route, navigation }) {
                     onPress={() => navigateToSingleProduct(product)}
                     style={styles.column}
                     onAddToCart={() => addToCart(product)}
+                    
                   />
                 ))}
               </View>

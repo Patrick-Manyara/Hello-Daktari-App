@@ -32,15 +32,15 @@ export default function StartScreen() {
         <View style={styles.page} key="0">
           <TabBlocks
             src={require("../assets/images/welcome1.png")}
-            mainText="Appointments"
-            secondaryText="Lorem ipsum dolor sit amet consectetur. Neque sed a eget elementum turpis lacinia ornare."
+            mainText="Consultations"
+            secondaryText="Consult with our team of doctors and schedule or book specialist consultationns at your convinience."
           />
 
           <View style={styles.buttonView}>
             <TransparentButton
               styleProp={styles.btnStyle}
               onPress={() => {
-                ref.current?.setPage(2);
+                ref.current?.setPage(4);
               }}
             >
               SKIP
@@ -60,15 +60,15 @@ export default function StartScreen() {
         <View style={styles.page} key="1">
           <TabBlocks
             src={require("../assets/images/welcome2.png")}
-            mainText="Upload Your Prescription"
-            secondaryText="Lorem ipsum dolor sit amet consectetur. Neque sed a eget elementum turpis lacinia ornare."
+            mainText="Upload Your Medical Records"
+            secondaryText="Store your medical records and access them anytime you need them."
           />
 
           <View style={styles.buttonView}>
             <TransparentButton
               styleProp={styles.btnStyle}
               onPress={() => {
-                ref.current?.setPage(2);
+                ref.current?.setPage(4);
               }}
             >
               SKIP
@@ -87,9 +87,65 @@ export default function StartScreen() {
 
         <View style={styles.page} key="2">
           <TabBlocks
+            src={require("../assets/images/welcome4.png")}
+            mainText="Laboratory Tests"
+            secondaryText="Place an order for laboratory tests, have samples collected at your convenience, and receive timely sharing of your results."
+          />
+
+          <View style={styles.buttonView}>
+            <TransparentButton
+              styleProp={styles.btnStyle}
+              onPress={() => {
+                ref.current?.setPage(4);
+              }}
+            >
+              SKIP
+            </TransparentButton>
+
+            <PrimaryButton
+              styleProp={styles.btnStyle}
+              onPress={() => {
+                ref.current?.setPage(3);
+              }}
+            >
+              NEXT
+            </PrimaryButton>
+          </View>
+        </View>
+
+        <View style={styles.page} key="3">
+          <TabBlocks
+            src={require("../assets/images/welcome5.png")}
+            mainText="Ambulance Services"
+            secondaryText="Order for an ambulance and emergency evacuation"
+          />
+
+          <View style={styles.buttonView}>
+            <TransparentButton
+              styleProp={styles.btnStyle}
+              onPress={() => {
+                ref.current?.setPage(4);
+              }}
+            >
+              SKIP
+            </TransparentButton>
+
+            <PrimaryButton
+              styleProp={styles.btnStyle}
+              onPress={() => {
+                ref.current?.setPage(4);
+              }}
+            >
+              NEXT
+            </PrimaryButton>
+          </View>
+        </View>
+
+        <View style={styles.page} key="4">
+          <TabBlocks
             src={require("../assets/images/welcome3.png")}
-            mainText="Shop"
-            secondaryText="Lorem ipsum dolor sit amet consectetur. Neque sed a eget elementum turpis lacinia ornare."
+            mainText="Pharmacy"
+            secondaryText="Browse our selection of medications and medical supplies, and enjoy the convenience of having them delivered to your doorstep."
           />
           <PrimaryButton onPress={handleSkip} style={styles.btn}>
             Get started

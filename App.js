@@ -27,7 +27,7 @@ import AddressScreen from "./screens/AddressScreen";
 import CartScreen from "./screens/CartScreen";
 import CheckoutScreen from "./screens/CheckoutScreen";
 import DoctorProfileScreen from "./screens/DoctorProfileScreen";
-import HomeVisitScreen from "./screens/HomeVisitScreen";
+import HouseVisitScreen from "./screens/HouseVisitScreen";
 import ManualDetailsScreen from "./screens/ManualDetailsScreen";
 import PaymentScreen from "./screens/PaymentScreen";
 import ShopScreen from "./screens/ShopScreen";
@@ -45,6 +45,7 @@ import SearchResultsScreen from "./screens/SearchResultsScreen";
 import MedicalRecordsScreen from "./screens/MedicalRecordsScreen";
 import BasePaymentScreen from "./screens/BasePaymentScreen";
 import SessionHistoryScreen from "./screens/SessionHistoryScreen";
+import HouseAddressManager from "./screens/HouseAddressManager";
 
 //ICONS
 import Icon from "react-native-vector-icons/FontAwesome5"; // Import FontAwesome 5 icon set
@@ -196,12 +197,16 @@ function HomeStack() {
         name="SearchResultsScreen"
         component={SearchResultsScreen}
       />
-      <Stack.Screen name="HomeVisitScreen" component={HomeVisitScreen} />
+      <Stack.Screen name="HouseVisitScreen" component={HouseVisitScreen} />
       <Stack.Screen
         name="MedicalRecordsScreen"
         component={MedicalRecordsScreen}
       />
       <Stack.Screen name="BasePaymentScreen" component={BasePaymentScreen} />
+      <Stack.Screen
+        name="HouseAddressManager"
+        component={HouseAddressManager}
+      />
     </Stack.Navigator>
   );
 }
@@ -241,14 +246,27 @@ function Root() {
     fetchToken();
   }, [appIsReady]);
 
-  // if (isTryingLogin) {
-  //   return <AppLoading />
-  // }
-  // if (!appIsReady) {
-  //   return null;
-  // }
+  if (isTryingLogin) {
+    return null;
+  }
 
-  return <Navigation />;
+  if (!authCtx.isAuthenticated) {
+    return (
+      <>
+        <NavigationContainer>
+          {!isTryingLogin && <AuthStack />}
+        </NavigationContainer>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <NavigationContainer>
+          {!isTryingLogin && <AuthenticatedStack />}
+        </NavigationContainer>
+      </>
+    );
+  }
 }
 
 export default function App() {

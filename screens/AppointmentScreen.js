@@ -16,6 +16,7 @@ import NotificationBell from "../components/ui/NotificationBell";
 import HeaderText from "../components/ui/HeaderText";
 import NormalText from "../components/ui/NormalText";
 import PrimaryButton from "../components/ui/PrimaryButton";
+import LoadingOverlay from "../components/ui/LoadingOverlay";
 
 import { globalStyles } from "../constants/globalcss";
 
@@ -53,7 +54,7 @@ export default function AppointmentScreen({ route, navigation }) {
   }
 
   //fetching
-
+  const [isFetching, setIsFetching] = useState(true);
   const baseUrl = Path.API_URL + "schedule.php";
   const queryParams = `doctor_id=${doctor.doctor_id}`;
   const url = `${baseUrl}?${queryParams}`;
@@ -70,12 +71,15 @@ export default function AppointmentScreen({ route, navigation }) {
           }));
           // setSelectedDay(days[0].dayName);
           // setTimesArray(days[0].times);
+          setIsFetching(false);
           setSessionData(days);
         })
         .catch((error) => {
+          setIsFetching(false);
           console.error("Fetch error:", error);
         });
     } catch (error) {
+      setIsFetching(false);
       console.error("Request setup error:", error);
     }
   }, []);
@@ -179,45 +183,49 @@ export default function AppointmentScreen({ route, navigation }) {
               </NormalText>
             </View>
           </View>
-          <View>
-            <NormalText>Days</NormalText>
-            {sessionData && (
-              <ScrollView horizontal>
-                <View style={{ flexDirection: "row" }}>
-                  {sessionData.map((day, index) => (
-                    <DayTimeCard
-                      key={index}
-                      dayName={day.dayName}
-                      dayDate={getDayAndMonth(day.dayDate)}
-                      onPress={() => handleDayClick(day.dayName)}
-                      isSelected={selectedDay === day.dayName}
-                      isTime={false}
-                    />
-                  ))}
-                </View>
-              </ScrollView>
-            )}
+          {isFetching ? (
+            <LoadingOverlay message="Getting doctor's schedules" />
+          ) : (
+            <View>
+              <NormalText>Days</NormalText>
+              {sessionData && (
+                <ScrollView horizontal>
+                  <View style={{ flexDirection: "row" }}>
+                    {sessionData.map((day, index) => (
+                      <DayTimeCard
+                        key={index}
+                        dayName={day.dayName}
+                        dayDate={getDayAndMonth(day.dayDate)}
+                        onPress={() => handleDayClick(day.dayName)}
+                        isSelected={selectedDay === day.dayName}
+                        isTime={false}
+                      />
+                    ))}
+                  </View>
+                </ScrollView>
+              )}
 
-            <NormalText>Time</NormalText>
-            {timesArray.length > 0 ? (
-              <ScrollView horizontal>
-                <View style={{ flexDirection: "row" }}>
-                  {timesArray.map((time, index) => (
-                    <DayTimeCard
-                      key={index}
-                      dayName={time.start_time}
-                      dayDate={time.end_time}
-                      onPress={() => handleTimeClick(time)}
-                      isSelected={selectedTime === time.start_time}
-                      isTime={true}
-                    />
-                  ))}
-                </View>
-              </ScrollView>
-            ) : (
-              <NormalText>No Data To Load</NormalText>
-            )}
-          </View>
+              <NormalText>Time</NormalText>
+              {timesArray.length > 0 ? (
+                <ScrollView horizontal>
+                  <View style={{ flexDirection: "row" }}>
+                    {timesArray.map((time, index) => (
+                      <DayTimeCard
+                        key={index}
+                        dayName={time.start_time}
+                        dayDate={time.end_time}
+                        onPress={() => handleTimeClick(time)}
+                        isSelected={selectedTime === time.start_time}
+                        isTime={true}
+                      />
+                    ))}
+                  </View>
+                </ScrollView>
+              ) : (
+                <NormalText>No Data To Load</NormalText>
+              )}
+            </View>
+          )}
           <PrimaryButton onPress={submitForm}>Proceed To Payment</PrimaryButton>
         </View>
         {_maybeRenderUploadingOverlay()}

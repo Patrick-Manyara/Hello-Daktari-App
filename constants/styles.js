@@ -12,4 +12,5 @@ export const Colors = {
   lightPink: "#FBE2E1",
   categoryBlue: "#DCEDFE",
   darkGrey: "#F4F5F7",
+  red: "#FC1501",
 };

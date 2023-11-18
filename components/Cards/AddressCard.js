@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import { Colors } from "../../constants/styles";
 import NormalText from "../ui/NormalText";
 import PrimaryButton from "../ui/PrimaryButton";
