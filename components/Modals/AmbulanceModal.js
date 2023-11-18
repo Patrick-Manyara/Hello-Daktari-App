@@ -1,21 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
-  Text,
   Image,
   StyleSheet,
   Pressable,
   Modal,
   Linking,
 } from "react-native";
-import { globalStyles } from "../../constants/globalcss";
-import { Colors } from "../../constants/styles";
+
 import PrimaryButton from "../ui/PrimaryButton";
 import NormalText from "../ui/NormalText";
 
-export default function AmbulanceModal({ visible, closeModal }) {
-  const phoneNumber = "+254758535448"; // Replace with the actual phone number
+import { Colors } from "../../constants/styles";
 
+export default function AmbulanceModal({ visible, closeModal }) {
+  const phoneNumber = "+254758535448";
   const makePhoneCall = () => {
     Linking.openURL(`tel:${phoneNumber}`);
   };

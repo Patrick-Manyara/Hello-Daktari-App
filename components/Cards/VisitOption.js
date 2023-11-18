@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
+
 import { Colors } from "../../constants/styles";
 
 export default function VisitOption({ img, name, onPress, isSelected }) {

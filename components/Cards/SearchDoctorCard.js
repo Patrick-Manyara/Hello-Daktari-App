@@ -1,21 +1,11 @@
-import React, { useState } from "react";
-import {
-  View,
-  Image,
-  Text,
-  StyleSheet,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
-import { Colors } from "../../constants/styles";
-import NormalText from "../ui/NormalText";
-import PrimaryButton from "../ui/PrimaryButton";
-import HeaderText from "../ui/HeaderText";
-import { globalStyles } from "../../constants/globalcss";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import { View, Image, StyleSheet, Pressable } from "react-native";
 import { Path } from "../../constants/path";
-import IconButton from "../ui/IconButton";
+
+import HeaderText from "../ui/HeaderText";
+
+import { Colors } from "../../constants/styles";
+import { globalStyles } from "../../constants/globalcss";
 
 export default function SearchDoctorCard({ image, name, price, onPress }) {
   return (
@@ -53,9 +43,7 @@ export default function SearchDoctorCard({ image, name, price, onPress }) {
             </HeaderText>
             <HeaderText styleProp={styles.labPrice}>Ksh. {price}</HeaderText>
           </View>
-          <View style={{ width: "20%", justifyContent: "flex-end" }}>
-            
-          </View>
+          <View style={{ width: "20%", justifyContent: "flex-end" }}></View>
         </View>
       </View>
     </Pressable>

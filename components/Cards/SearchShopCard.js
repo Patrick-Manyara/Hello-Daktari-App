@@ -1,21 +1,12 @@
-import React, { useState } from "react";
-import {
-  View,
-  Image,
-  Text,
-  StyleSheet,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
-import { Colors } from "../../constants/styles";
-import NormalText from "../ui/NormalText";
-import PrimaryButton from "../ui/PrimaryButton";
-import HeaderText from "../ui/HeaderText";
-import { globalStyles } from "../../constants/globalcss";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import { View, Image, StyleSheet, Pressable } from "react-native";
 import { Path } from "../../constants/path";
+
+import HeaderText from "../ui/HeaderText";
 import IconButton from "../ui/IconButton";
+
+import { globalStyles } from "../../constants/globalcss";
+import { Colors } from "../../constants/styles";
 
 export default function SearchShopCard({ image, name, price, onPress }) {
   return (

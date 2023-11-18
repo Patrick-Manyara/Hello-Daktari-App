@@ -1,7 +1,9 @@
 import React from "react";
 import { View, StyleSheet, Pressable } from "react-native";
-import { Colors } from "../../constants/styles";
+
 import NormalText from "../ui/NormalText";
+
+import { Colors } from "../../constants/styles";
 
 export default function UrgencyCard({ text, isSelected, onPress }) {
   return (
@@ -56,6 +58,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft: 5,
+    fontSize: 12,
   },
   paymentCard: {
     width: "100%",

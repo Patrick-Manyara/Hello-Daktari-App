@@ -1,9 +1,11 @@
 import React from "react";
 import { View, StyleSheet, Pressable } from "react-native";
-import { Colors } from "../../constants/styles";
+
 import NormalText from "../ui/NormalText";
 import PrimaryButton from "../ui/PrimaryButton";
 import HeaderText from "../ui/HeaderText";
+
+import { Colors } from "../../constants/styles";
 import { globalStyles } from "../../constants/globalcss";
 
 export default function AddressCard({

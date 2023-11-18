@@ -1,10 +1,13 @@
 import React from "react";
 import { View, Image, StyleSheet, Pressable } from "react-native";
-import { Colors } from "../../constants/styles";
-import NormalText from "../ui/NormalText";
-import { globalStyles } from "../../constants/globalcss";
+
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+
+import NormalText from "../ui/NormalText";
+
+import { globalStyles } from "../../constants/globalcss";
+import { Colors } from "../../constants/styles";
 
 export default function ProfileCard({ src, header, info, onPress }) {
   return (

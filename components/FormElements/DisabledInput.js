@@ -1,6 +1,8 @@
 import React from "react";
 import { View, StyleSheet, Pressable } from "react-native";
+
 import NormalText from "../ui/NormalText";
+
 import { globalStyles } from "../../constants/globalcss";
 
 export default function DisabledInput({ placeholder, txt }) {

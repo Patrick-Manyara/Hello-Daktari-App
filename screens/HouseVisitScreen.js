@@ -2,19 +2,16 @@ import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   StyleSheet,
-  ScrollView,
   ActivityIndicator,
   Alert,
   ToastAndroid,
   Text,
   Button,
   Animated,
-  TouchableOpacity,
   TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../store/auth-context";
-import { Picker } from "@react-native-picker/picker";
 
 import { Path } from "../constants/path";
 
@@ -31,7 +28,7 @@ import FieldCard from "../components/Cards/FieldCard";
 import { globalStyles } from "../constants/globalcss";
 
 //FIELDS
-const SlideInView = ({ text, onClose }) => {
+const SlideInView = ({ text, onClose, renderContent }) => {
   const [slideAnim] = useState(new Animated.Value(0));
 
   React.useEffect(() => {
@@ -61,12 +58,7 @@ const SlideInView = ({ text, onClose }) => {
     ],
   };
 
-  return (
-    <Animated.View style={[styles.slideInView, slideStyles]}>
-      <Text>{text}</Text>
-      <Button title="Close" onPress={handleOnClose} />
-    </Animated.View>
-  );
+  return <Animated.View style={slideStyles}>{renderContent()}</Animated.View>;
 };
 
 export default function HouseVisitScreen({ navigation }) {
@@ -405,27 +397,38 @@ export default function HouseVisitScreen({ navigation }) {
     return (
       <>
         <NotificationBell />
+        <HeaderText>Home Visit Page</HeaderText>
+        <NormalText>
+          Kindly provide the following details to proceed.
+        </NormalText>
+
         <FieldCard
           title="Urgency"
-          subtitle="Please tell us how urgent this is"
+          subtitle="Please provide information on the urgency of your medical concern"
           onPress={() => handleOpen("Urgency")}
           isActive={activeView === "Urgency"}
           handleClose={handleClose}
         />
 
         {activeView === "Urgency" && (
-          <View>
-            {renderUrgencyOptions(
-              urgencyOptions,
-              handleUrgencyOption,
-              selectedUrgency
+          <SlideInView
+            text="Urgency"
+            onClose={handleClose}
+            renderContent={() => (
+              <View>
+                {renderUrgencyOptions(
+                  urgencyOptions,
+                  handleUrgencyOption,
+                  selectedUrgency
+                )}
+              </View>
             )}
-          </View>
+          />
         )}
 
         <FieldCard
           title="Location"
-          subtitle="Please tell us where you are"
+          subtitle="Let us know your current location to better assist you."
           onPress={() => handleOpen("Location")}
           isActive={activeView === "Location"}
           handleClose={handleClose}
@@ -458,33 +461,45 @@ export default function HouseVisitScreen({ navigation }) {
 
         <FieldCard
           title="Search"
-          subtitle="Please tell us where you are"
+          subtitle="Share if you're looking for a doctor or medical professional for yourself"
           onPress={() => handleOpen("Search")}
           isActive={activeView === "Search"}
           handleClose={handleClose}
         />
 
         {activeView === "Search" && (
-          <View>
-            {renderSearchOptions(
-              searchOptions,
-              handleSearchOption,
-              selectedSearch
+          <SlideInView
+            text="Search"
+            onClose={handleClose}
+            renderContent={() => (
+              <View>
+                {renderSearchOptions(
+                  searchOptions,
+                  handleSearchOption,
+                  selectedSearch
+                )}
+              </View>
             )}
-          </View>
+          />
         )}
         <FieldCard
           title="Details"
-          subtitle="Please tell us where you are"
+          subtitle="Describe the specific area or symptoms you're experiencing for accurate assistance"
           onPress={() => handleOpen("Details")}
           isActive={activeView === "Details"}
           handleClose={handleClose}
         />
 
         {activeView === "Details" && (
-          <View>
-            {renderTextInput(updateInputValueHandler, enteredDetails)}
-          </View>
+          <SlideInView
+            text="Urgency"
+            onClose={handleClose}
+            renderContent={() => (
+              <View>
+                {renderTextInput(updateInputValueHandler, enteredDetails)}
+              </View>
+            )}
+          />
         )}
         <PrimaryButton onPress={submitForm}>Proceed</PrimaryButton>
         {_maybeRenderUploadingOverlay()}

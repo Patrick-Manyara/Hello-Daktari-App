@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import FeaturesCard from "../Cards/FeaturesCard";
 import { useNavigation } from "@react-navigation/native";
+
+import FeaturesCard from "../Cards/FeaturesCard";
 import AmbulanceModal from "../Modals/AmbulanceModal";
 
 export default function FeaturesBlock() {

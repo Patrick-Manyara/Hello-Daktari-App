@@ -1,5 +1,8 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
+
+import NormalText from "../ui/NormalText";
+
 import { Colors } from "../../constants/styles";
 
 export default function DayTimeCard({
@@ -19,7 +22,7 @@ export default function DayTimeCard({
           },
         ]}
       >
-        <Text
+        <NormalText
           style={[
             styles.text,
             {
@@ -28,9 +31,9 @@ export default function DayTimeCard({
           ]}
         >
           {dayName}
-        </Text>
+        </NormalText>
         {isTime && (
-          <Text
+          <NormalText
             style={[
               styles.text,
               {
@@ -39,9 +42,9 @@ export default function DayTimeCard({
             ]}
           >
             to
-          </Text>
+          </NormalText>
         )}
-        <Text
+        <NormalText
           style={[
             styles.text,
             {
@@ -50,7 +53,7 @@ export default function DayTimeCard({
           ]}
         >
           {dayDate}
-        </Text>
+        </NormalText>
       </View>
     </Pressable>
   );

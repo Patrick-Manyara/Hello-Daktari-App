@@ -1,6 +1,8 @@
-import { View, Text, Image, StyleSheet, Pressable } from "react-native";
-import { Colors } from "../../constants/styles";
+import { View, Image, StyleSheet, Pressable } from "react-native";
+
 import NormalText from "../ui/NormalText";
+
+import { Colors } from "../../constants/styles";
 
 export default function FeaturesCard({ src, text, onPress }) {
   return (

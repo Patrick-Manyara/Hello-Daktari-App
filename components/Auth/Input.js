@@ -1,8 +1,8 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, TextInput, StyleSheet } from "react-native";
+import * as Font from "expo-font";
 
 import { Colors } from "../../constants/styles";
-import * as Font from "expo-font";
-import React, { useState, useEffect } from "react";
 
 function Input({
   label,
@@ -24,7 +24,6 @@ function Input({
   useEffect(() => {
     loadFonts();
   }, []);
- 
 
   return (
     <>

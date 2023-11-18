@@ -1,9 +1,12 @@
 import React from "react";
-import { Modal, View, Text, Button, StyleSheet, Image } from "react-native";
-import { Colors } from "../../constants/styles";
+import { Modal, View, StyleSheet, Image } from "react-native";
 import { Path } from "../../constants/path";
+
 import NormalText from "../ui/NormalText";
 import TransparentButton from "../ui/TransparentButton";
+
+import { Colors } from "../../constants/styles";
+
 export default function OrderDetailsModal({ isVisible, onClose, orderData }) {
   return (
     <Modal visible={isVisible} animationType="fade" transparent={true}>

@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import HeaderText from "../ui/HeaderText";
 import NormalText from "../ui/NormalText";
-import VisitOption from "../Cards/VisitOption";
 import PrimaryButton from "../ui/PrimaryButton";
-import { useNavigation } from "@react-navigation/native";
 
 export default function DoctorProfileBlock() {
   const navigation = useNavigation();

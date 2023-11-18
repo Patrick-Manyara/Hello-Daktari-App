@@ -1,5 +1,7 @@
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
+
 import NormalText from "./NormalText";
+
 function LoadingOverlay({ message }) {
   return (
     <View style={styles.rootContainer}>

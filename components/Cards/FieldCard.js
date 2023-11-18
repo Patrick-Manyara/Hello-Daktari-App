@@ -1,12 +1,11 @@
 import React from "react";
 import { View, StyleSheet, Pressable } from "react-native";
-import { Colors } from "../../constants/styles";
+
 import NormalText from "../ui/NormalText";
-import PrimaryButton from "../ui/PrimaryButton";
-import HeaderText from "../ui/HeaderText";
-import { globalStyles } from "../../constants/globalcss";
-import TransparentButton from "../ui/TransparentButton";
 import IconButton from "../ui/IconButton";
+
+import { Colors } from "../../constants/styles";
+import { globalStyles } from "../../constants/globalcss";
 
 export default function FieldCard({
   title,
@@ -24,8 +23,10 @@ export default function FieldCard({
         pressed ? globalStyles.buttonPressed : null,
       ]}
     >
-      <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-        <View style={{ width: "70%" }}>
+      <View
+        style={{ flexDirection: "row", flexWrap: "wrap", alignItems: "center" }}
+      >
+        <View style={{ width: "80%" }}>
           <NormalText
             fontProp="poppins-semibold"
             styleProp={{ marginVertical: 2 }}
@@ -34,12 +35,13 @@ export default function FieldCard({
           </NormalText>
           <NormalText>{subtitle}</NormalText>
         </View>
-        <View style={{ width: "30%" }}>
+        <View style={{ width: "20%" }}>
           <IconButton
             onPress={isActive ? handleClose : onPress}
             icon={isActive ? "chevron-up-outline" : "chevron-down-outline"}
             color={Colors.mainBlue}
-            size={20}
+            size={15}
+            styleProp={styles.buttonStyle}
           />
         </View>
       </View>
@@ -62,5 +64,11 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     backgroundColor: "white",
     overflow: Platform.OS === "android" ? "hidden" : "visible",
+  },
+  buttonStyle: {
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    backgroundColor: Colors.lightBlue,
   },
 });

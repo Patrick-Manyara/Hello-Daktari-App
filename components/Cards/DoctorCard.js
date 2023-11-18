@@ -1,19 +1,12 @@
 import React from "react";
 import { View, Image, StyleSheet, Pressable } from "react-native";
+import { Path } from "../../constants/path";
+
 import PrimaryButton from "../ui/PrimaryButton";
 import HeaderText from "../ui/HeaderText";
 import NormalText from "../ui/NormalText";
-import { Path } from "../../constants/path";
 
-export default function DoctorCard({
-  src,
-  name,
-  role,
-  years,
-  rating,
-  onPress,
-  price
-}) {
+export default function DoctorCard({ src, name, role, years, onPress, price }) {
   return (
     <Pressable style={{ width: "50%" }}>
       <View style={styles.doctorCard}>

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   TextInput,
@@ -7,10 +7,11 @@ import {
   Alert,
   ActivityIndicator,
 } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { globalStyles } from "../../constants/globalcss";
 import { Path } from "../../constants/path";
 import { useNavigation } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/FontAwesome";
+
+import { globalStyles } from "../../constants/globalcss";
 
 export default function SearchInput({ message }) {
   const navigation = useNavigation();

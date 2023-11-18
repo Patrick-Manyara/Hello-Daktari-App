@@ -1,19 +1,12 @@
 import React from "react";
-import {
-  View,
-  Text,
-  ImageBackground,
-  Button,
-  Image,
-  StyleSheet,
-  Pressable,
-} from "react-native";
+import { View, Image, StyleSheet, Pressable } from "react-native";
 
 import HeaderText from "../ui/HeaderText";
+
 import { globalStyles } from "../../constants/globalcss";
 import { Colors } from "../../constants/styles";
 
-import Icon from "react-native-vector-icons/FontAwesome5"; // Import FontAwesome 5 icon set
+import Icon from "react-native-vector-icons/FontAwesome5";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function AdBlock() {

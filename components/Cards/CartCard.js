@@ -1,20 +1,14 @@
 import React, { useState } from "react";
-import {
-  View,
-  Image,
-  Text,
-  StyleSheet,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
-import { Colors } from "../../constants/styles";
+import { View, Image, StyleSheet, Pressable } from "react-native";
+
+import { Path } from "../../constants/path";
+
 import NormalText from "../ui/NormalText";
-import PrimaryButton from "../ui/PrimaryButton";
 import HeaderText from "../ui/HeaderText";
-import { globalStyles } from "../../constants/globalcss";
+
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Path } from "../../constants/path";
+import { Colors } from "../../constants/styles";
 
 export default function CartCard({
   productImage,

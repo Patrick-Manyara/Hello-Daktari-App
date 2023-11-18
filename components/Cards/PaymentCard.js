@@ -1,7 +1,9 @@
 import React from "react";
 import { View, Image, StyleSheet, Pressable } from "react-native";
-import { Colors } from "../../constants/styles";
+
 import NormalText from "../ui/NormalText";
+
+import { Colors } from "../../constants/styles";
 
 export default function PaymentCard({ text, img1, img2, isSelected, onPress }) {
   return (

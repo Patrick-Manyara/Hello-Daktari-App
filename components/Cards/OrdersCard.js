@@ -1,18 +1,14 @@
 import React from "react";
-import { View, Image, StyleSheet, Pressable } from "react-native";
-import { Colors } from "../../constants/styles";
-import NormalText from "../ui/NormalText";
-import PrimaryButton from "../ui/PrimaryButton";
-import HeaderText from "../ui/HeaderText";
-import { globalStyles } from "../../constants/globalcss";
+import { View, StyleSheet } from "react-native";
 
+import { Colors } from "../../constants/styles";
+
+import HeaderText from "../ui/HeaderText";
 export default function OrdersCard({ month, num }) {
   return (
     <View>
       <HeaderText>{month}</HeaderText>
-      <View style={styles.card}>
-
-      </View>
+      <View style={styles.card}></View>
     </View>
   );
 }

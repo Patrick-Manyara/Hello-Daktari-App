@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import * as Font from "expo-font";
 
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet } from "react-native";
+
+import NormalText from "../ui/NormalText";
 
 import { Colors } from "../../constants/styles";
-import NormalText from "../ui/NormalText";
 import { globalStyles } from "../../constants/globalcss";
 
 export default function InputHybrid({

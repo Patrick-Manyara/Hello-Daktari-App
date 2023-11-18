@@ -1,18 +1,10 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  ScrollView,
-  ActivityIndicator,
-  Pressable,
-  Alert,
-  Button,
-} from "react-native";
-import NormalText from "../ui/NormalText";
+import { View, StyleSheet, Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCloudUpload } from "@fortawesome/free-solid-svg-icons";
+
+import NormalText from "../ui/NormalText";
+
 import { Colors } from "../../constants/styles";
 import { globalStyles } from "../../constants/globalcss";
 
@@ -36,7 +28,6 @@ export default function UploadInput({ txt, onPress }) {
 }
 
 const styles = StyleSheet.create({
-  icon: {},
   customInput: {
     height: 40,
     justifyContent: "space-between",

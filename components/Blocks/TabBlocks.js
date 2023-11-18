@@ -1,7 +1,5 @@
-import { Image, StyleSheet, Text, View, Pressable } from "react-native";
-import { Colors } from "../../constants/styles";
-import TransparentButton from "../ui/TransparentButton";
-import PrimaryButton from "../ui/PrimaryButton";
+import { Image, StyleSheet, View } from "react-native";
+
 import HeaderText from "../ui/HeaderText";
 import NormalText from "../ui/NormalText";
 

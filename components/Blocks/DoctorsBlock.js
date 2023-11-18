@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { View, ImageBackground, Pressable, StyleSheet } from "react-native";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+
 import DoctorCard from "../Cards/DoctorCard";
 
 export default function DoctorsBlock() {

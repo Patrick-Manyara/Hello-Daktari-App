@@ -1,14 +1,13 @@
 import React from "react";
 import { View, StyleSheet, Pressable } from "react-native";
-import { Colors } from "../../constants/styles";
-import NormalText from "../ui/NormalText";
-import PrimaryButton from "../ui/PrimaryButton";
-import HeaderText from "../ui/HeaderText";
-import { globalStyles } from "../../constants/globalcss";
-import { Ionicons } from "@expo/vector-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+
+import NormalText from "../ui/NormalText";
+import HeaderText from "../ui/HeaderText";
+
+import { Colors } from "../../constants/styles";
 
 export default function LocationCard({
   location,

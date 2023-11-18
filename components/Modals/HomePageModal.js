@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, Pressable, Modal } from "react-native";
-import { globalStyles } from "../../constants/globalcss";
-import { Colors } from "../../constants/styles";
+import React from "react";
+import { View, Image, StyleSheet, Pressable, Modal } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import PrimaryButton from "../ui/PrimaryButton";
 import NormalText from "../ui/NormalText";
-import { useNavigation } from "@react-navigation/native";
+
+import { Colors } from "../../constants/styles";
 
 export default function HomePageModal({ visible, closeModal }) {
   const navigation = useNavigation();

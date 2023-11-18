@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, ImageBackground, Image, StyleSheet } from "react-native";
+
 import PrimaryButton from "../ui/PrimaryButton";
 import HeaderText from "../ui/HeaderText";
 import HomePageModal from "../Modals/HomePageModal";
@@ -10,14 +11,14 @@ export default function BannerBlock() {
 
   const openModal = () => {
     setIsModalVisible(true);
-  }; 
- 
+  };
+
   const closeModal = () => {
     setIsModalVisible(false);
   };
   return (
     <ImageBackground
-      source={require("../../assets/images/banner.png")} // Replace with your background image
+      source={require("../../assets/images/banner.png")}
       style={styles.backgroundImage}
     >
       <View style={styles.mainView}>

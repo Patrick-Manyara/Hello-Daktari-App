@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View, Image, StyleSheet, Pressable, Animated } from "react-native";
-import { Colors } from "../../constants/styles";
-import NormalText from "../ui/NormalText";
-import TransparentButton from "../ui/TransparentButton";
-import PrimaryButton from "../ui/PrimaryButton";
-import HeaderText from "../ui/HeaderText";
-import { globalStyles } from "../../constants/globalcss";
-import { Path } from "../../constants/path";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
+import { Path } from "../../constants/path";
+
+import NormalText from "../ui/NormalText";
+import HeaderText from "../ui/HeaderText";
+
+import { Colors } from "../../constants/styles";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBagShopping, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 export default function ProductCard({
@@ -16,10 +15,7 @@ export default function ProductCard({
   title,
   price,
   newPrice,
-  productId,
   onPress,
-  icon,
-  style,
   onAddToCart,
 }) {
   // Add a state variable for animation

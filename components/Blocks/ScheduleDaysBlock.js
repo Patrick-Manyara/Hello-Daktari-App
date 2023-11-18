@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, ScrollView } from "react-native";
+
 import DayTimeCard from "../Cards/DayTimeCard";
 
 export default function ScheduleDaysBlock() {

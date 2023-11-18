@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, Pressable, Modal } from "react-native";
-import { globalStyles } from "../../constants/globalcss";
-import { Colors } from "../../constants/styles";
+import { View, Modal } from "react-native";
+
 import PrimaryButton from "../ui/PrimaryButton";
-import NormalText from "../ui/NormalText";
-import { useNavigation } from "@react-navigation/native";
 import Input from "../Auth/Input";
 
-export default function ({ visible, closeModal, isEdit, addressData }) {
+export default function ({ visible, closeModal, isEdit }) {
   const [enteredAddressName, setEnteredAddressName] = useState("");
   const [enteredAddressLabel, setEnteredAddressLabel] = useState("");
   const [enteredAddressLocation, setEnteredAddressLocation] = useState("");

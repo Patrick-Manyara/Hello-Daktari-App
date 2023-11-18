@@ -1,7 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
-import { Colors } from "../../constants/styles";
+import { View, StyleSheet, Pressable } from "react-native";
+
 import NormalText from "../ui/NormalText";
+
+import { Colors } from "../../constants/styles";
 
 export default function CategoriesCard({ categoryName, isSelected, onPress }) {
   return (

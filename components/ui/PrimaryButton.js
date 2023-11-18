@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Pressable, StyleSheet, Platform } from "react-native";
-import { Colors } from "../../constants/styles";
+import React from "react";
+import { View, Pressable, StyleSheet } from "react-native";
+
 import NormalText from "./NormalText";
+
+import { Colors } from "../../constants/styles";
 import { globalStyles } from "../../constants/globalcss";
 
 export default function PrimaryButton({ children, onPress, styleProp }) {
@@ -19,10 +21,9 @@ export default function PrimaryButton({ children, onPress, styleProp }) {
       </View>
     </Pressable>
   );
-} 
+}
 
 const styles = StyleSheet.create({
-
   title: {
     fontSize: 14,
     color: "white",
