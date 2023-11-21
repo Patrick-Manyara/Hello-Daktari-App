@@ -22,10 +22,6 @@ import { Path } from "../constants/path";
 
 import { globalStyles } from "../constants/globalcss";
 
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-
-import { faBagShopping, faCheck } from "@fortawesome/free-solid-svg-icons";
-
 export default function ShopScreen({ route, navigation }) {
   const [products, setProducts] = useState([]);
   const [initialProducts, setInitialProducts] = useState([]);
@@ -37,7 +33,6 @@ export default function ShopScreen({ route, navigation }) {
 
   //fetching
   const productsUrl = Path.API_URL + "products.php?action=all";
-  const categoriesUrl = Path.API_URL + "products.php?action=categories";
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
@@ -128,7 +123,6 @@ export default function ShopScreen({ route, navigation }) {
 
       try {
         await AsyncStorage.setItem("cartItems", JSON.stringify(array));
-        setIcon("faCheck");
         ToastAndroid.show(
           "Item Added Successfully to cart",
           ToastAndroid.SHORT
@@ -201,7 +195,6 @@ export default function ShopScreen({ route, navigation }) {
                     onPress={() => navigateToSingleProduct(product)}
                     style={styles.column}
                     onAddToCart={() => addToCart(product)}
-                    
                   />
                 ))}
               </View>

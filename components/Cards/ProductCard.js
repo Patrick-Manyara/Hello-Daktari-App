@@ -18,27 +18,8 @@ export default function ProductCard({
   onPress,
   onAddToCart,
 }) {
-  // Add a state variable for animation
-  const [fadeAnim] = useState(new Animated.Value(0));
-  const [isAddedToCart, setIsAddedToCart] = useState(false);
-
-  useEffect(() => {
-    // If the product is added to the cart, trigger the animation
-    if (isAddedToCart) {
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 1000, // Adjust the duration as needed
-        useNativeDriver: false, // Add this line for non-native driver
-      }).start();
-    }
-  }, [isAddedToCart, fadeAnim]);
-
   const handleAddToCart = () => {
-    // Call the original onAddToCart function
     onAddToCart();
-
-    // Update state to indicate that the product is added to the cart
-    setIsAddedToCart(true);
   };
 
   return (
@@ -69,24 +50,13 @@ export default function ProductCard({
         }}
       >
         <View style={styles.tagContainer}>
-          {/* Conditionally render the icons based on isAddedToCart state */}
-          {isAddedToCart ? (
-            <Animated.View style={{ opacity: fadeAnim }}>
-              <FontAwesomeIcon
-                size={20}
-                icon={faCheck}
-                color={Colors.successGreen}
-              />
-            </Animated.View>
-          ) : (
-            <Pressable onPress={() => handleAddToCart()}>
-              <FontAwesomeIcon
-                size={20}
-                icon={faBagShopping}
-                color={Colors.mainBlue}
-              />
-            </Pressable>
-          )}
+          <Pressable onPress={onAddToCart}>
+            <FontAwesomeIcon
+              size={20}
+              icon={faBagShopping}
+              color={Colors.mainBlue}
+            />
+          </Pressable>
         </View>
       </View>
     </View>

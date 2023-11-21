@@ -23,7 +23,7 @@ export default function CartScreen({ navigation }) {
   useEffect(() => {
     // Load cart data from AsyncStorage when the component mounts
     loadCartData();
-  }, []);
+  }, [cartData]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -85,14 +85,35 @@ export default function CartScreen({ navigation }) {
 
   const emptyCart = async () => {
     try {
+      setIsLoadingData(true);
       // Clear the cart items in AsyncStorage
       await AsyncStorage.removeItem("cartItems");
       // Reload the cart data
-      loadCartData();
+      setCartData([]);
+
+      // Introduce a 3-second delay before setting isLoadingData to false
+      setTimeout(() => {
+        setIsLoadingData(false);
+      }, 3000);
+
       ToastAndroid.show("Cart is empty", ToastAndroid.SHORT);
     } catch (error) {
+      setIsLoadingData(false);
       console.error("Error emptying cart:", error);
     }
+  };
+
+  const calculateSubtotal = () => {
+    return cartData.reduce(
+      (total, cartItem) =>
+        total + parseFloat(cartItem.product.product_price) * cartItem.quantity,
+      0
+    );
+  };
+
+  const calculateTotal = () => {
+    // Adding shipping fee of 200 to the subtotal
+    return calculateSubtotal() + 200;
   };
 
   return (
@@ -123,22 +144,32 @@ export default function CartScreen({ navigation }) {
                   />
                 ))
               ) : (
-                <Text>No items in the cart.</Text>
+                <NormalText fontProp="poppins-semibold">
+                  There are no items in your cart.
+                </NormalText>
               )}
               <View>
-                <HeaderText>Order Info:</HeaderText>
-                <View style={globalStyles.subTotal}>
-                  <NormalText>Subtotal:</NormalText>
-                  <NormalText>Ksh. 1</NormalText>
-                </View>
-                <View style={globalStyles.subTotal}>
-                  <NormalText>Shipping Fee:</NormalText>
-                  <NormalText>Ksh. 1</NormalText>
-                </View>
-                <View style={globalStyles.subTotal}>
-                  <NormalText>Total:</NormalText>
-                  <NormalText>Ksh. 1</NormalText>
-                </View>
+                {cartData.length > 0 && (
+                  <View>
+                    <HeaderText>Order Info:</HeaderText>
+                    <View style={globalStyles.subTotal}>
+                      <NormalText>Subtotal:</NormalText>
+                      <NormalText>
+                        Ksh. {calculateSubtotal().toFixed(2)}
+                      </NormalText>
+                    </View>
+                    <View style={globalStyles.subTotal}>
+                      <NormalText>Shipping Fee:</NormalText>
+                      <NormalText>Ksh. 200</NormalText>
+                    </View>
+                    <View style={globalStyles.subTotal}>
+                      <NormalText>Total:</NormalText>
+                      <NormalText>
+                        Ksh. {calculateTotal().toFixed(2)}
+                      </NormalText>
+                    </View>
+                  </View>
+                )}
               </View>
             </View>
           )}
