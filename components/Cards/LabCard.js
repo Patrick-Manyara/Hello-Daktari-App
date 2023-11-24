@@ -6,48 +6,40 @@ import IconButton from "../ui/IconButton";
 
 import { Colors } from "../../constants/styles";
 import { globalStyles } from "../../constants/globalcss";
+import PrimaryButton from "../ui/PrimaryButton";
 
-export default function LabCard({ code, name, price, onPress }) {
+export default function LabCard({ code, name, price, onPress, isInCart }) {
   return (
-    <Pressable
-      android_ripple={{ color: "#ccc" }}
-      style={({ pressed }) => [
-        globalStyles.button,
-        { marginTop: 4 },
-        pressed ? globalStyles.buttonPressed : null,
-      ]}
-    >
-      <View style={styles.card}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "100%",
-            padding: 5,
-          }}
-        >
-          <View style={{ width: "80%" }}>
-            <HeaderText
-              styleProp={styles.labName}
-              numberOfLines={2}
-              ellipsizeMode="tail"
-            >
-              {name}
-            </HeaderText>
-            <HeaderText styleProp={styles.labPrice}>Ksh. {price}</HeaderText>
-          </View>
-          <View style={{ width: "20%", justifyContent: "flex-end" }}>
-            <IconButton
-              icon="arrow-forward"
-              color={Colors.mainBlue}
-              size={20}
-              onPress={onPress}
-            />
-          </View>
+    <View style={styles.card}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+          padding: 5,
+        }}
+      >
+        <View style={{ width: "80%" }}>
+          <HeaderText
+            styleProp={styles.labName}
+            numberOfLines={2}
+            ellipsizeMode="tail"
+          >
+            {name}
+          </HeaderText>
+          <HeaderText styleProp={styles.labPrice}>Ksh. {price}</HeaderText>
+        </View>
+        <View style={{ width: "20%", justifyContent: "flex-end" }}>
+          <PrimaryButton
+            onPress={onPress}
+            style={isInCart ? styles.inCartStyle : styles.notInCartStyle}
+          >
+            {isInCart ? "REMOVE" : "ADD"}
+          </PrimaryButton>
         </View>
       </View>
-    </Pressable>
+    </View>
   );
 }
 
@@ -82,5 +74,14 @@ const styles = StyleSheet.create({
   },
   labPrice: {
     fontSize: 10,
+  },
+  inCartStyle: {
+    height: 30,
+    borderRadius: 10,
+  },
+  notInCartStyle: {
+    height: 30,
+    borderRadius: 10,
+    backgroundColor: Colors.darkBlue,
   },
 });

@@ -33,17 +33,19 @@ export default function AddressCard({
               : "",
           ]}
         ></View>
-        <HeaderText>{location}</HeaderText>
+        <View>
+          <HeaderText>{location}</HeaderText>
+          <NormalText styleProp={globalStyles.centerText}>
+            {description}
+          </NormalText>
+        </View>
+
         <View style={styles.tagContainer}>
           <NormalText styleProp={styles.tag}>{tag}</NormalText>
         </View>
       </View>
 
-      <View style={{ marginVertical: 2 }}>
-        <NormalText styleProp={globalStyles.centerText}>
-          {description}
-        </NormalText>
-      </View>
+      <View style={{ marginVertical: 2 }}></View>
 
       <View
         style={{
@@ -52,11 +54,11 @@ export default function AddressCard({
           width: "100%",
         }}
       >
-        <PrimaryButton styleProp={styles.btn} onPress={editAddress}>
+        <PrimaryButton style={styles.btn} onPress={editAddress}>
           Edit
         </PrimaryButton>
         <PrimaryButton
-          styleProp={[styles.btn, styles.blueBtn]}
+          style={[styles.btn, styles.blueBtn]}
           onPress={removeAddress}
         >
           Remove
@@ -111,6 +113,8 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: 100,
+    height: 30,
+    borderRadius: 10,
   },
   blueBtn: {
     backgroundColor: Colors.mainBlue,

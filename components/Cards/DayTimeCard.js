@@ -23,7 +23,7 @@ export default function DayTimeCard({
         ]}
       >
         <NormalText
-          style={[
+          styleProp={[
             styles.text,
             {
               color: isSelected ? "white" : Colors.textColor,
@@ -34,7 +34,7 @@ export default function DayTimeCard({
         </NormalText>
         {isTime && (
           <NormalText
-            style={[
+            styleProp={[
               styles.text,
               {
                 color: isSelected ? "white" : Colors.textColor,
@@ -45,7 +45,7 @@ export default function DayTimeCard({
           </NormalText>
         )}
         <NormalText
-          style={[
+          styleProp={[
             styles.text,
             {
               color: isSelected ? "white" : Colors.textColor,

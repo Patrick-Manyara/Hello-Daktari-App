@@ -21,7 +21,6 @@ import NormalText from "../components/ui/NormalText";
 import { Colors } from "../constants/styles";
 import { globalStyles } from "../constants/globalcss";
 
-
 export default function AddressScreen({ route, navigation }) {
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
@@ -35,7 +34,7 @@ export default function AddressScreen({ route, navigation }) {
   const [doctor, setDoctor] = useState("");
   const [session_data, setSessionData] = useState("");
 
-  const [labItem, setLabItem] = useState({});
+  const [labItems, setLabItems] = useState({});
   const [isLab, setIsLab] = useState(false);
 
   const baseurl = Path.API_URL + "addresses.php";
@@ -73,8 +72,8 @@ export default function AddressScreen({ route, navigation }) {
       if (route.params?.session_data) {
         setSessionData(route.params.session_data);
       }
-      if (route.params?.lab) {
-        setLabItem(route.params.lab);
+      if (route.params?.labs) {
+        setLabItems(route.params.labs);
         setIsLab(true);
       } else {
         console.log("Lab parameter is not defined");
@@ -103,7 +102,7 @@ export default function AddressScreen({ route, navigation }) {
 
   const navigateToBasePayment = () => {
     navigation.navigate("BasePaymentScreen", {
-      lab: labItem,
+      labs: labItems,
       address: selectedOption,
     });
   };
@@ -213,7 +212,7 @@ export default function AddressScreen({ route, navigation }) {
               )}
             </View>
             <PrimaryButton
-              styleProp={styles.blueBtn}
+              style={styles.blueBtn}
               onPress={navigateToAddressManager2}
             >
               Add Address
@@ -222,7 +221,7 @@ export default function AddressScreen({ route, navigation }) {
               <View>
                 <PrimaryButton
                   onPress={
-                    route.params?.lab
+                    route.params?.labs
                       ? navigateToBasePayment
                       : navigateToPayment
                   }

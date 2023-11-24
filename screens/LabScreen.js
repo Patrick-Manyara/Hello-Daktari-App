@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, ToastAndroid } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Path } from "../constants/path";
@@ -10,6 +10,8 @@ import LoadingOverlay from "../components/ui/LoadingOverlay";
 import LabCard from "../components/Cards/LabCard";
 import NormalText from "../components/ui/NormalText";
 import SearchInput from "../components/FormElements/SearchInput";
+import PrimaryButton from "../components/ui/PrimaryButton";
+
 import { globalStyles } from "../constants/globalcss";
 
 export default function LabScreen({ route, navigation }) {
@@ -52,8 +54,30 @@ export default function LabScreen({ route, navigation }) {
     setPage(page + 1);
   };
 
-  const navigateToAddressScreen = (item) => {
-    navigation.navigate("AddressScreen", { lab: item });
+  const [selectedLabs, setSelectedLabs] = useState([]);
+
+  const handleLabCardPress = (item) => {
+    const isItemInCart = selectedLabs.some((lab) => lab.lab_id === item.lab_id);
+
+    if (isItemInCart) {
+      // Remove the item from the cart
+      const updatedLabs = selectedLabs.filter(
+        (lab) => lab.lab_id !== item.lab_id
+      );
+      setSelectedLabs(updatedLabs);
+
+      ToastAndroid.show("Item Removed From Cart", ToastAndroid.SHORT);
+    } else {
+      // Add the item to the cart
+      setSelectedLabs((prevSelectedLabs) => [...prevSelectedLabs, item]);
+
+      ToastAndroid.show("Item Added Successfully to cart", ToastAndroid.SHORT);
+    }
+  };
+
+  const navigateToAddressScreen = () => {
+    // Pass the selected labs to the next screen or perform any other necessary actions
+    navigation.navigate("AddressScreen", { labs: selectedLabs });
   };
 
   return (
@@ -65,10 +89,14 @@ export default function LabScreen({ route, navigation }) {
         <View style={{ marginBottom: 100 }}>
           <SearchInput message="Lab Tests" />
           <HeaderText>Select A Service</HeaderText>
+
           <NormalText>
-            Which lab service(s) would you like to access?
+            Once you've selected the lab service(s) you would like to access,
+            press proceed.
           </NormalText>
-       
+          <PrimaryButton onPress={navigateToAddressScreen}>
+            Proceed
+          </PrimaryButton>
           {labs.length > 0 ? (
             <FlatList
               data={labs}
@@ -78,7 +106,10 @@ export default function LabScreen({ route, navigation }) {
                   name={item.lab_care_name}
                   code={item.lab_care_code}
                   price={item.lab_amount}
-                  onPress={() => navigateToAddressScreen(item)}
+                  onPress={() => handleLabCardPress(item)}
+                  isInCart={selectedLabs.some(
+                    (lab) => lab.lab_id === item.lab_id
+                  )}
                 />
               )}
               onEndReached={loadMore}

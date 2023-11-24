@@ -6,7 +6,7 @@ import NormalText from "./NormalText";
 import { Colors } from "../../constants/styles";
 import { globalStyles } from "../../constants/globalcss";
 
-export default function PrimaryButton({ children, onPress, styleProp }) {
+export default function PrimaryButton({ children, onPress, style }) {
   return (
     <Pressable
       android_ripple={{ color: "#ccc" }}
@@ -16,7 +16,7 @@ export default function PrimaryButton({ children, onPress, styleProp }) {
       ]}
       onPress={onPress}
     >
-      <View style={[styles.buttonContainer, styleProp]}>
+      <View style={[styles.buttonContainer, style]}>
         <NormalText styleProp={[styles.title]}>{children}</NormalText>
       </View>
     </Pressable>

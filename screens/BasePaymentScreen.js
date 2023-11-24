@@ -31,21 +31,21 @@ export default function BasePaymentScreen({ route, navigation }) {
   const [from, setFrom] = useState("");
   const [table_id, setTableId] = useState("");
 
-  const [labItem, setLabItem] = useState({});
+  const [labItems, setLabItems] = useState({});
   const [isLab, setIsLab] = useState(false);
   const [address, setAddress] = useState("");
 
   useEffect(() => {
     setToken(authCtx.token);
     if (route.params) {
-      if (route.params.from) {
+      if (route.params?.from) {
         setFrom(route.params.from);
       }
-      if (route.params.table_id) {
+      if (route.params?.table_id) {
         setTableId(route.params.table_id);
       }
-      if (route.params.lab) {
-        setLabItem(route.params.lab);
+      if (route.params?.labs) {
+        setLabItems(route.params.labs);
         setIsLab(true);
       } else {
         console.log("Lab parameter is not defined");
@@ -93,29 +93,26 @@ export default function BasePaymentScreen({ route, navigation }) {
       body.append("user_id", token.user_id);
 
       body.append("payment_method", selectedPaymentMethod);
-      if (route.params.lab) {
+      if (route.params.labs) {
         body.append("from", "lab");
         body.append("address", address);
-        body.append("table_id", labItem.lab_id);
+        body.append("labs", JSON.stringify(labItems));
       } else {
         body.append("from", from);
         body.append("table_id", table_id);
       }
 
       try {
-        fetch(submitUrl, {
+        let res = await fetch(Path.API_URL + "payment.php", {
           method: "POST",
           body: body,
-        })
-          .then((response) => response.text())
-          .then((data) => {
-            setIsAdding(false);
-            navigation.navigate("OrderSuccess");
-          })
-          .catch((error) => {
-            setIsAdding(false);
-            console.error("Fetch error:", error);
-          });
+        });
+
+        let responseJson = await res.json();
+        if (responseJson.data == true) {
+          navigation.navigate("SuccessScreen");
+        }
+        setIsAdding(false);
       } catch (error) {
         setIsAdding(false);
         console.error("Request setup error:", error);
