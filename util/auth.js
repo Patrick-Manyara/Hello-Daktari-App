@@ -4,6 +4,9 @@ import { Path } from "../constants/path";
 const loginurl = Path.API_URL + "login.php";
 const registerurl = Path.API_URL + "register.php";
 
+const docLoginUrl = Path.API_URL + "doctor.php?action=login";
+const docRegisterUrl = Path.API_URL + "doctor.php?action=register";
+
 async function authenticate(mode, email, password) {
   const body = new FormData();
   body.append("user_email", email);
@@ -48,8 +51,34 @@ async function postClient(email, password, name, phone) {
   }
 }
 
+async function postDoctor(email, password, fullname, phone, license, bio) {
+  const body = new FormData();
+  body.append("doctor_email", email);
+  body.append("doctor_password", password);
+  body.append("doctor_name", fullname);
+  body.append("doctor_phone", phone);
+  body.append("doctor_license", license);
+  body.append("doctor_bio", bio);
+  body.append("returnSecureToken", true);
+  const response = await fetch(docRegisterUrl, {
+    method: "POST",
+    body: body,
+  });
+
+  const responseJson = await response.json();
+
+  if (responseJson.data.user_id) {
+    return responseJson.data;
+  } else {
+    return false;
+  }
+}
 export function createUser(email, password, name, phone) {
   return postClient(email, password, name, phone);
+}
+
+export function createDoctor(email, password, fullname, phone, license, bio) {
+  return postDoctor(email, password, fullname, phone, license, bio);
 }
 
 export function login(email, password) {

@@ -45,7 +45,10 @@ import SearchResultsScreen from "./screens/SearchResultsScreen";
 import MedicalRecordsScreen from "./screens/MedicalRecordsScreen";
 import BasePaymentScreen from "./screens/BasePaymentScreen";
 import SessionHistoryScreen from "./screens/SessionHistoryScreen";
+import ChoiceScreen from "./screens/ChoiceScreen";
 import HouseAddressManager from "./screens/HouseAddressManager";
+import DoctorLoginScreen from "./screens/DoctorLoginScreen";
+import DoctorSignUpScreen from "./screens/DoctorSignUpScreen";
 
 //ICONS
 import Icon from "react-native-vector-icons/FontAwesome5"; // Import FontAwesome 5 icon set
@@ -58,6 +61,8 @@ import {
   faUser,
   faU,
 } from "@fortawesome/free-solid-svg-icons";
+import DoctorLogin from "./components/Auth/DoctorLogin";
+import DoctorSignUp from "./components/Auth/DoctorSignUp";
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -123,9 +128,14 @@ function AuthStack() {
         contentStyle: { backgroundColor: Colors.whiteBg },
       }}
     >
+      <Stack.Screen name="ChoiceScreen" component={ChoiceScreen} />
       <Stack.Screen name="StartScreen" component={StartScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
+      <Stack.Screen name="DoctorLoginScreen" component={DoctorLoginScreen} />
+      <Stack.Screen name="DoctorSignUpScreen" component={DoctorSignUpScreen} />
+      <Stack.Screen name="DoctorLogin" component={DoctorLogin} />
+      <Stack.Screen name="DoctorSignUp" component={DoctorSignUp} />
     </Stack.Navigator>
   );
 }

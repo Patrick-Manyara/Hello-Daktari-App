@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
-import AuthContent from "../components/Auth/AuthContent";
+import DoctorAuthContent from "../components/Auth/DoctorAuthContent";
 import { Alert } from "react-native";
 import { login } from "../util/auth";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import { AuthContext } from "../store/auth-context";
 
-function LoginScreen() {
+export default function DoctorLoginScreen() {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const authCtx = useContext(AuthContext);
 
@@ -27,7 +27,11 @@ function LoginScreen() {
   if (isAuthenticating) {
     return <LoadingOverlay message="Logging you in..." />;
   }
-  return <AuthContent isLogin headerText = "Welcome Back" onAuthenticate={loginHandler} />;
+  return (
+    <DoctorAuthContent
+      isLogin
+      headerText="Welcome Back Doc"
+      onAuthenticate={loginHandler}
+    />
+  );
 }
-
-export default LoginScreen;
