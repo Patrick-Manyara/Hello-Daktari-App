@@ -103,7 +103,7 @@ export default function BasePaymentScreen({ route, navigation }) {
       }
 
       try {
-        let res = await fetch(Path.API_URL + "payment.php", {
+        let res = await fetch(submitUrl, {
           method: "POST",
           body: body,
         });

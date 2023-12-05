@@ -28,8 +28,11 @@ export default function SuccessScreen() {
             style={styles.image}
             source={require("../assets/images/circle.png")}
           />
-          <HeaderText styleProp={styles.title}>Payment Successful!</HeaderText>
-          <NormalText>You have successfully booked an appointent.</NormalText>
+          <HeaderText styleProp={styles.title}>
+            Transaction Successful!
+          </HeaderText>
+          <NormalText>Kindly check your email for more details.</NormalText>
+          <NormalText>Thank you for choosing Hello Daktari.</NormalText>
           <PrimaryButton onPress={navigateToHome}>Go Home</PrimaryButton>
         </View>
       </ScrollView>

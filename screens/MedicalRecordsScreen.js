@@ -21,6 +21,7 @@ import PrimaryButton from "../components/ui/PrimaryButton";
 import UploadInput from "../components/FormElements/UploadInput";
 
 import { globalStyles } from "../constants/globalcss";
+import NormalText from "../components/ui/NormalText";
 
 export default function MedicalRecordsScreen({ navigation }) {
   //TOKEN
@@ -115,11 +116,13 @@ export default function MedicalRecordsScreen({ navigation }) {
 
         if (res.ok) {
           let responseJson = await res.json();
-          if (responseJson.data === true) {
+          if (responseJson.data === 1) {
             navigation.navigate("BasePaymentScreen", {
               from: responseJson.from,
               table_id: responseJson.table_id,
             });
+          } else if (responseJson.data === 2) {
+            navigation.navigate("SuccessScreen");
           } else {
             Alert.alert("Error");
             console.log("error here");
@@ -147,6 +150,11 @@ export default function MedicalRecordsScreen({ navigation }) {
       <NotificationBell />
       <ScrollView>
         <HeaderText>Upload Your Medical Records</HeaderText>
+        <NormalText>
+          Store your valuable medical records including previous prescriptions,
+          laboratory and imaging reports among others. Access them anytime,
+          anywhere for a smooth and consistent healthcare journey.
+        </NormalText>
         <View>
           <TextInput
             style={globalStyles.input}
