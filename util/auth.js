@@ -51,6 +51,26 @@ async function postClient(email, password, name, phone) {
   }
 }
 
+async function docLogin(email, password) {
+  const body = new FormData();
+  body.append("doctor_email", email);
+  body.append("doctor_password", password);
+  body.append("returnSecureToken", true);
+  const response = await fetch(docLoginUrl, {
+    method: "POST",
+    body: body,
+  });
+  const responseJson = await response.json();
+
+  if (responseJson) {
+    // console.log(body);
+    return responseJson.data;
+  } else {
+    // console.log(body);
+    return false;
+  }
+}
+
 async function postDoctor(email, password, fullname, phone, license, bio) {
   const body = new FormData();
   body.append("doctor_email", email);
@@ -83,4 +103,8 @@ export function createDoctor(email, password, fullname, phone, license, bio) {
 
 export function login(email, password) {
   return authenticate("signInWithPassword", email, password);
+}
+
+export function doctorLogin(email, password) {
+  return docLogin(email, password);
 }

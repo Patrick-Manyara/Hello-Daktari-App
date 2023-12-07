@@ -9,7 +9,7 @@ import { globalStyles } from "../../constants/globalcss";
 import DoctorLogin from "./DoctorLogin";
 import DoctorSignUp from "./DoctorSignUp";
 import { useNavigation } from "@react-navigation/native";
-
+ 
 export default function DoctorAuthContent({
   isLogin,
   onAuthenticate,

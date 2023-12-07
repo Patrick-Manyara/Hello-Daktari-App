@@ -1,57 +1,52 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
-import AppLoading from "expo-app-loading";
-import * as SplashScreen from "expo-splash-screen";
 
 import { Colors } from "./constants/styles";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
-import { CartProvider } from "./store/cart-context";
 import React, { useContext, useEffect, useState } from "react";
-import IconButton from "./components/ui/IconButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider } from "@ui-kitten/components";
 
 // SCREENS
-// import LandingScreen from "./screens/LandingScreen";
-import LoginScreen from "./screens/LoginScreen";
-import StartScreen from "./screens/StartScreen";
-import SignupScreen from "./screens/SignupScreen";
-import WelcomeScreen from "./screens/WelcomeScreen";
-import AllDoctorsScreen from "./screens/AllDoctorsScreen";
-import AppointmentScreen from "./screens/AppointmentScreen";
-import AutoDetailsScreen from "./screens/AutoDetailsScreen";
-import AddressScreen from "./screens/AddressScreen";
-import CartScreen from "./screens/CartScreen";
-import CheckoutScreen from "./screens/CheckoutScreen";
-import DoctorProfileScreen from "./screens/DoctorProfileScreen";
-import HouseVisitScreen from "./screens/HouseVisitScreen";
-import ManualDetailsScreen from "./screens/ManualDetailsScreen";
-import PaymentScreen from "./screens/PaymentScreen";
-import ShopScreen from "./screens/ShopScreen";
-import SingleProductScreen from "./screens/SingleProductScreen";
-import SuccessScreen from "./screens/SuccessScreen";
-import ProfileScreen from "./screens/ProfileScreen";
-import SummaryScreen from "./screens/SummaryScreen";
-import AddressManager from "./screens/AddressManager";
-import ProfileAddressScreen from "./screens/ProfileAddressScreen";
-import EditProfileScreen from "./screens/EditProfileScreen";
-import OrderSuccess from "./screens/OrderSuccess";
-import ShoppingHistoryScreen from "./screens/ShoppingHistoryScreen";
-import LabScreen from "./screens/LabScreen";
-import SearchResultsScreen from "./screens/SearchResultsScreen";
-import MedicalRecordsScreen from "./screens/MedicalRecordsScreen";
-import BasePaymentScreen from "./screens/BasePaymentScreen";
-import SessionHistoryScreen from "./screens/SessionHistoryScreen";
+import LoginScreen from "./screens/user/LoginScreen";
+import StartScreen from "./screens/user/StartScreen";
+import SignupScreen from "./screens/user/SignupScreen";
+import WelcomeScreen from "./screens/user/WelcomeScreen";
+import AllDoctorsScreen from "./screens/user/AllDoctorsScreen";
+import AppointmentScreen from "./screens/user/AppointmentScreen";
+import AutoDetailsScreen from "./screens/user/AutoDetailsScreen";
+import AddressScreen from "./screens/user/AddressScreen";
+import CartScreen from "./screens/user/CartScreen";
+import CheckoutScreen from "./screens/user/CheckoutScreen";
+import DoctorProfileScreen from "./screens/doctor/DoctorProfileScreen";
+import HouseVisitScreen from "./screens/user/HouseVisitScreen";
+import ManualDetailsScreen from "./screens/user/ManualDetailsScreen";
+import PaymentScreen from "./screens/user/PaymentScreen";
+import ShopScreen from "./screens/user/ShopScreen";
+import SingleProductScreen from "./screens/user/SingleProductScreen";
+import SuccessScreen from "./screens/user/SuccessScreen";
+import ProfileScreen from "./screens/user/ProfileScreen";
+import SummaryScreen from "./screens/user/SummaryScreen";
+import AddressManager from "./screens/user/AddressManager";
+import ProfileAddressScreen from "./screens/user/ProfileAddressScreen";
+import EditProfileScreen from "./screens/user/EditProfileScreen";
+import OrderSuccess from "./screens/user/OrderSuccess";
+import ShoppingHistoryScreen from "./screens/user/ShoppingHistoryScreen";
+import LabScreen from "./screens/user/LabScreen";
+import SearchResultsScreen from "./screens/user/SearchResultsScreen";
+import MedicalRecordsScreen from "./screens/user/MedicalRecordsScreen";
+import BasePaymentScreen from "./screens/user/BasePaymentScreen";
+import SessionHistoryScreen from "./screens/user/SessionHistoryScreen";
 import ChoiceScreen from "./screens/ChoiceScreen";
-import HouseAddressManager from "./screens/HouseAddressManager";
-import DoctorLoginScreen from "./screens/DoctorLoginScreen";
-import DoctorSignUpScreen from "./screens/DoctorSignUpScreen";
+import HouseAddressManager from "./screens/user/HouseAddressManager";
+import DoctorLoginScreen from "./screens/doctor/DoctorLoginScreen";
+import DoctorSignUpScreen from "./screens/doctor/DoctorSignUpScreen";
+import DoctorWelcomeScreen from "./screens/doctor/DoctorWelcomeScreen";
 
 //ICONS
-import Icon from "react-native-vector-icons/FontAwesome5"; // Import FontAwesome 5 icon set
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 import {
@@ -59,13 +54,14 @@ import {
   faBagShopping,
   faCartShopping,
   faUser,
-  faU,
 } from "@fortawesome/free-solid-svg-icons";
 import DoctorLogin from "./components/Auth/DoctorLogin";
 import DoctorSignUp from "./components/Auth/DoctorSignUp";
 
 const Stack = createNativeStackNavigator();
+const DocStack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
+const DocBottomTab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
   const authCtx = useContext(AuthContext);
@@ -120,6 +116,59 @@ function BottomTabNavigator() {
   );
 }
 
+function DoctorTabNavigator() {
+  const authCtx = useContext(AuthContext);
+  return (
+    <DocBottomTab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: "#007fff",
+        headerShown: false,
+      }}
+    >
+      <DocBottomTab.Screen
+        options={{
+          title: "",
+          tabBarIcon: () => (
+            <FontAwesomeIcon icon={faHouse} color={Colors.mainBlue} />
+          ),
+        }}
+        name="Welcome2"
+        component={DoctorStack}
+      />
+      <DocBottomTab.Screen
+        options={{
+          title: "",
+          tabBarIcon: () => (
+            <FontAwesomeIcon icon={faBagShopping} color={Colors.mainBlue} />
+          ),
+        }}
+        name="Shop2"
+        component={ShopScreen}
+      />
+      <DocBottomTab.Screen
+        options={{
+          title: "",
+          tabBarIcon: () => (
+            <FontAwesomeIcon icon={faCartShopping} color={Colors.mainBlue} />
+          ),
+        }}
+        name="Cart2"
+        component={CartScreen}
+      />
+      <DocBottomTab.Screen
+        options={{
+          title: "",
+          tabBarIcon: () => (
+            <FontAwesomeIcon icon={faUser} color={Colors.mainBlue} />
+          ),
+        }}
+        name="Profile2"
+        component={ProfileScreen}
+      />
+    </DocBottomTab.Navigator>
+  );
+}
+
 function AuthStack() {
   return (
     <Stack.Navigator
@@ -142,6 +191,10 @@ function AuthStack() {
 
 function AuthenticatedStack() {
   const authCtx = useContext(AuthContext);
+  let isDoctor = false;
+  if (authCtx.token.doctor_id) {
+    isDoctor = true;
+  }
   return (
     <Stack.Navigator
       screenOptions={{
@@ -149,7 +202,10 @@ function AuthenticatedStack() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Home" component={BottomTabNavigator} />
+      <Stack.Screen
+        name="Home"
+        component={isDoctor ? DoctorTabNavigator : BottomTabNavigator}
+      />
     </Stack.Navigator>
   );
 }
@@ -221,13 +277,16 @@ function HomeStack() {
   );
 }
 
-function Navigation() {
-  const authCtx = useContext(AuthContext);
+function DoctorStack() {
   return (
-    <NavigationContainer>
-      {!authCtx.isAuthenticated && <AuthStack />}
-      {authCtx.isAuthenticated && <AuthenticatedStack />}
-    </NavigationContainer>
+    <DocStack.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: "#007fff",
+        headerShown: false,
+      }}
+    >
+      <DocStack.Screen name="DoctorHome" component={DoctorWelcomeScreen} />
+    </DocStack.Navigator>
   );
 }
 
