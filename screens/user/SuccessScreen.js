@@ -26,7 +26,7 @@ export default function SuccessScreen() {
         >
           <Image
             style={styles.image}
-            source={require("../assets/images/circle.png")}
+            source={require("../../assets/images/circle.png")}
           />
           <HeaderText styleProp={styles.title}>
             Transaction Successful!

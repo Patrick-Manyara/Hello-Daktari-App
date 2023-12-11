@@ -170,14 +170,14 @@ export default function ShopScreen({ route, navigation }) {
             <View style={styles.sortContainer}>
               <Pressable style={styles.sortInner}>
                 <Image
-                  source={require("../assets/images/filter.png")}
+                  source={require("../../assets/images/filter.png")}
                   style={styles.image}
                 />
                 <NormalText>Filter</NormalText>
               </Pressable>
               <Pressable style={styles.sortInner}>
                 <Image
-                  source={require("../assets/images/sort.png")}
+                  source={require("../../assets/images/sort.png")}
                   style={styles.image}
                 />
                 <NormalText>Sort By</NormalText>

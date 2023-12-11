@@ -12,7 +12,7 @@ import FeaturesBlock from "../../components/Blocks/FeaturesBlock";
 import AdBlock from "../../components/Blocks/AdBlock";
 
 import { globalStyles } from "../../constants/globalcss";
-
+ 
 export default function WelcomeScreen() {
   const authCtx = useContext(AuthContext);
 

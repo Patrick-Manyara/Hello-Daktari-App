@@ -146,11 +146,25 @@ const globalStyles = StyleSheet.create({
     flexBasis: "33.333%",
     alignItems: "center",
   },
-
   subTotal: {
     width: "100%",
     justifyContent: "space-between",
     flexDirection: "row",
+  },
+  deeFlex: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    height: "100%",
+  },
+  deeStart: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    flex: 1,
   },
 });
 

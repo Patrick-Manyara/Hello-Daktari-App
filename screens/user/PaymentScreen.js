@@ -45,14 +45,14 @@ export default function PaymentScreen({ route, navigation }) {
   const paymentOptions = [
     {
       text: "Pay with mobile money",
-      img1: require("../assets/images/mpesa.png"),
-      img2: require("../assets/images/airtel.png"),
+      img1: require("../../assets/images/mpesa.png"),
+      img2: require("../../assets/images/airtel.png"),
       keyProp: "mobile",
     },
     {
       text: "Pay with Credit Card",
-      img1: require("../assets/images/visa.png"),
-      img2: require("../assets/images/mastercard.png"),
+      img1: require("../../assets/images/visa.png"),
+      img2: require("../../assets/images/mastercard.png"),
       keyProp: "card",
     },
   ];

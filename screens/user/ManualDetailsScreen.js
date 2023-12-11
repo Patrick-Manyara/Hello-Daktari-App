@@ -71,9 +71,9 @@ export default function ManualDetailsScreen({ navigation }) {
   const [enteredChannel, setEnteredChannel] = useState("");
 
   const visitTypes = [
-    { name: "home", img: require("../assets/images/home.png") },
-    { name: "online", img: require("../assets/images/camera.png") },
-    { name: "physical", img: require("../assets/images/hospital.png") },
+    { name: "home", img: require("../../assets/images/home.png") },
+    { name: "online", img: require("../../assets/images/camera.png") },
+    { name: "physical", img: require("../../assets/images/hospital.png") },
   ];
 
   const handleVisitTypeClick = (name) => {
@@ -81,9 +81,9 @@ export default function ManualDetailsScreen({ navigation }) {
   };
 
   const channels = [
-    { name: "audio", img: require("../assets/images/wave.png") },
-    { name: "video", img: require("../assets/images/camera.png") },
-    { name: "message", img: require("../assets/images/comment.png") },
+    { name: "audio", img: require("../../assets/images/wave.png") },
+    { name: "video", img: require("../../assets/images/camera.png") },
+    { name: "message", img: require("../../assets/images/comment.png") },
   ];
 
   const handleChannelClick = (name) => {

@@ -39,7 +39,7 @@ export default function OrderSuccess() {
         >
           <Image
             style={styles.image}
-            source={require("../assets/images/circle.png")}
+            source={require("../../assets/images/circle.png")}
           />
           <HeaderText styleProp={styles.title}>Payment Successful!</HeaderText>
           <NormalText>

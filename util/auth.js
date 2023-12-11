@@ -63,10 +63,8 @@ async function docLogin(email, password) {
   const responseJson = await response.json();
 
   if (responseJson) {
-    // console.log(body);
     return responseJson.data;
   } else {
-    // console.log(body);
     return false;
   }
 }
@@ -93,6 +91,8 @@ async function postDoctor(email, password, fullname, phone, license, bio) {
     return false;
   }
 }
+
+
 export function createUser(email, password, name, phone) {
   return postClient(email, password, name, phone);
 }

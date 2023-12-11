@@ -194,7 +194,7 @@ export default function ShoppingHistoryScreen({ navigation }) {
                               }
                             >
                               <Image
-                                source={require("../assets/images/cargo.png")}
+                                source={require("../../assets/images/cargo.png")}
                                 style={styles.orderImg}
                               />
                             </Pressable>

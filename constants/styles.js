@@ -5,6 +5,7 @@ export const Colors = {
   error100: "#fcdcbf",
   error500: "#f37c13",
   mainPink: "#FF594D",
+  mediumPink: "#FF594D",
   lightBlue: "#E8F5FA",
   lightGrey: "#F4F6F8",
   textColor: "#4D4D4D",

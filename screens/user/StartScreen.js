@@ -31,7 +31,7 @@ export default function StartScreen() {
       >
         <View style={styles.page} key="0">
           <TabBlocks
-            src={require("../assets/images/welcome1.png")}
+            src={require("../../assets/images/welcome1.png")}
             mainText="Consultations"
             secondaryText="Consult with our team of doctors and schedule or book specialist consultationns at your convinience."
           />
@@ -59,7 +59,7 @@ export default function StartScreen() {
 
         <View style={styles.page} key="1">
           <TabBlocks
-            src={require("../assets/images/welcome2.png")}
+            src={require("../../assets/images/welcome2.png")}
             mainText="Upload Your Medical Records"
             secondaryText="Store your medical records and access them anytime you need them."
           />
@@ -87,7 +87,7 @@ export default function StartScreen() {
 
         <View style={styles.page} key="2">
           <TabBlocks
-            src={require("../assets/images/welcome4.png")}
+            src={require("../../assets/images/welcome4.png")}
             mainText="Laboratory Tests"
             secondaryText="Place an order for laboratory tests, have samples collected at your convenience, and receive timely sharing of your results."
           />
@@ -115,7 +115,7 @@ export default function StartScreen() {
 
         <View style={styles.page} key="3">
           <TabBlocks
-            src={require("../assets/images/welcome5.png")}
+            src={require("../../assets/images/welcome5.png")}
             mainText="Ambulance Services"
             secondaryText="Order for an ambulance and emergency evacuation"
           />
@@ -143,7 +143,7 @@ export default function StartScreen() {
 
         <View style={styles.page} key="4">
           <TabBlocks
-            src={require("../assets/images/welcome3.png")}
+            src={require("../../assets/images/welcome3.png")}
             mainText="Pharmacy"
             secondaryText="Browse our selection of medications and medical supplies, and enjoy the convenience of having them delivered to your doorstep."
           />

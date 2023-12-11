@@ -43,9 +43,9 @@ export default function AutoDetailsScreen({ navigation }) {
   const [enteredChannel, setEnteredChannel] = useState("");
 
   const channels = [
-    { name: "audio", img: require("../assets/images/wave.png") },
-    { name: "video", img: require("../assets/images/camera.png") },
-    { name: "message", img: require("../assets/images/comment.png") },
+    { name: "audio", img: require("../../assets/images/wave.png") },
+    { name: "video", img: require("../../assets/images/camera.png") },
+    { name: "message", img: require("../../assets/images/comment.png") },
   ];
 
   const handleChannelClick = (name) => {

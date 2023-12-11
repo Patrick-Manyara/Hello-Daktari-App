@@ -67,39 +67,39 @@ export default function ProfileScreen({ route }) {
         </View>
         <NormalText>General</NormalText>
         <ProfileCard
-          src={require("../assets/images/pro_user.png")}
+          src={require("../../assets/images/pro_user.png")}
           header="Account Information"
           info="Change your account information"
           onPress={() => navigateToScreen("EditProfileScreen")}
         />
 
         <ProfileCard
-          src={require("../assets/images/pro_notes.png")}
+          src={require("../../assets/images/pro_notes.png")}
           header="Medical Records"
           info="History about your medical records"
         />
 
         <ProfileCard
-          src={require("../assets/images/pro_basket.png")}
+          src={require("../../assets/images/pro_basket.png")}
           header="Shopping History"
           info="View your Shopping History"
           onPress={() => navigateToScreen("ShoppingHistoryScreen")}
         />
 
         <ProfileCard
-          src={require("../assets/images/pro_sesh.png")}
+          src={require("../../assets/images/pro_sesh.png")}
           header="Session History"
           info="View Your Session History"
           onPress={() => navigateToScreen("SessionHistoryScreen")}
         />
         <ProfileCard
-          src={require("../assets/images/pro_add.png")}
+          src={require("../../assets/images/pro_add.png")}
           header="Saved Addresses"
           info="View Your Saved Addresses"
           onPress={() => navigateToScreen("ProfileAddressScreen")}
         />
         <ProfileCard
-          src={require("../assets/images/pro_logout.png")}
+          src={require("../../assets/images/pro_logout.png")}
           header="Logout"
           info="Logout of your account"
           onPress={authCtx.logout}

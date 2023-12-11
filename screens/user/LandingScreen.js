@@ -9,7 +9,7 @@ import PrimaryButton from "../../components/ui/PrimaryButton";
 const FirstRoute = ({ setIndex }) => (
   <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
     <TabBlocks
-      src={require("../assets/images/welcome1.png")}
+      src={require("../../assets/images/welcome1.png")}
       mainText="Appointments"
       secondaryText="Lorem ipsum dolor sit amet consectetur. Neque sed a eget elementum turpis lacinia ornare."
     />
@@ -37,7 +37,7 @@ const FirstRoute = ({ setIndex }) => (
 const SecondRoute = ({ setIndex }) => (
   <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
     <TabBlocks
-      src={require("../assets/images/welcome2.png")}
+      src={require("../../assets/images/welcome2.png")}
       mainText="Upload Your Prescription"
       secondaryText="Lorem ipsum dolor sit amet consectetur. Neque sed a eget elementum turpis lacinia ornare."
     />
@@ -73,7 +73,7 @@ const ThirdRoute = () => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <TabBlocks
-        src={require("../assets/images/welcome3.png")}
+        src={require("../../assets/images/welcome3.png")}
         mainText="Shop"
         secondaryText="Lorem ipsum dolor sit amet consectetur. Neque sed a eget elementum turpis lacinia ornare."
       />

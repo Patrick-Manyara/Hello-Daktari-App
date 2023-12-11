@@ -58,7 +58,7 @@ export default function DoctorProfileScreen({ route, navigation }) {
               </NormalText>
 
               <View style={styles.ratingArea}>
-                <Image source={require("../assets/images/star.png")} />
+                <Image source={require("../../assets/images/star.png")} />
                 <NormalText>4.5</NormalText>
               </View>
               <View
