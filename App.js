@@ -11,6 +11,10 @@ import * as eva from "@eva-design/eva";
 import { ApplicationProvider } from "@ui-kitten/components";
 
 // SCREENS
+//**shared*//
+import ChoiceScreen from "./screens/ChoiceScreen";
+
+//**user*//
 import LoginScreen from "./screens/user/LoginScreen";
 import StartScreen from "./screens/user/StartScreen";
 import SignupScreen from "./screens/user/SignupScreen";
@@ -21,7 +25,7 @@ import AutoDetailsScreen from "./screens/user/AutoDetailsScreen";
 import AddressScreen from "./screens/user/AddressScreen";
 import CartScreen from "./screens/user/CartScreen";
 import CheckoutScreen from "./screens/user/CheckoutScreen";
-import DoctorProfileScreen from "./screens/doctor/DoctorProfileScreen";
+import DoctorProfileScreen from "./screens/user/DoctorProfileScreen";
 import HouseVisitScreen from "./screens/user/HouseVisitScreen";
 import ManualDetailsScreen from "./screens/user/ManualDetailsScreen";
 import PaymentScreen from "./screens/user/PaymentScreen";
@@ -40,11 +44,15 @@ import SearchResultsScreen from "./screens/user/SearchResultsScreen";
 import MedicalRecordsScreen from "./screens/user/MedicalRecordsScreen";
 import BasePaymentScreen from "./screens/user/BasePaymentScreen";
 import SessionHistoryScreen from "./screens/user/SessionHistoryScreen";
-import ChoiceScreen from "./screens/ChoiceScreen";
 import HouseAddressManager from "./screens/user/HouseAddressManager";
+
+//**doctor*//
 import DoctorLoginScreen from "./screens/doctor/DoctorLoginScreen";
 import DoctorSignUpScreen from "./screens/doctor/DoctorSignUpScreen";
 import DoctorWelcomeScreen from "./screens/doctor/DoctorWelcomeScreen";
+import AllPatientsScreen from "./screens/doctor/AllPatientsScreen";
+import ScheduleScreen from "./screens/doctor/ScheduleScreen";
+import DoctorDetailsScreen from "./screens/doctor/DoctorDetailsScreen";
 
 //ICONS
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -54,9 +62,11 @@ import {
   faBagShopping,
   faCartShopping,
   faUser,
+  faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import DoctorLogin from "./components/Auth/DoctorLogin";
 import DoctorSignUp from "./components/Auth/DoctorSignUp";
+import { faCalendar, faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 
 const Stack = createNativeStackNavigator();
 const DocStack = createNativeStackNavigator();
@@ -139,21 +149,21 @@ function DoctorTabNavigator() {
         options={{
           title: "",
           tabBarIcon: () => (
-            <FontAwesomeIcon icon={faBagShopping} color={Colors.mainBlue} />
+            <FontAwesomeIcon icon={faUserGroup} color={Colors.mainBlue} />
           ),
         }}
-        name="Shop2"
-        component={ShopScreen}
+        name="AllPatientsScreen"
+        component={AllPatientsScreen}
       />
       <DocBottomTab.Screen
         options={{
           title: "",
           tabBarIcon: () => (
-            <FontAwesomeIcon icon={faCartShopping} color={Colors.mainBlue} />
+            <FontAwesomeIcon icon={faCalendar} color={Colors.mainBlue} />
           ),
         }}
-        name="Cart2"
-        component={CartScreen}
+        name="ScheduleScreen"
+        component={ScheduleScreen}
       />
       <DocBottomTab.Screen
         options={{
@@ -162,8 +172,8 @@ function DoctorTabNavigator() {
             <FontAwesomeIcon icon={faUser} color={Colors.mainBlue} />
           ),
         }}
-        name="Profile2"
-        component={ProfileScreen}
+        name="DoctorDetailsScreen"
+        component={DoctorDetailsScreen}
       />
     </DocBottomTab.Navigator>
   );
