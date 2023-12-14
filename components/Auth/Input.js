@@ -11,6 +11,8 @@ function Input({
   onUpdateValue,
   value,
   isInvalid,
+  multiline,
+  numberOfLines,
 }) {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -40,6 +42,8 @@ function Input({
             onChangeText={onUpdateValue}
             value={value}
             placeholder={label}
+            multiline={multiline}
+            numberOfLines={numberOfLines}
           />
         </View>
       ) : (

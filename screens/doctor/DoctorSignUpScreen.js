@@ -1,9 +1,15 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import AuthContent from "../../components/Auth/AuthContent";
-import { createUser } from "../../util/auth";
+import { createDoctor } from "../../util/auth";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import { Alert } from "react-native";
 import { AuthContext } from "../../store/auth-context";
+import DoctorSignUp from "../../components/Auth/DoctorSignUp";
+import HeaderText from "../../components/ui/HeaderText";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import { globalStyles } from "../../constants/globalcss";
+import { Colors } from "../../constants/styles";
 
 export default function DoctorSignUpScreen() {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -17,10 +23,10 @@ export default function DoctorSignUpScreen() {
     phone,
     license,
     bio,
-  }) {
+  }) { 
     setIsAuthenticating(true);
     try {
-      const token = await createUser(
+      const token = await createDoctor(
         email,
         password,
         fullname,
@@ -29,8 +35,11 @@ export default function DoctorSignUpScreen() {
         bio
       );
       if (token === false) {
+        Alert.alert("Authentication Failed!", "Could not sign you up!");
+        setIsAuthenticating(false);
       } else {
         authCtx.authenticate(token);
+        setIsAuthenticating(false);
       }
     } catch (error) {
       console.log(error);
@@ -40,13 +49,13 @@ export default function DoctorSignUpScreen() {
   }
 
   if (isAuthenticating) {
-    return <LoadingOverlay message="Still loading" />;
+    return <LoadingOverlay message="Just a sec while we set up your account" />;
   }
 
   return (
-    <DoctorAuthContent
-      headerText="Sign Up Here"
-      onAuthenticate={signUpHandler}
-    />
+    <SafeAreaView style={globalStyles.safeAreaView}>
+      <HeaderText>Sign Up</HeaderText>
+      <DoctorSignUp onAuthenticate={signUpHandler} />
+    </SafeAreaView>
   );
 }

@@ -6,11 +6,19 @@ import HeaderText from "../ui/HeaderText";
 import NormalText from "../ui/NormalText";
 
 import { Colors } from "../../constants/styles";
+import { globalStyles } from "../../constants/globalcss";
 
-
-export default function PatientListCard({ img, username }) {
+export default function PatientListCard({ img, username, onPress }) {
   return (
-    <View style={styles.card}>
+    <Pressable
+      onPress={onPress}
+      android_ripple={{ color: "#ccc" }}
+      style={({ pressed }) => [
+        styles.card,
+        { marginTop: 4 },
+        pressed ? globalStyles.buttonPressed : null,
+      ]}
+    >
       <View>
         <Image
           style={{ width: 50, height: 50, borderRadius: 25 }}
@@ -21,9 +29,8 @@ export default function PatientListCard({ img, username }) {
         <HeaderText styleProp={{ fontSize: 14 }} fontProp="poppins-semibold">
           {username}
         </HeaderText>
-        
       </View>
-    </View>
+    </Pressable>
   );
 }
 

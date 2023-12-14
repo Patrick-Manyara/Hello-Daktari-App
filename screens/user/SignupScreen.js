@@ -23,6 +23,7 @@ function SignupScreen() {
     try {
       const token =  await createUser(email, password, name, phone);
       if (token === false) {
+        Alert.alert("Authentication Failed!", "Could not sign you up!");
       } else {
         authCtx.authenticate(token);
       }
@@ -34,7 +35,7 @@ function SignupScreen() {
   }
 
   if (isAuthenticating) {
-    return <LoadingOverlay message="Still loading" />;
+    return <LoadingOverlay message="Just a sec while we set up your account" />;
   }
 
   return (

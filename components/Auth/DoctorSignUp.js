@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 
 import Input from "./Input";
+import { useNavigation } from "@react-navigation/native";
 import PrimaryButton from "../ui/PrimaryButton";
+import FlatButton from "../ui/FlatButton";
 
 export default function DoctorSignUp({ onAuthenticate }) {
   //INPUTS
@@ -22,7 +24,6 @@ export default function DoctorSignUp({ onAuthenticate }) {
     phone: false,
     license: false,
     password: false,
-    confirmPassword: passwordsDontMatch,
   });
 
   const {
@@ -32,6 +33,7 @@ export default function DoctorSignUp({ onAuthenticate }) {
     phone: phoneIsInvalid,
     license: licenseIsInvalid,
     password: passwordIsInvalid,
+    confirmPassword: passwordsDontMatch,
   } = credentialsInvalid;
 
   function updateInputValueHandler(inputType, enteredValue) {
@@ -73,7 +75,7 @@ export default function DoctorSignUp({ onAuthenticate }) {
 
     const emailIsValid = email.includes("@");
     const bioIsValid = bio.length > 2;
-    const nameIsInvalid = fullname.length > 2;
+    const nameIsValid = fullname.length > 2;
     const phoneIsValid = phone.length > 2;
     const licenseIsValid = license.length > 2;
     const passwordIsValid = password.length > 2;
@@ -81,7 +83,7 @@ export default function DoctorSignUp({ onAuthenticate }) {
 
     if (
       !bioIsValid ||
-      !nameIsInvalid ||
+      !nameIsValid ||
       !licenseIsValid ||
       !phoneIsValid ||
       !emailIsValid ||
@@ -96,34 +98,81 @@ export default function DoctorSignUp({ onAuthenticate }) {
         email: !emailIsValid,
         license: !licenseIsValid,
         password: !passwordIsValid,
+        confirmPassword: !passwordIsValid || !passwordsAreEqual,
       });
       return;
     }
     onAuthenticate({ fullname, bio, phone, email, license, password });
   }
 
+  const navigation = useNavigation();
+
+  function navigateToLogin() {
+    navigation.navigate("DoctorLoginScreen");
+  }
+
   return (
-    <View style={styles.form}>
-      <View>
-        <Input
-          label="Email Address"
-          onUpdateValue={updateInputValueHandler.bind(this, "email")}
-          value={enteredEmail}
-          keyboardType="email-address"
-          isInvalid={emailIsInvalid}
-        />
+    <View>
+      <Input
+        label="Full Name"
+        onUpdateValue={updateInputValueHandler.bind(this, "fullname")}
+        value={enteredName}
+        isInvalid={nameIsInvalid}
+      />
 
-        <Input
-          label="Password"
-          onUpdateValue={updateInputValueHandler.bind(this, "password")}
-          secure
-          value={enteredPassword}
-          isInvalid={passwordIsInvalid}
-        />
+      <Input
+        label="Email Address"
+        onUpdateValue={updateInputValueHandler.bind(this, "email")}
+        value={enteredEmail}
+        keyboardType="email-address"
+        isInvalid={emailIsInvalid}
+      />
 
-        <View style={styles.buttons}>
-          <PrimaryButton onPress={submitHandler}>Log In</PrimaryButton>
-        </View>
+      <Input
+        label="Phone Number"
+        onUpdateValue={updateInputValueHandler.bind(this, "phone")}
+        value={enteredPhone}
+        isInvalid={phoneIsInvalid}
+      />
+
+      <Input
+        label="License"
+        onUpdateValue={updateInputValueHandler.bind(this, "license")}
+        value={enteredLicense}
+        isInvalid={licenseIsInvalid}
+      />
+
+      <Input
+        label="Bio"
+        onUpdateValue={updateInputValueHandler.bind(this, "bio")}
+        value={enteredBio}
+        isInvalid={bioIsInvalid}
+        multiline={true}
+        numberOfLines={6}
+      />
+
+      <Input
+        label="Password"
+        onUpdateValue={updateInputValueHandler.bind(this, "password")}
+        secure
+        value={enteredPassword}
+        isInvalid={passwordIsInvalid}
+      />
+
+      <Input
+        label="Confirm Password"
+        onUpdateValue={updateInputValueHandler.bind(this, "confirmPassword")}
+        secure
+        value={enteredConfirmPassword}
+        isInvalid={passwordsDontMatch}
+      />
+
+      <View style={styles.buttons}>
+        <PrimaryButton onPress={submitHandler}>Create Account</PrimaryButton>
+      </View>
+
+      <View style={styles.buttons}>
+        <FlatButton onPress={navigateToLogin}>Log in instead</FlatButton>
       </View>
     </View>
   );

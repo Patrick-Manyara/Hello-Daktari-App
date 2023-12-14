@@ -4,19 +4,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Path } from "../../constants/path";
 import { AuthContext } from "../../store/auth-context";
-import { getDayMonthAndYear, getTimeInAmPm } from "../../util/dateFormat";
 
 import NotificationBell from "../../components/ui/NotificationBell";
 import HeaderText from "../../components/ui/HeaderText";
 import NormalText from "../../components/ui/NormalText";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
-
+import SessionHistoryCard from "../../components/Cards/SessionHistoryCard";
 import CategoriesCard from "../../components/Cards/CategoriesCard";
 
 import { globalStyles } from "../../constants/globalcss";
 import { Colors } from "../../constants/styles";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 export default function SessionHistoryScreen({ navigation }) {
   //TOKEN
@@ -93,29 +90,6 @@ export default function SessionHistoryScreen({ navigation }) {
     }
   }
 
-  const renderItem = ({ item, index }) => (
-    <View style={styles.card} key={index}>
-      <View>
-        <Image
-          style={{ width: 50, height: 50, borderRadius: 25 }}
-          source={{ uri: Path.IMAGE_URL + item.doctor_image }}
-        />
-      </View>
-      <View style={{ marginLeft: 10 }}>
-        <HeaderText styleProp={{ fontSize: 14 }} fontProp="poppins-semibold">
-          {item.doctor_name}
-        </HeaderText>
-        <View style={{ flexDirection: "row", marginVertical: 5 }}>
-          <FontAwesomeIcon icon={faClock} color="black" />
-          <NormalText styleProp={{ marginLeft: 5 }}>
-            {getDayMonthAndYear(item.session_date)} |
-            {getTimeInAmPm(item.session_start_time)}
-          </NormalText>
-        </View>
-      </View>
-    </View>
-  );
-
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
       <NotificationBell />
@@ -139,7 +113,14 @@ export default function SessionHistoryScreen({ navigation }) {
           <FlatList
             data={sessions}
             keyExtractor={(item, index) => index.toString()} // Use the index as the key
-            renderItem={renderItem}
+            renderItem={({ item }) => (
+              <SessionHistoryCard
+                img={item.doctor_image}
+                username={item.doctor_name}
+                sessionDate={item.session_date}
+                sessionTime={item.session_start_time}
+              />
+            )}
           />
         </View>
       ) : (

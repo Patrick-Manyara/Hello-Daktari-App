@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Path } from "../constants/path";
 
 const loginurl = Path.API_URL + "login.php";
@@ -85,13 +84,12 @@ async function postDoctor(email, password, fullname, phone, license, bio) {
 
   const responseJson = await response.json();
 
-  if (responseJson.data.user_id) {
+  if (responseJson.data) {
     return responseJson.data;
   } else {
     return false;
   }
 }
-
 
 export function createUser(email, password, name, phone) {
   return postClient(email, password, name, phone);

@@ -41,6 +41,7 @@ export default function DoctorWelcomeScreen() {
 
   const [futureSessions, setFutureSessions] = useState([]);
   const [pastSessions, setPastSessions] = useState([]);
+  const [isSettingData, setIsSettingData] = useState(true);
 
   const fetchAndSeparateSessions = () => {
     const fetchSessions = () => {
@@ -79,6 +80,7 @@ export default function DoctorWelcomeScreen() {
 
     setFutureSessions(future);
     setPastSessions(past);
+    setIsSettingData(false);
   };
 
   useEffect(() => {
@@ -93,7 +95,7 @@ export default function DoctorWelcomeScreen() {
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
       <NotificationBell />
-      <View>
+      <ScrollView>
         <HeaderText styleProp={{ fontSize: 16 }}>
           Welcome {token.doctor_name}!
         </HeaderText>
@@ -139,20 +141,17 @@ export default function DoctorWelcomeScreen() {
                   </NormalText>
                 </View>
                 {futureSessions.length > 0 && (
-                  <FlatList
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    data={futureSessions}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => (
+                  <ScrollView horizontal={true}>
+                    {futureSessions.map((item, index) => (
                       <NextSessionCard
+                        key={index}
                         userimg={item.user_image}
                         username={item.user_name}
                         sessionDate={item.session_date}
                         sessionTime={item.session_start_time}
                       />
-                    )}
-                  />
+                    ))}
+                  </ScrollView>
                 )}
 
                 <View>
@@ -165,18 +164,17 @@ export default function DoctorWelcomeScreen() {
                 </View>
 
                 {pastSessions.length > 0 && (
-                  <FlatList
-                    data={pastSessions}
-                    keyExtractor={(item, index) => index.toString()} // Use the index as the key
-                    renderItem={({ item }) => (
+                  <View>
+                    {pastSessions.map((item, index) => (
                       <SessionHistoryCard
                         img={item.user_image}
                         username={item.user_name}
                         sessionDate={item.session_date}
                         sessionTime={item.session_start_time}
+                        key={index}
                       />
-                    )}
-                  />
+                    ))}
+                  </View>
                 )}
               </View>
             )}
@@ -189,7 +187,7 @@ export default function DoctorWelcomeScreen() {
             </PrimaryButton>
           </View>
         )}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

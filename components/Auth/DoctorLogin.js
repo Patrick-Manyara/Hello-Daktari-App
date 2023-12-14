@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { StyleSheet, View, Alert } from "react-native";
- 
+
 import Input from "./Input";
 import PrimaryButton from "../ui/PrimaryButton";
+import FlatButton from "../ui/FlatButton";
+import { useNavigation } from "@react-navigation/native";
 
 export default function DoctorLogin({ onAuthenticate }) {
   const [enteredEmail, setEnteredEmail] = useState("");
@@ -45,28 +47,36 @@ export default function DoctorLogin({ onAuthenticate }) {
     onAuthenticate({ email, password });
   }
 
+  const navigation = useNavigation();
+
+  function navigateToSignUp() {
+    navigation.navigate("DoctorSignUpScreen");
+  }
+
   return (
-    <View style={styles.form}>
-      <View>
-        <Input
-          label="Email Address"
-          onUpdateValue={updateInputValueHandler.bind(this, "email")}
-          value={enteredEmail}
-          keyboardType="email-address"
-          isInvalid={emailIsInvalid}
-        />
+    <View>
+      <Input
+        label="Email Address"
+        onUpdateValue={updateInputValueHandler.bind(this, "email")}
+        value={enteredEmail}
+        keyboardType="email-address"
+        isInvalid={emailIsInvalid}
+      />
 
-        <Input
-          label="Password"
-          onUpdateValue={updateInputValueHandler.bind(this, "password")}
-          secure
-          value={enteredPassword}
-          isInvalid={passwordIsInvalid}
-        />
+      <Input
+        label="Password"
+        onUpdateValue={updateInputValueHandler.bind(this, "password")}
+        secure
+        value={enteredPassword}
+        isInvalid={passwordIsInvalid}
+      />
 
-        <View style={styles.buttons}>
-          <PrimaryButton onPress={submitHandler}>Log In</PrimaryButton>
-        </View>
+      <View style={styles.buttons}>
+        <PrimaryButton onPress={submitHandler}>Log In</PrimaryButton>
+      </View>
+
+      <View style={styles.buttons}>
+        <FlatButton onPress={navigateToSignUp}>Create an account</FlatButton>
       </View>
     </View>
   );

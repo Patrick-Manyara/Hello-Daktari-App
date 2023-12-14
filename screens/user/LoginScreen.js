@@ -14,6 +14,7 @@ function LoginScreen() {
     try {
       const token = await login(email, password);
       if (token === false) {
+        Alert.alert("Authentication Failed!", "Could not log you in!");
       } else {
         authCtx.authenticate(token);
       }
