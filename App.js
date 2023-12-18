@@ -54,6 +54,7 @@ import AllPatientsScreen from "./screens/doctor/AllPatientsScreen";
 import ScheduleScreen from "./screens/doctor/ScheduleScreen";
 import DoctorDetailsScreen from "./screens/doctor/DoctorDetailsScreen";
 import PatientDetailScreen from "./screens/doctor/PatientDetailScreen";
+import PatientSessionsScreen from "./screens/doctor/PatientSessionsScreen";
 
 //ICONS
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -297,7 +298,14 @@ function DoctorStack() {
       }}
     >
       <DocStack.Screen name="DoctorHome" component={DoctorWelcomeScreen} />
-      <DocStack.Screen name="PatientDetailScreen" component={PatientDetailScreen} />
+      <DocStack.Screen
+        name="PatientDetailScreen"
+        component={PatientDetailScreen}
+      />
+      <DocStack.Screen
+        name="PatientSessionsScreen"
+        component={PatientSessionsScreen}
+      />
     </DocStack.Navigator>
   );
 }

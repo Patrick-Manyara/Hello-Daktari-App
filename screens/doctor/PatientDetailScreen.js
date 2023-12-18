@@ -61,7 +61,33 @@ export default function PatientDetailScreen({ route, navigation }) {
     }
   }, [route.params]);
 
+  function navigateToScreen(screenName, type) {
+    let itemName;
+    let itemsToPass;
 
+    switch (type) {
+      case "sessions":
+        itemName = "sessions";
+        itemsToPass = sessions;
+        break;
+      case "addresses":
+        itemName = "addresses";
+        itemsToPass = addresses;
+        break;
+      case "uploads":
+        itemName = "uploads";
+        itemsToPass = uploads;
+        break;
+      case "prescriptions":
+        itemName = "prescriptions";
+        itemsToPass = prescriptions;
+        break;
+      default:
+        break;
+    }
+
+    navigation.navigate(screenName, { item: itemsToPass, patient: patient });
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, paddingTop: 5, backgroundColor: "#fff" }}>
@@ -127,7 +153,13 @@ export default function PatientDetailScreen({ route, navigation }) {
               {sessions.length > 0 && (
                 <View style={styles.details}>
                   <MediumText>sessions:</MediumText>
-                  <FlatButton>View</FlatButton>
+                  <FlatButton
+                    onPress={() => {
+                      navigateToScreen("PatientSessionsScreen", "sessions");
+                    }}
+                  >
+                    View
+                  </FlatButton>
                 </View>
               )}
 
@@ -161,12 +193,14 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     padding: 5,
     marginTop: 10,
+    height: "100%",
   },
   userDetailsInner: {
     backgroundColor: Colors.lightBlue,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     padding: 10,
+    height: "100%",
   },
   details: {
     justifyContent: "space-between",

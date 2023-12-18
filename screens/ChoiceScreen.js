@@ -26,7 +26,7 @@ export default function ChoiceScreen() {
             >
               Doctor
             </PrimaryButton>
-            <PrimaryButton onPress={() => navigateToScreen("LoginScreen")}>
+            <PrimaryButton onPress={() => navigateToScreen("Login")}>
               User
             </PrimaryButton>
           </View>
