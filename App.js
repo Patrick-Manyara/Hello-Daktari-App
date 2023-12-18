@@ -55,10 +55,13 @@ import ScheduleScreen from "./screens/doctor/ScheduleScreen";
 import DoctorDetailsScreen from "./screens/doctor/DoctorDetailsScreen";
 import PatientDetailScreen from "./screens/doctor/PatientDetailScreen";
 import PatientSessionsScreen from "./screens/doctor/PatientSessionsScreen";
+import PatientAddressScreen from "./screens/doctor/PatientAddressScreen";
+import PatientPrescriptionsScreen from "./screens/doctor/PatientPrescriptionsScreen";
+import PatientUploadsScreen from "./screens/doctor/PatientUploadsScreen";
+import PDFScreen from "./screens/doctor/PDFScreen"; 
 
 //ICONS
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-
 import {
   faHouse,
   faBagShopping,
@@ -70,6 +73,7 @@ import DoctorLogin from "./components/Auth/DoctorLogin";
 import DoctorSignUp from "./components/Auth/DoctorSignUp";
 import { faCalendar, faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 
+//STACK INITIALIZATION
 const Stack = createNativeStackNavigator();
 const DocStack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -306,6 +310,19 @@ function DoctorStack() {
         name="PatientSessionsScreen"
         component={PatientSessionsScreen}
       />
+      <DocStack.Screen
+        name="PatientAddressScreen"
+        component={PatientAddressScreen}
+      />
+      <DocStack.Screen
+        name="PatientPrescriptionsScreen"
+        component={PatientPrescriptionsScreen}
+      />
+      <DocStack.Screen
+        name="PatientUploadsScreen"
+        component={PatientUploadsScreen}
+      />
+      <DocStack.Screen name="PDFScreen" component={PDFScreen} />
     </DocStack.Navigator>
   );
 }

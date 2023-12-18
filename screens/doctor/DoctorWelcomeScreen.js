@@ -24,7 +24,6 @@ import { globalStyles } from "../../constants/globalcss";
 import { Colors } from "../../constants/styles";
 
 export default function DoctorWelcomeScreen() {
-  const authCtx = useContext(AuthContext);
   const today = new Date();
 
   const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -33,64 +32,52 @@ export default function DoctorWelcomeScreen() {
     day: "numeric",
   }).format(today);
 
-  const [token, setToken] = useState("");
-
-  useEffect(() => {
-    setToken(authCtx.token);
-  }, [authCtx]);
-
-  const [futureSessions, setFutureSessions] = useState([]);
-  const [pastSessions, setPastSessions] = useState([]);
-  const [isSettingData, setIsSettingData] = useState(true);
-
-  const fetchAndSeparateSessions = () => {
-    const fetchSessions = () => {
-      const fetchurl = Path.API_URL + "session.php";
-      const queryParams = `action=docall&doctor_id=${token.doctor_id}`;
-      const url = `${fetchurl}?${queryParams}`;
-      try {
-        fetch(url)
-          .then((response) => response.json())
-          .then((data) => {
-            setIsFetching(false);
-            let arr = data.sessions;
-            if (Array.isArray(arr)) {
-              setSessions(data.sessions);
-              setInitialSessions(data.sessions);
-            } else {
-              console.log("No sessions");
-            }
-          })
-          .catch((error) => {
-            setIsFetching(false);
-            console.error("Fetch error:", error);
-          });
-      } catch (error) {
-        setIsFetching(false);
-        console.error("Request setup error:", error);
-      }
-    };
-
-    fetchSessions(); // Fetch sessions
-
-    // Separate future and past sessions
-    const today = new Date().toISOString().split("T")[0];
-    const future = sessions.filter((session) => session.session_date > today);
-    const past = sessions.filter((session) => session.session_date < today);
-
-    setFutureSessions(future);
-    setPastSessions(past);
-    setIsSettingData(false);
-  };
-
-  useEffect(() => {
-    fetchAndSeparateSessions();
-  }, []);
+  //TOKEN
+  const authCtx = useContext(AuthContext);
+  const token = authCtx.token;
 
   //SESSIONS
   const [isFetching, setIsFetching] = useState(true);
   const [sessions, setSessions] = useState([]);
-  const [initialSessions, setInitialSessions] = useState([]);
+  const [futureSessions, setFutureSessions] = useState([]);
+  const [pastSessions, setPastSessions] = useState([]);
+
+  const fetchSessions = async () => {
+    setIsFetching(true);
+    const fetchurl = Path.API_URL + "session.php";
+    const queryParams = `action=docall&doctor_id=${token.doctor_id}`;
+    const url = `${fetchurl}?${queryParams}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      
+
+      if (Array.isArray(data.sessions)) {
+        setSessions(data.sessions);
+        const today = new Date().toISOString().split("T")[0];
+        const future = data.sessions.filter(
+          (session) => session.session_date > today
+        );
+        const past = data.sessions.filter(
+          (session) => session.session_date < today
+        );
+        setFutureSessions(future);
+        setPastSessions(past);
+        setIsFetching(false);
+      } else {
+        console.log("No sessions");
+      }
+    } catch (error) {
+      setIsFetching(false);
+      console.error("Fetch error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSessions();
+  }, []);
 
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
@@ -123,11 +110,11 @@ export default function DoctorWelcomeScreen() {
           <LoadingOverlay message="Fetching your session history" />
         ) : sessions.length > 0 ? (
           <View>
-            {pastSessions.length <= 0 || futureSessions.length <= 0 ? (
+            {pastSessions.length <= 0 ? (
               <View>
                 <NormalText>No sessions found</NormalText>
-                <PrimaryButton onPress={fetchAndSeparateSessions}>
-                  Reload
+                <PrimaryButton onPress={fetchSessions}>
+                  Reload Data
                 </PrimaryButton>
               </View>
             ) : (
@@ -182,7 +169,7 @@ export default function DoctorWelcomeScreen() {
         ) : (
           <View>
             <NormalText>No Sessions Found</NormalText>
-            <PrimaryButton onPress={fetchAndSeparateSessions}>
+            <PrimaryButton onPress={fetchSessions}>
               Try Again
             </PrimaryButton>
           </View>

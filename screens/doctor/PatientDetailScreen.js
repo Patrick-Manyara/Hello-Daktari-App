@@ -139,14 +139,26 @@ export default function PatientDetailScreen({ route, navigation }) {
               {addresses.length > 0 && (
                 <View style={styles.details}>
                   <MediumText>Addresses:</MediumText>
-                  <FlatButton onPress={() => {}}>View</FlatButton>
+                  <FlatButton
+                    onPress={() => {
+                      navigateToScreen("PatientAddressScreen", "addresses");
+                    }}
+                  >
+                    View
+                  </FlatButton>
                 </View>
               )}
 
               {uploads.length > 0 && (
                 <View style={styles.details}>
-                  <MediumText>uploads:</MediumText>
-                  <FlatButton>View</FlatButton>
+                  <MediumText>Medical Records:</MediumText>
+                  <FlatButton
+                    onPress={() => {
+                      navigateToScreen("PatientUploadsScreen", "uploads");
+                    }}
+                  >
+                    View
+                  </FlatButton>
                 </View>
               )}
 
@@ -166,7 +178,11 @@ export default function PatientDetailScreen({ route, navigation }) {
               {prescriptions.length > 0 && (
                 <View style={styles.details}>
                   <MediumText>prescriptions:</MediumText>
-                  <FlatButton>View</FlatButton>
+                  <FlatButton
+                    onPress={() => {
+                      navigateToScreen("PatientPrescriptionsScreen", "prescriptions");
+                    }}
+                  >View</FlatButton>
                 </View>
               )}
             </View>
