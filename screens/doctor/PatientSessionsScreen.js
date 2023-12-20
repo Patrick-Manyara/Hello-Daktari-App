@@ -3,11 +3,8 @@ import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import HeaderText from "../../components/ui/HeaderText";
-import PrimaryButton from "../../components/ui/PrimaryButton";
 import NotificationBell from "../../components/ui/NotificationBell";
-import AddressCard from "../../components/Cards/AddressCard";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
-import NormalText from "../../components/ui/NormalText";
 import MediumText from "../../components/ui/MediumText";
 import { globalStyles } from "../../constants/globalcss";
 import SessionSummaryCard from "../../components/Cards/SessionSummaryCard";

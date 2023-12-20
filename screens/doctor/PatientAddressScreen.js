@@ -1,26 +1,18 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState,  useEffect } from "react";
 import {
-  StyleSheet,
   View,
   ScrollView,
-  ToastAndroid,
-  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { AuthContext } from "../../store/auth-context";
-import { Path } from "../../constants/path";
 
 import HeaderText from "../../components/ui/HeaderText";
-import PrimaryButton from "../../components/ui/PrimaryButton";
 import NotificationBell from "../../components/ui/NotificationBell";
-import AddressCard from "../../components/Cards/AddressCard";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import NormalText from "../../components/ui/NormalText";
-
-import { Colors } from "../../constants/styles";
-import { globalStyles } from "../../constants/globalcss";
 import AddressList from "../../components/Cards/AddressList";
+
+import { globalStyles } from "../../constants/globalcss";
 
 export default function PatientAddressScreen({ route, navigation }) {
   const [addresses, setAddresses] = useState([]);

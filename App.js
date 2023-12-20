@@ -58,7 +58,9 @@ import PatientSessionsScreen from "./screens/doctor/PatientSessionsScreen";
 import PatientAddressScreen from "./screens/doctor/PatientAddressScreen";
 import PatientPrescriptionsScreen from "./screens/doctor/PatientPrescriptionsScreen";
 import PatientUploadsScreen from "./screens/doctor/PatientUploadsScreen";
-import PDFScreen from "./screens/doctor/PDFScreen"; 
+import PDFScreen from "./screens/doctor/PDFScreen";
+import SpecialtyScreen from "./screens/doctor/SpecialtyScreen";
+import WalletScreen from "./screens/doctor/WalletScreen";
 
 //ICONS
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -207,9 +209,9 @@ function AuthStack() {
 
 function AuthenticatedStack() {
   const authCtx = useContext(AuthContext);
-  let isDoctor = false;
-  if (authCtx.token.doctor_id) {
-    isDoctor = true;
+  let isDoctor = true;
+  if (authCtx.token.user_id) {
+    isDoctor = false;
   }
   return (
     <Stack.Navigator
@@ -323,6 +325,8 @@ function DoctorStack() {
         component={PatientUploadsScreen}
       />
       <DocStack.Screen name="PDFScreen" component={PDFScreen} />
+      <DocStack.Screen name="SpecialtyScreen" component={SpecialtyScreen} />
+      <DocStack.Screen name="WalletScreen" component={WalletScreen} />
     </DocStack.Navigator>
   );
 }

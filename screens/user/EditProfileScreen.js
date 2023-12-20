@@ -141,7 +141,7 @@ export default function EditProfileScreen({ navigation }) {
           newtoken = JSON.stringify(data.token);
           AsyncStorage.setItem("token", newtoken);
           navigation.navigate("Profile", { newtoken: data.token });
-        })
+        }) 
         .catch((error) => {
           setIsSubmitting(false);
           console.error("Fetch error:", error);

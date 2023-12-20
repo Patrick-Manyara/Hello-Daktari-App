@@ -1,7 +1,6 @@
-import React from 'react'
+import React from "react";
+import { Text } from "react-native";
 
 export default function AllConsultationsScreen() {
-  return (
-    <div>AllConsultationsScreen</div>
-  )
+  return <Text>AllConsultationsScreen</Text>;
 }

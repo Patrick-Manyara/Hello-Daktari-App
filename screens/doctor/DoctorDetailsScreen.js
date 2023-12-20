@@ -13,71 +13,118 @@ import ProfileCard from "../../components/Cards/ProfileCard";
 
 import { globalStyles } from "../../constants/globalcss";
 import { Colors } from "../../constants/styles";
+import LoadingOverlay from "../../components/ui/LoadingOverlay";
 
 export default function DoctorDetailsScreen({ route }) {
   const authCtx = useContext(AuthContext);
+  const tk = authCtx.token;
 
   const [token, setToken] = useState("");
-  const [doctorimg, setDoctorImg] = useState("");
 
-  useFocusEffect(() => {
-    if (route.params?.newtoken) {
-      setToken(route.params.newtoken);
-    } else {
-      setToken(authCtx.token);
-    }
+  const [isFetching, setIsFetching] = useState(true);
 
-    if (token.doctor_image == "") {
-      setDoctorImg("white_bg_image.png");
-    } else {
-      setDoctorImg(token.doctor_image);
+  const fetchProfile = () => {
+    const baseurl = Path.API_URL + "doctor.php";
+    const queryParams = `action=profile&doctor_id=${tk.doctor_id}`;
+    const fetchurl = `${baseurl}?${queryParams}`;
+    try {
+      fetch(fetchurl)
+        .then((response) => response.json())
+        .then((data) => {
+          setToken(data.data);
+          setIsFetching(false);
+        })
+        .catch((error) => {
+          setIsFetching(false);
+          console.error("Fetch error:", error);
+        });
+    } catch (error) {
+      setIsFetching(false);
+      console.error("Request setup error:", error);
     }
-  });
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchProfile();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const navigation = useNavigation();
 
   function navigateToScreen(screenName) {
     navigation.navigate(screenName);
   }
+
+  function navigateToSpecialtyScreen() {
+    navigation.navigate("SpecialtyScreen", { token: token });
+  }
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
       <NotificationBell />
       <ScrollView>
-        <View>
-          <HeaderText>Profile</HeaderText>
-          <View style={styles.profileMain}>
-            <View style={styles.profileMainInner}>
-              <Pressable style={styles.imageContainer}>
-                <Image
-                  source={{
-                    uri: Path.IMAGE_URL + doctorimg,
-                  }}
-                  style={styles.image}
-                />
-              </Pressable>
-              <View style={{ marginLeft: 10 }}>
-                <NormalText styleProp={globalStyles.whiteText}>
-                  {token.doctor_name}
-                </NormalText>
-                <NormalText styleProp={globalStyles.whiteText}>
-                  {token.doctor_email}
-                </NormalText>
+        {isFetching ? (
+          <LoadingOverlay message="Fetching" />
+        ) : (
+          <View>
+            <HeaderText>Profile</HeaderText>
+            <View style={styles.profileMain}>
+              <View style={styles.profileMainInner}>
+                <Pressable style={styles.imageContainer}>
+                  <Image
+                    source={{
+                      uri: Path.IMAGE_URL + token.doctor_image,
+                    }}
+                    style={styles.image}
+                  />
+                </Pressable>
+                <View style={{ marginLeft: 10 }}>
+                  <NormalText styleProp={globalStyles.whiteText}>
+                    {token.doctor_name}
+                  </NormalText>
+                  <NormalText styleProp={globalStyles.whiteText}>
+                    {token.doctor_email}
+                  </NormalText>
+                </View>
               </View>
             </View>
+            <NormalText>General</NormalText>
+            <ProfileCard
+              src={require("../../assets/images/pro_user.png")}
+              header="Account Information"
+              info="Change your account information"
+              onPress={() => {}}
+            />
+            <ProfileCard
+              src={require("../../assets/images/pro_category.png")}
+              header="Specialties"
+              info="Change your Specialties"
+              onPress={() => navigateToSpecialtyScreen()}
+            />
+            <ProfileCard
+              src={require("../../assets/images/pro_wallet.png")}
+              header="Wallet"
+              info="Wallet"
+              onPress={() => navigateToScreen("WalletScreen")}
+            />
+            <ProfileCard
+              src={require("../../assets/images/pro_logout.png")}
+              header="Logout"
+              info="Logout of your account"
+              onPress={authCtx.logout}
+            />
           </View>
-          <NormalText>General</NormalText>
-          <ProfileCard
-            src={require("../../assets/images/pro_logout.png")}
-            header="Logout"
-            info="Logout of your account"
-            onPress={authCtx.logout}
-          />
-        </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
 }
-
 
 const styles = StyleSheet.create({
   profileMain: {

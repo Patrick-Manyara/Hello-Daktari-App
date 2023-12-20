@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
-  FlatList,
   View,
   ScrollView,
   ImageBackground,

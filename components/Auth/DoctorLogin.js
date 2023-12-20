@@ -1,10 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import Input from "./Input";
-import PrimaryButton from "../ui/PrimaryButton";
 import FlatButton from "../ui/FlatButton";
-import { useNavigation } from "@react-navigation/native";
+
+import TransparentButton from "../ui/TransparentButton";
 
 export default function DoctorLogin({ onAuthenticate }) {
   const [enteredEmail, setEnteredEmail] = useState("");
@@ -72,7 +73,7 @@ export default function DoctorLogin({ onAuthenticate }) {
       />
 
       <View style={styles.buttons}>
-        <PrimaryButton onPress={submitHandler}>Log In</PrimaryButton>
+        <TransparentButton onPress={submitHandler}>Log In</TransparentButton>
       </View>
 
       <View style={styles.buttons}>

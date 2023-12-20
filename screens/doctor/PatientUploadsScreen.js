@@ -1,27 +1,16 @@
-import React, { useState, useContext, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  ToastAndroid,
-  ActivityIndicator,
-  Text,
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { AuthContext } from "../../store/auth-context";
+import { Path } from "../../constants/path";
 
 import HeaderText from "../../components/ui/HeaderText";
-import PrimaryButton from "../../components/ui/PrimaryButton";
 import NotificationBell from "../../components/ui/NotificationBell";
-import AddressCard from "../../components/Cards/AddressCard";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import NormalText from "../../components/ui/NormalText";
-
-import { Colors } from "../../constants/styles";
-import { globalStyles } from "../../constants/globalcss";
-import { Path } from "../../constants/path";
 import UploadList from "../../components/Cards/UploadList";
+
+import { globalStyles } from "../../constants/globalcss";
 
 export default function PatientUploadsScreen({ route, navigation }) {
   const fileUrl = Path.DOC_ULR;

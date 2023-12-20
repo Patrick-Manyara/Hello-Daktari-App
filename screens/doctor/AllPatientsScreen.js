@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, FlatList, View, Image } from "react-native";
+import { FlatList, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Path } from "../../constants/path";
@@ -9,13 +9,10 @@ import NotificationBell from "../../components/ui/NotificationBell";
 import HeaderText from "../../components/ui/HeaderText";
 import NormalText from "../../components/ui/NormalText";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
-import SessionHistoryCard from "../../components/Cards/SessionHistoryCard";
-import CategoriesCard from "../../components/Cards/CategoriesCard";
 import SearchInput from "../../components/FormElements/SearchInput";
 import PatientListCard from "../../components/Cards/PatientListCard";
 
 import { globalStyles } from "../../constants/globalcss";
-import { Colors } from "../../constants/styles";
 
 export default function AllPatientsScreen({ navigation }) {
   //TOKEN
@@ -91,6 +88,8 @@ export default function AllPatientsScreen({ navigation }) {
       ) : (
         <View>
           <SearchInput message="Clients" />
+          <HeaderText>Your Patients</HeaderText>
+          <NormalText>List of your patients</NormalText>
           <FlatList
             data={patients}
             keyExtractor={(item) => item.user_id.toString()}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,6 +8,7 @@ import AuthForm from "./AuthForm";
 import HeaderText from "../ui/HeaderText";
 
 import { globalStyles } from "../../constants/globalcss";
+import NormalText from "../ui/NormalText";
 
 function AuthContent({ isLogin, onAuthenticate, headerText }) {
   const navigation = useNavigation();
@@ -63,7 +64,10 @@ function AuthContent({ isLogin, onAuthenticate, headerText }) {
 
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
-      <HeaderText styleProp={globalStyles.centerText}>{headerText}</HeaderText>
+      <HeaderText styleProp={globalStyles.centerText}>
+        Hello Daktari Client Account
+      </HeaderText>
+      <NormalText styleProp={globalStyles.centerText}>{headerText}</NormalText>
       <View style={styles.authContent}>
         <AuthForm
           isLogin={isLogin}
@@ -72,7 +76,7 @@ function AuthContent({ isLogin, onAuthenticate, headerText }) {
         />
         <View style={styles.buttons}>
           <FlatButton onPress={switchAuthModeHandler}>
-            {isLogin ? "Create a new user" : "Log in instead"}
+            {isLogin ? "Create a new account" : "Log in instead"}
           </FlatButton>
         </View>
       </View>

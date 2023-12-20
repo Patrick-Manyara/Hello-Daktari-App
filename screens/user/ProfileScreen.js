@@ -19,7 +19,7 @@ export default function ProfileScreen({ route }) {
 
   const [token, setToken] = useState("");
   const [userimg, setUserImg] = useState("");
-
+ 
   useFocusEffect(() => {
     if (route.params?.newtoken) {
       setToken(route.params.newtoken);
@@ -45,7 +45,7 @@ export default function ProfileScreen({ route }) {
       <NotificationBell />
       <ScrollView>
         <HeaderText>Profile</HeaderText>
-        <View style={styles.profileMain}>
+        <View style={styles.profileMain}> 
           <View style={styles.profileMainInner}>
             <Pressable style={styles.imageContainer}>
               <Image

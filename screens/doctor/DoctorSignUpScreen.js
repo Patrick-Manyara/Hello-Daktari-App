@@ -1,15 +1,15 @@
 import React, { useContext, useState } from "react";
-import AuthContent from "../../components/Auth/AuthContent";
-import { createDoctor } from "../../util/auth";
-import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import { Alert } from "react-native";
+import { createDoctor } from "../../util/auth";
 import { AuthContext } from "../../store/auth-context";
-import DoctorSignUp from "../../components/Auth/DoctorSignUp";
-import HeaderText from "../../components/ui/HeaderText";
+import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import DoctorSignUp from "../../components/Auth/DoctorSignUp";
+import HeaderText from "../../components/ui/HeaderText";
+import NormalText from "../../components/ui/NormalText";
+
 import { globalStyles } from "../../constants/globalcss";
-import { Colors } from "../../constants/styles";
 
 export default function DoctorSignUpScreen() {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -23,7 +23,7 @@ export default function DoctorSignUpScreen() {
     phone,
     license,
     bio,
-  }) { 
+  }) {
     setIsAuthenticating(true);
     try {
       const token = await createDoctor(
@@ -54,7 +54,10 @@ export default function DoctorSignUpScreen() {
 
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
-      <HeaderText>Sign Up</HeaderText>
+      <HeaderText styleProp={globalStyles.centerText}>
+        Hello Daktari Doctor App
+      </HeaderText>
+      <NormalText styleProp={globalStyles.centerText}>Welcome Doc</NormalText>
       <DoctorSignUp onAuthenticate={signUpHandler} />
     </SafeAreaView>
   );

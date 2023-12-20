@@ -2,12 +2,11 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
 import NormalText from "../ui/NormalText";
-import PrimaryButton from "../ui/PrimaryButton";
+import MediumText from "../ui/MediumText";
 import HeaderText from "../ui/HeaderText";
 
 import { Colors } from "../../constants/styles";
-import { globalStyles } from "../../constants/globalcss";
-import MediumText from "../ui/MediumText";
+
 
 export default function PrescriptionCard({ prescriptions }) {
   const groupedPrescriptions = prescriptions.reduce((acc, prescription) => {

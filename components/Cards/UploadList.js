@@ -1,12 +1,11 @@
 import React from "react";
-import { View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import NormalText from "../ui/NormalText";
 import PrimaryButton from "../ui/PrimaryButton";
 import HeaderText from "../ui/HeaderText";
 
 import { Colors } from "../../constants/styles";
-import { globalStyles } from "../../constants/globalcss";
 
 export default function UploadList({ name, code, file, onPress }) {
   return (

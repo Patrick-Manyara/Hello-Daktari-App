@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { StyleSheet, View, Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import Input from "./Input";
-import { useNavigation } from "@react-navigation/native";
-import PrimaryButton from "../ui/PrimaryButton";
 import FlatButton from "../ui/FlatButton";
+import TransparentButton from "../ui/TransparentButton";
 
 export default function DoctorSignUp({ onAuthenticate }) {
   //INPUTS
@@ -168,7 +168,9 @@ export default function DoctorSignUp({ onAuthenticate }) {
       />
 
       <View style={styles.buttons}>
-        <PrimaryButton onPress={submitHandler}>Create Account</PrimaryButton>
+        <TransparentButton onPress={submitHandler}>
+          Create Account
+        </TransparentButton>
       </View>
 
       <View style={styles.buttons}>
