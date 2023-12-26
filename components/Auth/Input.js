@@ -13,6 +13,7 @@ function Input({
   isInvalid,
   multiline,
   numberOfLines,
+  inputStyle,
 }) {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -36,6 +37,7 @@ function Input({
               styles.input,
               isInvalid && styles.inputInvalid,
               { fontFamily: "poppins-regular" },
+              inputStyle,
             ]}
             keyboardType={keyboardType}
             secureTextEntry={secure}

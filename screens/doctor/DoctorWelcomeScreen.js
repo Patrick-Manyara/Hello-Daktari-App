@@ -67,6 +67,7 @@ export default function DoctorWelcomeScreen() {
         setIsFetching(false);
       } else {
         console.log("No sessions");
+        setIsFetching(false);
       }
     } catch (error) {
       setIsFetching(false);
