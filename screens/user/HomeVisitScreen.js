@@ -106,9 +106,9 @@ export default function HomeVisitScreen({ navigation }) {
 
   const [uploading, setUploading] = useState(false);
 
-  const baseurl = Path.API_URL + "session.php";
+  const baseUrl = Path.API_URL + "session.php";
   const queryParams = `action=home`;
-  const url = `${baseurl}?${queryParams}`;
+  const url = `${baseUrl}?${queryParams}`;
 
   let submitForm = async () => {
     try {

@@ -85,27 +85,27 @@ export default function BasePaymentScreen({ route, navigation }) {
 
     const paymentMethodValidity = !selectedPaymentMethod;
     const submitUrl = Path.API_URL + "payment.php";
-    const body = new FormData();
+    const formData = new FormData();
     if (paymentMethodValidity) {
       Alert.alert("Data invalid");
       setIsAdding(false);
     } else {
-      body.append("user_id", token.user_id);
+      formData.append("user_id", token.user_id);
 
-      body.append("payment_method", selectedPaymentMethod);
+      formData.append("payment_method", selectedPaymentMethod);
       if (route.params.labs) {
-        body.append("from", "lab");
-        body.append("address", address);
-        body.append("labs", JSON.stringify(labItems));
+        formData.append("from", "lab");
+        formData.append("address", address);
+        formData.append("labs", JSON.stringify(labItems));
       } else {
-        body.append("from", from);
-        body.append("table_id", table_id);
+        formData.append("from", from);
+        formData.append("table_id", table_id);
       }
 
       try {
         let res = await fetch(submitUrl, {
           method: "POST",
-          body: body,
+          body: formData,
         });
 
         let responseJson = await res.json();

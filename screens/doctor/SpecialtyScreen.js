@@ -76,16 +76,16 @@ export default function SpecialtyScreen({ route, navigation }) {
 
   const submitCategoryData = async () => {
     setIsUpdating(true);
-    const baseurl = Path.API_URL + "doctor.php";
+    const baseUrl = Path.API_URL + "doctor.php";
     const queryParams = `action=update_specialties`;
-    const url = `${baseurl}?${queryParams}`;
-    const body = new FormData();
-    body.append("categories", selectedCategories);
-    body.append("doctor_id", token.doctor_id);
+    const url = `${baseUrl}?${queryParams}`;
+    const formData = new FormData();
+    formData.append("categories", selectedCategories);
+    formData.append("doctor_id", token.doctor_id);
     try {
       fetch(url, {
         method: "POST",
-        body: body,
+        body: formData,
       })
         .then((response) => response.json())
         .then((data) => {

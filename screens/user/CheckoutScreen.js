@@ -202,28 +202,28 @@ export default function CheckoutScreen({ navigation }) {
     }
     const paymentMethodValidity = !selectedPaymentMethod;
     const submitUrl = Path.API_URL + "checkout.php";
-    const body = new FormData();
+    const formData = new FormData();
     if (addressIsInvalid || paymentMethodValidity) {
       Alert.alert("address is invalid");
       setIsAdding(false);
     } else {
       if (addresses.length === 0) {
-        body.append("address_name", inputs.address_name.value);
-        body.append("address_label", inputs.address_label.value);
-        body.append("address_phone", inputs.address_phone.value);
-        body.append("address_location", inputs.address_location.value);
+        formData.append("address_name", inputs.address_name.value);
+        formData.append("address_label", inputs.address_label.value);
+        formData.append("address_phone", inputs.address_phone.value);
+        formData.append("address_location", inputs.address_location.value);
       } else {
-        body.append("address_id", selectedAddress.address_id);
+        formData.append("address_id", selectedAddress.address_id);
       }
 
-      body.append("user_id", token.user_id);
-      body.append("cart_data", JSON.stringify(cartData));
-      body.append("payment_method", selectedPaymentMethod);
+      formData.append("user_id", token.user_id);
+      formData.append("cart_data", JSON.stringify(cartData));
+      formData.append("payment_method", selectedPaymentMethod);
 
       try {
         fetch(submitUrl, {
           method: "POST",
-          body: body,
+          body: formData,
         })
           .then((response) => response.text())
           .then((data) => {

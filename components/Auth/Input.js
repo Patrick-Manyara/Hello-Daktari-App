@@ -11,7 +11,7 @@ function Input({
   onUpdateValue,
   value,
   isInvalid,
-  multiline,
+  multiline, 
   numberOfLines,
   inputStyle,
 }) {

@@ -40,9 +40,9 @@ export default function ShoppingHistoryScreen({ navigation }) {
   }, []);
 
   const fetchOrders = () => {
-    const baseurl = Path.API_URL + "profile.php";
+    const baseUrl = Path.API_URL + "profile.php";
     const queryParams = `action=orders&user_id=${token.user_id}`;
-    const url = `${baseurl}?${queryParams}`;
+    const url = `${baseUrl}?${queryParams}`;
     try {
       fetch(url)
         .then((response) => response.json())

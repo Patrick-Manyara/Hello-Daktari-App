@@ -16,6 +16,9 @@ export default function InputHybrid({
   value,
   isInvalid,
   placeholder,
+  multiline,
+  numberOfLines,
+  inputStyle,
 }) {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -33,7 +36,13 @@ export default function InputHybrid({
   return (
     <>
       {fontsLoaded ? (
-        <View style={[globalStyles.disabledContainer, styles.customInput]}>
+        <View
+          style={[
+            globalStyles.disabledContainer,
+            styles.customInput,
+            inputStyle,
+          ]}
+        >
           <NormalText styleProp={{ color: "#00000066", fontSize: 8 }}>
             {placeholder}
           </NormalText>
@@ -44,6 +53,8 @@ export default function InputHybrid({
             onChangeText={onUpdateValue}
             value={value}
             placeholder={label}
+            multiline={multiline}
+            numberOfLines={numberOfLines}
           />
         </View>
       ) : (

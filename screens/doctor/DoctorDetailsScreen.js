@@ -24,9 +24,9 @@ export default function DoctorDetailsScreen({ route }) {
   const [isFetching, setIsFetching] = useState(true);
 
   const fetchProfile = () => {
-    const baseurl = Path.API_URL + "doctor.php";
+    const baseUrl = Path.API_URL + "doctor.php";
     const queryParams = `action=profile&doctor_id=${tk.doctor_id}`;
-    const fetchurl = `${baseurl}?${queryParams}`;
+    const fetchurl = `${baseUrl}?${queryParams}`;
     try {
       fetch(fetchurl)
         .then((response) => response.json())
@@ -62,8 +62,8 @@ export default function DoctorDetailsScreen({ route }) {
     navigation.navigate(screenName);
   }
 
-  function navigateToSpecialtyScreen() {
-    navigation.navigate("SpecialtyScreen", { token: token });
+  function navigateWithToken(screenName) {
+    navigation.navigate(screenName, { token: token });
   }
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
@@ -99,13 +99,13 @@ export default function DoctorDetailsScreen({ route }) {
               src={require("../../assets/images/pro_user.png")}
               header="Account Information"
               info="Change your account information"
-              onPress={() => {}}
+              onPress={() => navigateWithToken("EditDetailsScreen")}
             />
             <ProfileCard
               src={require("../../assets/images/pro_category.png")}
               header="Specialties"
               info="Change your Specialties"
-              onPress={() => navigateToSpecialtyScreen()}
+              onPress={() => navigateWithToken("SpecialtyScreen")}
             />
             <ProfileCard
               src={require("../../assets/images/pro_wallet.png")}

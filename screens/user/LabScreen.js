@@ -16,14 +16,14 @@ import { globalStyles } from "../../constants/globalcss";
 
 export default function LabScreen({ route, navigation }) {
   const [labs, setLabs] = useState([]);
-  const baseurl = Path.API_URL + "lab.php";
+  const baseUrl = Path.API_URL + "lab.php";
   const [isFetching, setIsFetching] = useState(true);
   const [page, setPage] = useState(1);
 
   const PAGE_SIZE = 5; // Number of items to load at a time
 
   const fetchLabServices = () => {
-    const apiUrl = `${baseurl}?page=${page}&pageSize=${PAGE_SIZE}`;
+    const apiUrl = `${baseUrl}?page=${page}&pageSize=${PAGE_SIZE}`;
     try {
       fetch(apiUrl)
         .then((response) => response.json())

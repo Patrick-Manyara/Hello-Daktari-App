@@ -143,9 +143,9 @@ export default function NewScheduleScreen({ route }) {
   //SUBMISSION
   const [uploading, setUploading] = useState(false);
 
-  baseurl = Path.API_URL + "doctor.php";
+  baseUrl = Path.API_URL + "doctor.php";
   queryParams = `action=create_schedule`;
-  url = `${baseurl}?${queryParams}`;
+  url = `${baseUrl}?${queryParams}`;
 
   let submitForm = async () => {
     try {

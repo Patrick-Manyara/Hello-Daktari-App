@@ -7,13 +7,13 @@ const docLoginUrl = Path.API_URL + "doctor.php?action=login";
 const docRegisterUrl = Path.API_URL + "doctor.php?action=register";
 
 async function authenticate(mode, email, password) {
-  const body = new FormData();
-  body.append("user_email", email);
-  body.append("user_password", password);
-  body.append("returnSecureToken", true);
+  const formData = new FormData();
+  formData.append("user_email", email);
+  formData.append("user_password", password);
+  formData.append("returnSecureToken", true);
   const response = await fetch(loginurl, {
     method: "POST",
-    body: body,
+    body: formData,
   });
 
   // if (!response.ok) {
@@ -30,15 +30,15 @@ async function authenticate(mode, email, password) {
 }
 
 async function postClient(email, password, name, phone) {
-  const body = new FormData();
-  body.append("user_email", email);
-  body.append("user_password", password);
-  body.append("user_name", name);
-  body.append("user_phone", phone);
-  body.append("returnSecureToken", true);
+  const formData = new FormData();
+  formData.append("user_email", email);
+  formData.append("user_password", password);
+  formData.append("user_name", name);
+  formData.append("user_phone", phone);
+  formData.append("returnSecureToken", true);
   const response = await fetch(registerurl, {
     method: "POST",
-    body: body,
+    body: formData,
   });
 
   const responseJson = await response.json();
@@ -51,13 +51,13 @@ async function postClient(email, password, name, phone) {
 }
 
 async function docLogin(email, password) {
-  const body = new FormData();
-  body.append("doctor_email", email);
-  body.append("doctor_password", password);
-  body.append("returnSecureToken", true);
+  const formData = new FormData();
+  formData.append("doctor_email", email);
+  formData.append("doctor_password", password);
+  formData.append("returnSecureToken", true);
   const response = await fetch(docLoginUrl, {
     method: "POST",
-    body: body,
+    body: formData,
   });
   const responseJson = await response.json();
 
@@ -69,17 +69,17 @@ async function docLogin(email, password) {
 }
 
 async function postDoctor(email, password, fullname, phone, license, bio) {
-  const body = new FormData();
-  body.append("doctor_email", email);
-  body.append("doctor_password", password);
-  body.append("doctor_name", fullname);
-  body.append("doctor_phone", phone);
-  body.append("doctor_license", license);
-  body.append("doctor_bio", bio);
-  body.append("returnSecureToken", true);
+  const formData = new FormData();
+  formData.append("doctor_email", email);
+  formData.append("doctor_password", password);
+  formData.append("doctor_name", fullname);
+  formData.append("doctor_phone", phone);
+  formData.append("doctor_license", license);
+  formData.append("doctor_bio", bio);
+  formData.append("returnSecureToken", true);
   const response = await fetch(docRegisterUrl, {
     method: "POST",
-    body: body,
+    body: formData,
   });
 
   const responseJson = await response.json();

@@ -52,6 +52,21 @@ const globalStyles = StyleSheet.create({
     backgroundColor: "white",
     overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
+  card: {
+    width: "95%",
+    backgroundColor: Colors.lightGrey,
+    margin: 5,
+    borderRadius: 8,
+    elevation: 4,
+    padding: 5,
+    // IOS
+    shadowColor: "black",
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    backgroundColor: "white",
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
+  },
   whiteText: {
     color: "white",
   },

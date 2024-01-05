@@ -67,7 +67,7 @@ export default function HouseVisitScreen({ navigation }) {
   const token = authCtx.token;
 
   let queryParams = "";
-  let baseurl = "";
+  let baseUrl = "";
   let url = "";
 
   //URGENCY
@@ -116,8 +116,8 @@ export default function HouseVisitScreen({ navigation }) {
 
   const fetchAddresses = () => {
     queryParams = `action=all&user_id=${token.user_id}`;
-    baseurl = Path.API_URL + "addresses.php";
-    url = `${baseurl}?${queryParams}`;
+    baseUrl = Path.API_URL + "addresses.php";
+    url = `${baseUrl}?${queryParams}`;
     try {
       fetch(url)
         .then((response) => response.json())
@@ -167,15 +167,15 @@ export default function HouseVisitScreen({ navigation }) {
 
   const removeAddress = (address_id) => {
     setIsDeleting(true);
-    baseurl = Path.API_URL + "addresses.php";
+    baseUrl = Path.API_URL + "addresses.php";
     queryParams = `action=delete`;
-    url = `${baseurl}?${queryParams}`;
-    const body = new FormData();
-    body.append("address_id", address_id);
+    url = `${baseUrl}?${queryParams}`;
+    const formData = new FormData();
+    formData.append("address_id", address_id);
     try {
       fetch(url, {
         method: "POST",
-        body: body,
+        body: formData,
       })
         .then((response) => response.json())
         .then((data) => {
@@ -302,9 +302,9 @@ export default function HouseVisitScreen({ navigation }) {
   //SUBMISSION
   const [uploading, setUploading] = useState(false);
 
-  baseurl = Path.API_URL + "session.php";
+  baseUrl = Path.API_URL + "session.php";
   queryParams = `action=house`;
-  url = `${baseurl}?${queryParams}`;
+  url = `${baseUrl}?${queryParams}`;
 
   let submitForm = async () => {
     try {

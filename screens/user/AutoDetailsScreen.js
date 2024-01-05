@@ -77,9 +77,9 @@ export default function AutoDetailsScreen({ navigation }) {
 
   const [uploading, setUploading] = useState(false);
 
-  const baseurl = Path.API_URL + "session.php";
+  const baseUrl = Path.API_URL + "session.php";
   const queryParams = `action=auto`;
-  const url = `${baseurl}?${queryParams}`;
+  const url = `${baseUrl}?${queryParams}`;
 
   let submitForm = async () => {
     try {

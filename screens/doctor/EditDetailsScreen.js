@@ -23,48 +23,61 @@ import PrimaryButton from "../../components/ui/PrimaryButton";
 
 import { globalStyles } from "../../constants/globalcss";
 
-export default function EditProfileScreen({ navigation }) {
+export default function EditDetailsScreen({ route, navigation }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const authCtx = useContext(AuthContext);
-
-  const [token, setToken] = useState("");
+  const [doctor, setDoctor] = useState([]);
 
   //uploads
   const [enteredImage, setEnteredImage] = useState("");
   const [enteredImageName, setEnteredImageName] = useState("");
 
   useEffect(() => {
-    setToken(authCtx.token);
-  }, [authCtx.token]);
+    setDoctor(route.params.token);
+  }, [route.params]);
 
   const [inputs, setInputs] = useState({
-    user_name: {
-      value: authCtx.token ? authCtx.token.user_name : "",
+    doctor_name: {
+      value: doctor.doctor_name || "",
       isValid: true,
     },
-    user_phone: {
-      value: authCtx.token ? authCtx.token.user_phone : "",
+    doctor_phone: {
+      value: doctor.doctor_phone || "",
       isValid: true,
     },
-    user_passport: {
-      value: authCtx.token ? authCtx.token.user_passport : "",
+    doctor_passport: {
+      value: doctor.doctor_passport || "",
       isValid: true,
     },
-    user_dob: {
-      value: authCtx.token ? authCtx.token.user_dob : "",
+    doctor_bio: {
+      value: doctor.doctor_bio || "",
       isValid: true,
     },
-    user_weight: {
-      value: authCtx.token ? authCtx.token.user_weight : "",
+    doctor_statement: {
+      value: doctor.doctor_statement || "",
       isValid: true,
     },
-    user_height: {
-      value: authCtx.token ? authCtx.token.user_height : "",
+    doctor_rate: {
+      value: doctor.doctor_rate || "",
       isValid: true,
     },
-    user_blood_group: {
-      value: authCtx.token ? authCtx.token.user_blood_group : "",
+    doctor_qualifications: {
+      value: doctor.doctor_qualifications || "",
+      isValid: true,
+    },
+    doctor_experience: {
+      value: doctor.doctor_experience || "",
+      isValid: true,
+    },
+    doctor_location: {
+      value: doctor.doctor_location || "",
+      isValid: true,
+    },
+    doctor_gender: {
+      value: doctor.doctor_gender || "",
+      isValid: true,
+    },
+    doctor_license: {
+      value: doctor.doctor_license || "",
       isValid: true,
     },
   });
@@ -100,7 +113,7 @@ export default function EditProfileScreen({ navigation }) {
     }
   };
 
-  const baseUrl = Path.API_URL + "profile.php";
+  const baseUrl = Path.API_URL + "doctor.php";
 
   const submitProfileData = async () => {
     setIsSubmitting(true);
@@ -110,16 +123,24 @@ export default function EditProfileScreen({ navigation }) {
     const formData = new FormData();
 
     const fileToUpload = enteredImage;
-    formData.append("user_name", inputs.user_name.value);
-    formData.append("user_phone", inputs.user_phone.value);
-    formData.append("user_passport", inputs.user_passport.value);
-    formData.append("user_dob", inputs.user_dob.value);
-    formData.append("user_height", inputs.user_height.value);
-    formData.append("user_weight", inputs.user_weight.value);
-    formData.append("user_blood_group", inputs.user_blood_group.value);
-    formData.append("user_id", token.user_id);
+    formData.append("doctor_name", inputs.doctor_name.value);
+    formData.append("doctor_phone", inputs.doctor_phone.value);
+    formData.append("doctor_passport", inputs.doctor_passport.value);
+    formData.append("doctor_bio", inputs.doctor_bio.value);
+    formData.append("doctor_gender", inputs.doctor_gender.value);
+    formData.append("doctor_location", inputs.doctor_location.value);
+    formData.append("doctor_license", inputs.doctor_license.value);
+
+    formData.append("doctor_rate", inputs.doctor_rate.value);
+    formData.append("doctor_experience", inputs.doctor_experience.value);
+    formData.append(
+      "doctor_qualifications",
+      inputs.doctor_qualifications.value
+    );
+
+    formData.append("doctor_id", doctor.doctor_id);
     if (enteredImage != "") {
-      formData.append("user_image", {
+      formData.append("doctor_image", {
         type: "image/*",
         uri: enteredImage.assets[0].uri,
         name: enteredImage.assets[0].name,
@@ -135,13 +156,11 @@ export default function EditProfileScreen({ navigation }) {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           setIsSubmitting(false);
-          // console.log(data.token);
           newtoken = JSON.stringify(data.token);
           AsyncStorage.setItem("token", newtoken);
-          navigation.navigate("Profile", { newtoken: data.token });
-        }) 
+          navigation.navigate("DoctorDetailsScreen");
+        })
         .catch((error) => {
           setIsSubmitting(false);
           console.error("Fetch error:", error);
@@ -178,55 +197,86 @@ export default function EditProfileScreen({ navigation }) {
       <NotificationBell />
       <ScrollView>
         <HeaderText>Edit Your Profile</HeaderText>
-        <NormalText>
-          Edit your profile details to make sure your healthcare experience is
-          tailored to your preferences. Providing accurate information about
-          yourself helps us connect you with the right doctors and services,
-          ensuring that you receive care that suits your needs, location, and
-          schedule.
-        </NormalText>
+        <NormalText>Edit your profile details.</NormalText>
         <View>
           <UploadInput txt="Upload A New Image" onPress={selectFile} />
           <NAME />
           <InputHybrid
             placeholder="Your Name"
-            onUpdateValue={updateInputValueHandler.bind(this, "user_name")}
-            value={inputs.user_name.value}
-            isInvalid={!inputs.user_name.isValid}
+            onUpdateValue={updateInputValueHandler.bind(this, "doctor_name")}
+            value={inputs.doctor_name.value}
+            isInvalid={!inputs.doctor_name.isValid}
           />
-          <DisabledInput placeholder="Email Address" txt={token.user_email} />
+          <DisabledInput
+            placeholder="Email Address"
+            txt={doctor.doctor_email}
+          />
           <InputHybrid
             placeholder="Your Phone"
-            onUpdateValue={updateInputValueHandler.bind(this, "user_phone")}
-            value={inputs.user_phone.value}
-            isInvalid={!inputs.user_phone.isValid}
+            onUpdateValue={updateInputValueHandler.bind(this, "doctor_phone")}
+            value={inputs.doctor_phone.value}
+            isInvalid={!inputs.doctor_phone.isValid}
           />
           <InputHybrid
-            placeholder="Your DOB"
-            onUpdateValue={updateInputValueHandler.bind(this, "user_dob")}
-            value={inputs.user_dob.value}
-            isInvalid={!inputs.user_dob.isValid}
+            placeholder="Your Bio"
+            onUpdateValue={updateInputValueHandler.bind(this, "doctor_bio")}
+            value={inputs.doctor_bio.value}
+            isInvalid={!inputs.doctor_bio.isValid}
+            multiline={true}
+            numberOfLines={6}
           />
+
           <InputHybrid
-            placeholder="Your Weight"
-            onUpdateValue={updateInputValueHandler.bind(this, "user_weight")}
-            value={inputs.user_weight.value}
-            isInvalid={!inputs.user_weight.isValid}
-          />
-          <InputHybrid
-            placeholder="Your Height"
-            onUpdateValue={updateInputValueHandler.bind(this, "user_height")}
-            value={inputs.user_height.value}
-            isInvalid={!inputs.user_height.isValid}
-          />
-          <InputHybrid
-            placeholder="Your Blood Group"
+            placeholder="Your Qualification"
             onUpdateValue={updateInputValueHandler.bind(
               this,
-              "user_blood_group"
+              "doctor_qualifications"
             )}
-            value={inputs.user_blood_group.value}
-            isInvalid={!inputs.user_blood_group.isValid}
+            value={inputs.doctor_qualifications.value}
+            isInvalid={!inputs.doctor_qualifications.isValid}
+            multiline={true}
+            numberOfLines={6}
+          />
+
+          <InputHybrid
+            placeholder="Your Statement"
+            onUpdateValue={updateInputValueHandler.bind(
+              this,
+              "doctor_statement"
+            )}
+            value={inputs.doctor_statement.value}
+            isInvalid={!inputs.doctor_statement.isValid}
+            multiline={true}
+            numberOfLines={6}
+          />
+
+          <InputHybrid
+            placeholder="Your Hourly Rates"
+            onUpdateValue={updateInputValueHandler.bind(this, "doctor_rate")}
+            value={inputs.doctor_rate.value}
+            isInvalid={!inputs.doctor_rate.isValid}
+          />
+
+          <InputHybrid
+            placeholder="Your Weight"
+            onUpdateValue={updateInputValueHandler.bind(
+              this,
+              "doctor_location"
+            )}
+            value={inputs.doctor_location.value}
+            isInvalid={!inputs.doctor_location.isValid}
+          />
+          <InputHybrid
+            placeholder="Your Gender"
+            onUpdateValue={updateInputValueHandler.bind(this, "doctor_gender")}
+            value={inputs.doctor_gender.value}
+            isInvalid={!inputs.doctor_gender.isValid}
+          />
+          <InputHybrid
+            placeholder="Your License"
+            onUpdateValue={updateInputValueHandler.bind(this, "doctor_license")}
+            value={inputs.doctor_license.value}
+            isInvalid={!inputs.doctor_license.isValid}
           />
           <PrimaryButton onPress={submitProfileData}>
             Edit Profile

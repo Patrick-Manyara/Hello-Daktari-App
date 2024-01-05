@@ -34,11 +34,11 @@ export default function ProfileAddressScreen({ route, navigation }) {
   const [channel, setChannel] = useState("");
   const [session_data, setSessionData] = useState("");
 
-  const baseurl = Path.API_URL + "addresses.php";
+  const baseUrl = Path.API_URL + "addresses.php";
 
   const fetchAddresses = () => {
     const queryParams = `action=all&user_id=${token.user_id}`;
-    const url = `${baseurl}?${queryParams}`;
+    const url = `${baseUrl}?${queryParams}`;
     try {
       fetch(url)
         .then((response) => response.json())
@@ -127,13 +127,13 @@ export default function ProfileAddressScreen({ route, navigation }) {
   const removeAddress = (address_id) => {
     setIsDeleting(true);
     const queryParams = `action=delete`;
-    const url = `${baseurl}?${queryParams}`;
-    const body = new FormData();
-    body.append("address_id", address_id);
+    const url = `${baseUrl}?${queryParams}`;
+    const formData = new FormData();
+    formData.append("address_id", address_id);
     try {
       fetch(url, {
         method: "POST",
-        body: body,
+        body: formData,
       })
         .then((response) => response.json())
         .then((data) => {

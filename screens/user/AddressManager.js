@@ -52,23 +52,23 @@ export default function AddressManager({ route, navigation }) {
     });
   }
 
-  const baseurl = Path.API_URL + "addresses.php";
+  const baseUrl = Path.API_URL + "addresses.php";
 
   const submitAddressData = async () => {
     setIsAdding(true);
     const queryParams = `action=update`;
-    const url = `${baseurl}?${queryParams}`;
-    const body = new FormData();
-    body.append("address_name", inputs.address_name.value);
-    body.append("address_label", inputs.address_label.value);
-    body.append("address_phone", inputs.address_phone.value);
-    body.append("address_location", inputs.address_location.value);
-    body.append("address_id", addressToEdit.address_id);
+    const url = `${baseUrl}?${queryParams}`;
+    const formData = new FormData();
+    formData.append("address_name", inputs.address_name.value);
+    formData.append("address_label", inputs.address_label.value);
+    formData.append("address_phone", inputs.address_phone.value);
+    formData.append("address_location", inputs.address_location.value);
+    formData.append("address_id", addressToEdit.address_id);
 
     try {
       fetch(url, {
         method: "POST",
-        body: body,
+        body: formData,
       })
         .then((response) => response.json())
         .then((data) => {
@@ -89,18 +89,18 @@ export default function AddressManager({ route, navigation }) {
   const submitNewAddress = async () => {
     setIsAdding(true);
     const queryParams = `action=add`;
-    const url = `${baseurl}?${queryParams}`;
-    const body = new FormData();
-    body.append("address_name", inputs.address_name.value);
-    body.append("address_label", inputs.address_label.value);
-    body.append("address_phone", inputs.address_phone.value);
-    body.append("address_location", inputs.address_location.value);
-    body.append("user_id", token.user_id);
+    const url = `${baseUrl}?${queryParams}`;
+    const formData = new FormData();
+    formData.append("address_name", inputs.address_name.value);
+    formData.append("address_label", inputs.address_label.value);
+    formData.append("address_phone", inputs.address_phone.value);
+    formData.append("address_location", inputs.address_location.value);
+    formData.append("user_id", token.user_id);
 
     try {
       fetch(url, {
         method: "POST",
-        body: body,
+        body: formData,
       })
         .then((response) => response.json())
         .then((data) => {

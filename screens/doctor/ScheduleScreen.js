@@ -12,6 +12,7 @@ import { AuthContext } from "../../store/auth-context";
 import UrgencyCard from "../../components/Cards/UrgencyCard";
 import PrimaryButton from "../../components/ui/PrimaryButton";
 import { useNavigation } from "@react-navigation/native";
+import TransparentButton from "../../components/ui/TransparentButton";
 
 export default function ScheduleScreen() {
   //TOKEN AND FETCHING
@@ -21,37 +22,44 @@ export default function ScheduleScreen() {
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    setToken(authCtx.token);
+    const fetchScheduleData = async () => {
+      try {
+        setToken(authCtx.token);
 
-    fetchData();
-  }, []);
+        const baseUrl = Path.API_URL + "doctor.php";
+        const queryParams = `action=fetch_schedule&doctor_id=${token.doctor_id}`;
+        const fetchUrl = `${baseUrl}?${queryParams}`;
 
-  const fetchData = async () => {
-    const baseUrl = Path.API_URL + "doctor.php";
-    const queryParams = `action=fetch_schedule&doctor_id=${token.doctor_id}`;
-    const fetchUrl = `${baseUrl}?${queryParams}`;
-    try {
-      const response = await fetch(fetchUrl);
-      const data = await response.json();
+        const response = await fetch(fetchUrl);
+        const data = await response.json();
 
-      if (Array.isArray(data.schedule)) {
-        setSchedule(data.schedule);
-      } else {
-        console.log("none");
+        if (Array.isArray(data.schedule)) {
+          setSchedule(data.schedule);
+        } else {
+          console.log("none");
+        }
+
+        setIsFetching(false);
+      } catch (error) {
+        setIsFetching(false);
+        console.error("Fetch error:", error);
       }
+    };
 
-      setIsFetching(false);
-    } catch (error) {
-      setIsFetching(false);
-      console.error("Fetch error:", error);
-    }
-  };
-
+    fetchScheduleData();
+  }, [authCtx.token, token.doctor_id]);
   //NAVIGATION
   const navigation = useNavigation();
 
   function navigateToScreen(screenName) {
     navigation.navigate(screenName, { doctor: token });
+  }
+
+  function navigateToViewSchedule() {
+    navigation.navigate("ViewScheduleScreen", {
+      doctor: token,
+      schedule: schedule,
+    });
   }
 
   return (
@@ -65,18 +73,18 @@ export default function ScheduleScreen() {
             {schedule.length > 0 && (
               <View>
                 <PrimaryButton onPress={() => {}}>
-                  Edit Current Session
+                  Edit Current Schedule
                 </PrimaryButton>
+                <TransparentButton onPress={() => navigateToViewSchedule()}>
+                  Vew Current Schedule
+                </TransparentButton>
               </View>
             )}
             <View>
               <PrimaryButton
                 onPress={() => navigateToScreen("NewScheduleScreen")}
               >
-                Create New Session
-              </PrimaryButton>
-              <PrimaryButton onPress={() => {}}>
-                Vew Current Schedule
+                Create New Schedule
               </PrimaryButton>
             </View>
           </View>
