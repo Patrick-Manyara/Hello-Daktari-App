@@ -204,8 +204,8 @@ export default function EditDetailsScreen({ route, navigation }) {
           <InputHybrid
             placeholder="Your Name"
             onUpdateValue={updateInputValueHandler.bind(this, "doctor_name")}
-            value={inputs.doctor_name.value}
-            isInvalid={!inputs.doctor_name.isValid}
+            value={doctor.doctor_name}
+            isInvalid={false}
           />
           <DisabledInput
             placeholder="Email Address"
@@ -214,14 +214,14 @@ export default function EditDetailsScreen({ route, navigation }) {
           <InputHybrid
             placeholder="Your Phone"
             onUpdateValue={updateInputValueHandler.bind(this, "doctor_phone")}
-            value={inputs.doctor_phone.value}
-            isInvalid={!inputs.doctor_phone.isValid}
+            value={doctor.doctor_phone}
+            isInvalid={false}
           />
           <InputHybrid
             placeholder="Your Bio"
             onUpdateValue={updateInputValueHandler.bind(this, "doctor_bio")}
-            value={inputs.doctor_bio.value}
-            isInvalid={!inputs.doctor_bio.isValid}
+            value={doctor.doctor_bio}
+            isInvalid={false}
             multiline={true}
             numberOfLines={6}
           />
@@ -232,8 +232,8 @@ export default function EditDetailsScreen({ route, navigation }) {
               this,
               "doctor_qualifications"
             )}
-            value={inputs.doctor_qualifications.value}
-            isInvalid={!inputs.doctor_qualifications.isValid}
+            value={doctor.doctor_qualifications}
+            isInvalid={false}
             multiline={true}
             numberOfLines={6}
           />
@@ -244,8 +244,8 @@ export default function EditDetailsScreen({ route, navigation }) {
               this,
               "doctor_statement"
             )}
-            value={inputs.doctor_statement.value}
-            isInvalid={!inputs.doctor_statement.isValid}
+            value={doctor.doctor_statement}
+            isInvalid={false}
             multiline={true}
             numberOfLines={6}
           />
@@ -253,8 +253,8 @@ export default function EditDetailsScreen({ route, navigation }) {
           <InputHybrid
             placeholder="Your Hourly Rates"
             onUpdateValue={updateInputValueHandler.bind(this, "doctor_rate")}
-            value={inputs.doctor_rate.value}
-            isInvalid={!inputs.doctor_rate.isValid}
+            value={doctor.doctor_rate}
+            isInvalid={false}
           />
 
           <InputHybrid
@@ -263,20 +263,20 @@ export default function EditDetailsScreen({ route, navigation }) {
               this,
               "doctor_location"
             )}
-            value={inputs.doctor_location.value}
-            isInvalid={!inputs.doctor_location.isValid}
+            value={doctor.doctor_location}
+            isInvalid={false}
           />
           <InputHybrid
             placeholder="Your Gender"
             onUpdateValue={updateInputValueHandler.bind(this, "doctor_gender")}
-            value={inputs.doctor_gender.value}
-            isInvalid={!inputs.doctor_gender.isValid}
+            value={doctor.doctor_gender}
+            isInvalid={false}
           />
           <InputHybrid
             placeholder="Your License"
             onUpdateValue={updateInputValueHandler.bind(this, "doctor_license")}
-            value={inputs.doctor_license.value}
-            isInvalid={!inputs.doctor_license.isValid}
+            value={doctor.doctor_license}
+            isInvalid={false}
           />
           <PrimaryButton onPress={submitProfileData}>
             Edit Profile
