@@ -17,44 +17,26 @@ import LoadingOverlay from "../../components/ui/LoadingOverlay";
 
 export default function DoctorDetailsScreen({ route }) {
   const authCtx = useContext(AuthContext);
-  const tk = authCtx.token;
 
   const [token, setToken] = useState("");
+  const [userimg, setUserImg] = useState("");
+
+  useFocusEffect(() => {
+    if (route.params?.newtoken) {
+      setToken(route.params.newtoken);
+    } else {
+      setToken(authCtx.token);
+    }
+
+    if (token.doctor_image == "") {
+      setUserImg("white_bg_image.png");
+    } else {
+      setUserImg(token.doctor_image);
+    }
+    setIsFetching(false);
+  });
 
   const [isFetching, setIsFetching] = useState(true);
-
-  const fetchProfile = () => {
-    const baseUrl = Path.API_URL + "doctor.php";
-    const queryParams = `action=profile&doctor_id=${tk.doctor_id}`;
-    const fetchurl = `${baseUrl}?${queryParams}`;
-    try {
-      fetch(fetchurl)
-        .then((response) => response.json())
-        .then((data) => {
-          setToken(data.data);
-          setIsFetching(false);
-        })
-        .catch((error) => {
-          setIsFetching(false);
-          console.error("Fetch error:", error);
-        });
-    } catch (error) {
-      setIsFetching(false);
-      console.error("Request setup error:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      fetchProfile();
-    });
-
-    return unsubscribe;
-  }, [navigation]);
 
   const navigation = useNavigation();
 
@@ -79,7 +61,7 @@ export default function DoctorDetailsScreen({ route }) {
                 <Pressable style={styles.imageContainer}>
                   <Image
                     source={{
-                      uri: Path.IMAGE_URL + token.doctor_image,
+                      uri: Path.IMAGE_URL + userimg,
                     }}
                     style={styles.image}
                   />

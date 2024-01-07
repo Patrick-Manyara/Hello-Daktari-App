@@ -25,59 +25,65 @@ import { globalStyles } from "../../constants/globalcss";
 
 export default function EditDetailsScreen({ route, navigation }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [doctor, setDoctor] = useState([]);
+  const authCtx = useContext(AuthContext);
+
+  const [token, setToken] = useState("");
 
   //uploads
   const [enteredImage, setEnteredImage] = useState("");
   const [enteredImageName, setEnteredImageName] = useState("");
 
   useEffect(() => {
-    setDoctor(route.params.token);
-  }, [route.params]);
+    setToken(authCtx.token);
+  }, [authCtx.token]);
 
   const [inputs, setInputs] = useState({
     doctor_name: {
-      value: doctor.doctor_name || "",
+      value: authCtx.token ? authCtx.token.doctor_name : "",
       isValid: true,
     },
     doctor_phone: {
-      value: doctor.doctor_phone || "",
+      value: authCtx.token ? authCtx.token.doctor_phone : "",
       isValid: true,
     },
     doctor_passport: {
-      value: doctor.doctor_passport || "",
+      value: authCtx.token ? authCtx.token.doctor_passport : "",
       isValid: true,
     },
     doctor_bio: {
-      value: doctor.doctor_bio || "",
+      value: authCtx.token ? authCtx.token.doctor_bio : "",
       isValid: true,
     },
     doctor_statement: {
-      value: doctor.doctor_statement || "",
+      value: authCtx.token ? authCtx.token.doctor_statement : "",
       isValid: true,
     },
     doctor_rate: {
-      value: doctor.doctor_rate || "",
+      value: authCtx.token ? authCtx.token.doctor_rate : "",
       isValid: true,
     },
     doctor_qualifications: {
-      value: doctor.doctor_qualifications || "",
+      value: authCtx.token ? authCtx.token.doctor_qualifications : "",
       isValid: true,
     },
     doctor_experience: {
-      value: doctor.doctor_experience || "",
+      value: authCtx.token ? authCtx.token.doctor_experience : "",
       isValid: true,
     },
     doctor_location: {
-      value: doctor.doctor_location || "",
+      value: authCtx.token ? authCtx.token.doctor_location : "",
       isValid: true,
     },
     doctor_gender: {
-      value: doctor.doctor_gender || "",
+      value: authCtx.token ? authCtx.token.doctor_gender : "",
       isValid: true,
     },
     doctor_license: {
-      value: doctor.doctor_license || "",
+      value: authCtx.token ? authCtx.token.doctor_license : "",
+      isValid: true,
+    },
+    doctor_dob: {
+      value: authCtx.token ? authCtx.token.doctor_dob : "",
       isValid: true,
     },
   });
@@ -127,6 +133,7 @@ export default function EditDetailsScreen({ route, navigation }) {
     formData.append("doctor_phone", inputs.doctor_phone.value);
     formData.append("doctor_passport", inputs.doctor_passport.value);
     formData.append("doctor_bio", inputs.doctor_bio.value);
+    formData.append("doctor_dob", inputs.doctor_dob.value);
     formData.append("doctor_gender", inputs.doctor_gender.value);
     formData.append("doctor_location", inputs.doctor_location.value);
     formData.append("doctor_license", inputs.doctor_license.value);
@@ -137,8 +144,13 @@ export default function EditDetailsScreen({ route, navigation }) {
       "doctor_qualifications",
       inputs.doctor_qualifications.value
     );
+    formData.append("doctor_statement", inputs.doctor_statement.value);
+    formData.append(
+      "doctor_qualifications",
+      inputs.doctor_qualifications.value
+    );
 
-    formData.append("doctor_id", doctor.doctor_id);
+    formData.append("doctor_id", token.doctor_id);
     if (enteredImage != "") {
       formData.append("doctor_image", {
         type: "image/*",
@@ -159,7 +171,7 @@ export default function EditDetailsScreen({ route, navigation }) {
           setIsSubmitting(false);
           newtoken = JSON.stringify(data.token);
           AsyncStorage.setItem("token", newtoken);
-          navigation.navigate("DoctorDetailsScreen");
+          navigation.navigate("DoctorDetailsScreen", { newtoken: data.token });
         })
         .catch((error) => {
           setIsSubmitting(false);
@@ -201,26 +213,31 @@ export default function EditDetailsScreen({ route, navigation }) {
         <View>
           <UploadInput txt="Upload A New Image" onPress={selectFile} />
           <NAME />
-          <InputHybrid
-            placeholder="Your Name"
-            onUpdateValue={updateInputValueHandler.bind(this, "doctor_name")}
-            value={doctor.doctor_name}
-            isInvalid={false}
-          />
+
+          <DisabledInput placeholder="Your Name" txt={token.doctor_name} />
+          <DisabledInput placeholder="Email Address" txt={token.doctor_email} />
           <DisabledInput
-            placeholder="Email Address"
-            txt={doctor.doctor_email}
+            placeholder="Your ID/Passport Number"
+            txt={token.doctor_passport}
           />
+
           <InputHybrid
             placeholder="Your Phone"
             onUpdateValue={updateInputValueHandler.bind(this, "doctor_phone")}
-            value={doctor.doctor_phone}
+            value={inputs.doctor_phone.value}
+            isInvalid={false}
+          />
+
+          <InputHybrid
+            placeholder="Your Date of Birth YYYY-MM-DD"
+            onUpdateValue={updateInputValueHandler.bind(this, "doctor_dob")}
+            value={inputs.doctor_dob.value}
             isInvalid={false}
           />
           <InputHybrid
             placeholder="Your Bio"
             onUpdateValue={updateInputValueHandler.bind(this, "doctor_bio")}
-            value={doctor.doctor_bio}
+            value={inputs.doctor_bio.value}
             isInvalid={false}
             multiline={true}
             numberOfLines={6}
@@ -232,7 +249,7 @@ export default function EditDetailsScreen({ route, navigation }) {
               this,
               "doctor_qualifications"
             )}
-            value={doctor.doctor_qualifications}
+            value={inputs.doctor_qualifications.value}
             isInvalid={false}
             multiline={true}
             numberOfLines={6}
@@ -244,7 +261,7 @@ export default function EditDetailsScreen({ route, navigation }) {
               this,
               "doctor_statement"
             )}
-            value={doctor.doctor_statement}
+            value={inputs.doctor_statement.value}
             isInvalid={false}
             multiline={true}
             numberOfLines={6}
@@ -253,31 +270,44 @@ export default function EditDetailsScreen({ route, navigation }) {
           <InputHybrid
             placeholder="Your Hourly Rates"
             onUpdateValue={updateInputValueHandler.bind(this, "doctor_rate")}
-            value={doctor.doctor_rate}
+            value={inputs.doctor_rate.value}
             isInvalid={false}
+            keyboardType="numeric"
           />
 
           <InputHybrid
-            placeholder="Your Weight"
+            placeholder="Your Years of Experience"
+            onUpdateValue={updateInputValueHandler.bind(
+              this,
+              "doctor_experience"
+            )}
+            value={inputs.doctor_experience.value}
+            isInvalid={false}
+            keyboardType="numeric"
+          />
+
+          <InputHybrid
+            placeholder="Your Location"
             onUpdateValue={updateInputValueHandler.bind(
               this,
               "doctor_location"
             )}
-            value={doctor.doctor_location}
+            value={inputs.doctor_location.value}
             isInvalid={false}
           />
           <InputHybrid
             placeholder="Your Gender"
             onUpdateValue={updateInputValueHandler.bind(this, "doctor_gender")}
-            value={doctor.doctor_gender}
+            value={inputs.doctor_gender.value}
             isInvalid={false}
           />
           <InputHybrid
             placeholder="Your License"
             onUpdateValue={updateInputValueHandler.bind(this, "doctor_license")}
-            value={doctor.doctor_license}
+            value={inputs.doctor_license.value}
             isInvalid={false}
           />
+
           <PrimaryButton onPress={submitProfileData}>
             Edit Profile
           </PrimaryButton>

@@ -90,7 +90,7 @@ export default function EditProfileScreen({ navigation }) {
       setEnteredImageName(r.name);
       ToastAndroid.show("Image loaded", ToastAndroid.SHORT);
     }
-  };
+  }; 
 
   const NAME = () => {
     if (enteredImage == null) {
