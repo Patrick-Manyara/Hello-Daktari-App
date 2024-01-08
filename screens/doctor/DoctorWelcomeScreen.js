@@ -9,7 +9,6 @@ import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import NotificationBell from "../../components/ui/NotificationBell";
 import HeaderText from "../../components/ui/HeaderText";
 import NormalText from "../../components/ui/NormalText";
-import SearchInput from "../../components/FormElements/SearchInput";
 import SessionHistoryCard from "../../components/Cards/SessionHistoryCard";
 import NextSessionCard from "../../components/Cards/NextSessionCard";
 import PrimaryButton from "../../components/ui/PrimaryButton";
@@ -35,6 +34,7 @@ export default function DoctorWelcomeScreen() {
   const [sessions, setSessions] = useState([]);
   const [futureSessions, setFutureSessions] = useState([]);
   const [pastSessions, setPastSessions] = useState([]);
+  const [todaySessions, setTodaySessions] = useState([]);
 
   const fetchSessions = async () => {
     setIsFetching(true);
@@ -50,13 +50,17 @@ export default function DoctorWelcomeScreen() {
         setSessions(data.sessions);
         const today = new Date().toISOString().split("T")[0];
         const future = data.sessions.filter(
-          (session) => session.session_date > today
+          (session) => session.session_date >= today
         );
         const past = data.sessions.filter(
-          (session) => session.session_date < today
+          (session) => session.session_date <= today
+        );
+        const todaySess = data.sessions.filter(
+          (session) => session.session_date == today
         );
         setFutureSessions(future);
         setPastSessions(past);
+        setTodaySessions(todaySess);
         setIsFetching(false);
       } else {
         console.log("No sessions");
@@ -92,10 +96,17 @@ export default function DoctorWelcomeScreen() {
             >
               {formattedDate}
             </NormalText>
-            <NormalText styleProp={styles.subText}>
-              You do not have a session today. Check your activity log below for
-              more details.
-            </NormalText>
+
+            {todaySessions.length > 0 ? (
+              <NormalText styleProp={styles.subText}>
+                You have {todaySessions.length} sessions today
+              </NormalText>
+            ) : (
+              <NormalText styleProp={styles.subText}>
+                You do not have a session today. Check your activity log below
+                for more details.
+              </NormalText>
+            )}
           </View>
         </ImageBackground>
 
@@ -112,25 +123,27 @@ export default function DoctorWelcomeScreen() {
               </View>
             ) : (
               <View>
-                <View>
-                  <NormalText
-                    fontProp="poppins-semibold"
-                    styleProp={{ color: Colors.mainBlue, marginVertical: 5 }}
-                  >
-                    Upcoming Appointments
-                  </NormalText>
-                </View>
+                <NormalText
+                  fontProp="poppins-semibold"
+                  styleProp={{ color: Colors.mainBlue, marginVertical: 5 }}
+                >
+                  Today and Upcoming Appointments
+                </NormalText>
+
                 {futureSessions.length > 0 && (
                   <ScrollView horizontal={true}>
-                    {futureSessions.map((item, index) => (
-                      <NextSessionCard
-                        key={index}
-                        userimg={item.user_image}
-                        username={item.user_name}
-                        sessionDate={item.session_date}
-                        sessionTime={item.session_start_time}
-                      />
-                    ))}
+                    {futureSessions.map((item, index) => {
+                      return (
+                        <NextSessionCard
+                          key={index}
+                          userimg={item.user_image}
+                          username={item.user_name}
+                          sessionDate={item.session_date}
+                          sessionTime={item.session_start_time}
+                          isToday={item.session_date == today ? true : false} // Pass the isToday prop
+                        />
+                      );
+                    })}
                   </ScrollView>
                 )}
 

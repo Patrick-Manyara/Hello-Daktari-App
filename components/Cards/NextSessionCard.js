@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Pressable, Image } from "react-native";
 
 import NormalText from "../ui/NormalText";
-import PrimaryButton from "../ui/PrimaryButton";
-import HeaderText from "../ui/HeaderText";
 
 import { Colors } from "../../constants/styles";
-import { globalStyles } from "../../constants/globalcss";
 
 import { getDayMonthAndYear, getTimeInAmPm } from "../../util/dateFormat";
 
@@ -17,6 +14,7 @@ export default function NextSessionCard({
   username,
   sessionDate,
   sessionTime,
+  isToday,
 }) {
   const [userImage, setUserImage] = useState("");
   useEffect(() => {
@@ -27,7 +25,7 @@ export default function NextSessionCard({
     }
   }, []);
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, isToday ? styles.pinkBg : styles.blueBg]}>
       <Image
         style={{ width: 50, height: 50, borderRadius: 25 }}
         source={{ uri: Path.IMAGE_URL + userImage }}
@@ -50,7 +48,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 180,
     marginRight: 10,
-    backgroundColor: Colors.mediumPink,
+    // backgroundColor: Colors.mediumPink,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 8,
@@ -63,5 +61,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 12,
     textAlign: "center",
+  },
+  pinkBg: {
+    backgroundColor: Colors.mediumPink,
+  },
+  blueBg: {
+    backgroundColor: Colors.darkBlue,
   },
 });

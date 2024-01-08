@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, FlatList, View, ScrollView, Image } from "react-native";
+import { StyleSheet, FlatList, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Path } from "../../constants/path";

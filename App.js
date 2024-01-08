@@ -64,6 +64,7 @@ import WalletScreen from "./screens/doctor/WalletScreen";
 import NewScheduleScreen from "./screens/doctor/NewScheduleScreen";
 import ViewScheduleScreen from "./screens/doctor/ViewScheduleScreen";
 import EditDetailsScreen from "./screens/doctor/EditDetailsScreen";
+import SessionDetailsScreen from "./screens/doctor/SessionDetailsScreen";
 
 //ICONS
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -336,6 +337,10 @@ function DoctorStack() {
         component={ViewScheduleScreen}
       />
       <DocStack.Screen name="EditDetailsScreen" component={EditDetailsScreen} />
+      <DocStack.Screen
+        name="SessionDetailsScreen"
+        component={SessionDetailsScreen}
+      />
     </DocStack.Navigator>
   );
 }
