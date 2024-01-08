@@ -1,10 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  ImageBackground,
-} from "react-native";
+import { StyleSheet, View, ScrollView, ImageBackground } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../../store/auth-context";
 
@@ -50,8 +45,6 @@ export default function DoctorWelcomeScreen() {
     try {
       const response = await fetch(url);
       const data = await response.json();
-
-      
 
       if (Array.isArray(data.sessions)) {
         setSessions(data.sessions);
@@ -105,7 +98,7 @@ export default function DoctorWelcomeScreen() {
             </NormalText>
           </View>
         </ImageBackground>
-        <SearchInput message="Doctors, Products or Services" />
+
         {isFetching ? (
           <LoadingOverlay message="Fetching your session history" />
         ) : sessions.length > 0 ? (
@@ -169,9 +162,7 @@ export default function DoctorWelcomeScreen() {
         ) : (
           <View>
             <NormalText>No Sessions Found</NormalText>
-            <PrimaryButton onPress={fetchSessions}>
-              Try Again
-            </PrimaryButton>
+            <PrimaryButton onPress={fetchSessions}>Try Again</PrimaryButton>
           </View>
         )}
       </ScrollView>

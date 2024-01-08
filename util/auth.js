@@ -61,7 +61,7 @@ async function docLogin(email, password) {
   });
   const responseJson = await response.json();
 
-  if (responseJson) {
+  if (responseJson.data) {
     return responseJson.data;
   } else {
     return false;

@@ -2,7 +2,14 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PagerView from "react-native-pager-view";
 import { globalStyles } from "../constants/globalcss";
-import { Dimensions, Text, StyleSheet, View, ScrollView } from "react-native";
+import {
+  Dimensions,
+  Text,
+  ImageBackground,
+  View,
+  StyleSheet,
+  Image,
+} from "react-native";
 import TabBlocks from "../components/Blocks/TabBlocks";
 import TransparentButton from "../components/ui/TransparentButton";
 import PrimaryButton from "../components/ui/PrimaryButton";
@@ -16,22 +23,37 @@ export default function ChoiceScreen() {
     navigation.navigate(screenName);
   }
   return (
-    <SafeAreaView style={globalStyles.safeAreaView}>
-      <ScrollView>
+    <ImageBackground
+      style={[globalStyles.safeAreaView]}
+      source={require("../assets/images/steth.png")}
+    >
+      <View style={styles.overlay}>
+        <Image
+          source={require("../assets/images/art.png")}
+          style={{ height: 200, width: 200 }}
+        />
         <View>
-          <HeaderText>Access Hello Daktari as a doctor or patient?</HeaderText>
-          <View>
-            <PrimaryButton
-              onPress={() => navigateToScreen("DoctorLoginScreen")}
-            >
-              Doctor
-            </PrimaryButton>
-            <TransparentButton onPress={() => navigateToScreen("Login")}>
-              Patient/Client
-            </TransparentButton>
-          </View>
+          <PrimaryButton
+            style={{ width: 300 }}
+            onPress={() => navigateToScreen("DoctorLoginScreen")}
+          >
+            I Am A Doctor
+          </PrimaryButton>
+          <PrimaryButton onPress={() => navigateToScreen("Login")}>
+            I Am A Patient/Client
+          </PrimaryButton>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </ImageBackground>
   );
 }
+
+const styles = StyleSheet.create({
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "#4C84C3BF", // Blue overlay with 50% opacity
+    justifyContent: "center",
+    padding: 10,
+    alignItems: "center",
+  },
+});

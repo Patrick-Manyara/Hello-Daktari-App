@@ -5,7 +5,7 @@ import PrimaryButton from "../ui/PrimaryButton";
 import HeaderText from "../ui/HeaderText";
 import HomePageModal from "../Modals/HomePageModal";
 import NormalText from "../ui/NormalText";
-
+ 
 export default function BannerBlock() {
   const [isModalVisible, setIsModalVisible] = useState(false);
 

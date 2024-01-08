@@ -21,6 +21,8 @@ export default function DoctorLoginScreen() {
     try {
       const token = await doctorLogin(email, password);
       if (token === false) {
+        Alert.alert("Authentication Failed!", "Could not log you in!");
+        setIsAuthenticating(false);
       } else {
         authCtx.authenticate(token);
       }
