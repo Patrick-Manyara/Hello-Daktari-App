@@ -2,8 +2,17 @@ import { Pressable, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { Colors } from "../../constants/styles";
+import MediumText from "./MediumText";
 
-function IconButton({ icon, color, size, onPress, styleProp }) {
+function IconButton({
+  icon,
+  color,
+  size,
+  onPress,
+  styleProp,
+  text,
+  textStyle,
+}) {
   return (
     <Pressable
       style={({ pressed }) => [
@@ -14,6 +23,7 @@ function IconButton({ icon, color, size, onPress, styleProp }) {
       onPress={onPress}
     >
       <Ionicons name={icon} color={color} size={size} />
+      {text && <MediumText styleProp={textStyle}>{text}</MediumText>}
     </Pressable>
   );
 }

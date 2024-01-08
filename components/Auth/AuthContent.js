@@ -6,9 +6,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import FlatButton from "../ui/FlatButton";
 import AuthForm from "./AuthForm";
 import HeaderText from "../ui/HeaderText";
+import NormalText from "../ui/NormalText";
 
 import { globalStyles } from "../../constants/globalcss";
-import NormalText from "../ui/NormalText";
 
 function AuthContent({ isLogin, onAuthenticate, headerText }) {
   const navigation = useNavigation();

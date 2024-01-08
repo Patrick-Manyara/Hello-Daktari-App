@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image, StyleSheet, Pressable } from "react-native";
 import { Path } from "../../constants/path";
 
@@ -18,12 +18,21 @@ export default function SessionHistoryCard({
   sessionDate,
   sessionTime,
 }) {
+  const [userImage, setUserImage] = useState("");
+  useEffect(() => {
+    if (img === null) {
+      setUserImage("white_bg_image.png");
+    } else {
+      setUserImage(img);
+    }
+  }, []);
+
   return (
     <View style={styles.card}>
       <View>
         <Image
           style={{ width: 50, height: 50, borderRadius: 25 }}
-          source={{ uri: Path.IMAGE_URL + img }}
+          source={{ uri: Path.IMAGE_URL + userImage }}
         />
       </View>
       <View style={{ marginLeft: 10 }}>

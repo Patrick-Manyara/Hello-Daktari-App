@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Pressable, Image } from "react-native";
+import { StyleSheet, Pressable, Image } from "react-native";
+import { Path } from "../../constants/path";
 
 import NormalText from "../ui/NormalText";
 
-import { Colors } from "../../constants/styles";
-
 import { getDayMonthAndYear, getTimeInAmPm } from "../../util/dateFormat";
 
-import { Path } from "../../constants/path";
+import { globalStyles } from "../../constants/globalcss";
+import { Colors } from "../../constants/styles";
 
 export default function NextSessionCard({
   userimg,
@@ -15,17 +15,27 @@ export default function NextSessionCard({
   sessionDate,
   sessionTime,
   isToday,
+  onPress,
 }) {
   const [userImage, setUserImage] = useState("");
   useEffect(() => {
-    if (userimg == "") {
+    if (userimg === null) {
       setUserImage("white_bg_image.png");
     } else {
       setUserImage(userimg);
     }
   }, []);
+
   return (
-    <View style={[styles.card, isToday ? styles.pinkBg : styles.blueBg]}>
+    <Pressable
+      android_ripple={{ color: "#ccc" }}
+      style={({ pressed }) => [
+        styles.card,
+        isToday ? styles.pinkBg : styles.blueBg,
+        pressed ? globalStyles.buttonPressed : null,
+      ]}
+      onPress={onPress}
+    >
       <Image
         style={{ width: 50, height: 50, borderRadius: 25 }}
         source={{ uri: Path.IMAGE_URL + userImage }}
@@ -39,7 +49,7 @@ export default function NextSessionCard({
       <NormalText styleProp={styles.userName}>
         {getTimeInAmPm(sessionTime)}
       </NormalText>
-    </View>
+    </Pressable>
   );
 }
 

@@ -15,6 +15,7 @@ import PrimaryButton from "../../components/ui/PrimaryButton";
 
 import { globalStyles } from "../../constants/globalcss";
 import { Colors } from "../../constants/styles";
+import { useNavigation } from "@react-navigation/native";
 
 export default function DoctorWelcomeScreen() {
   const today = new Date();
@@ -75,6 +76,12 @@ export default function DoctorWelcomeScreen() {
   useEffect(() => {
     fetchSessions();
   }, []);
+
+  const navigation = useNavigation();
+
+  const navigateToDetails = (session) => {
+    navigation.navigate("SessionDetailsScreen", { session: session });
+  };
 
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
@@ -141,6 +148,7 @@ export default function DoctorWelcomeScreen() {
                           sessionDate={item.session_date}
                           sessionTime={item.session_start_time}
                           isToday={item.session_date == today ? true : false} // Pass the isToday prop
+                          onPress={() => navigateToDetails(item)}
                         />
                       );
                     })}
