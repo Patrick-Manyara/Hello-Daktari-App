@@ -51,7 +51,8 @@ import { faPaperPlane, faSmile } from "@fortawesome/free-regular-svg-icons";
 import InputHybrid from "../../components/FormElements/InputHybrid";
 import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
 
-export default function ChatScreen({ route, navigation }) {
+
+export default function UserChatScreen({ route, navigation }) {
   //TOKEN
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;

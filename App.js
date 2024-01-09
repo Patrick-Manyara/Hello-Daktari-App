@@ -45,6 +45,8 @@ import MedicalRecordsScreen from "./screens/user/MedicalRecordsScreen";
 import BasePaymentScreen from "./screens/user/BasePaymentScreen";
 import SessionHistoryScreen from "./screens/user/SessionHistoryScreen";
 import HouseAddressManager from "./screens/user/HouseAddressManager";
+import UserChatRooms from "./screens/user/UserChatRooms";
+import UserChatScreen from "./screens/user/UserChatScreen";
 
 //**doctor*//
 import DoctorLoginScreen from "./screens/doctor/DoctorLoginScreen";
@@ -303,6 +305,8 @@ function HomeStack() {
         name="HouseAddressManager"
         component={HouseAddressManager}
       />
+      <Stack.Screen name="UserChatRooms" component={UserChatRooms} />
+      <Stack.Screen name="UserChatScreen" component={UserChatScreen} />
     </Stack.Navigator>
   );
 }

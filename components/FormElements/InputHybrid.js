@@ -19,6 +19,8 @@ export default function InputHybrid({
   multiline,
   numberOfLines,
   inputStyle,
+  placeholderTextColor,
+  containerStyle,
 }) {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -40,19 +42,20 @@ export default function InputHybrid({
           style={[
             globalStyles.disabledContainer,
             styles.customInput,
-            inputStyle,
+            containerStyle,
           ]}
         >
           <NormalText styleProp={{ color: "#00000066", fontSize: 8 }}>
             {placeholder}
           </NormalText>
           <TextInput
-            style={[styles.input, isInvalid && styles.inputInvalid]}
+            style={[styles.input, isInvalid && styles.inputInvalid, inputStyle]}
             keyboardType={keyboardType}
             secureTextEntry={secure}
             onChangeText={onUpdateValue}
             value={value}
             placeholder={label}
+            placeholderTextColor={placeholderTextColor}
             multiline={multiline}
             numberOfLines={numberOfLines}
           />
@@ -78,10 +81,18 @@ const styles = StyleSheet.create({
     color: Colors.error500,
   },
   input: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: "poppins-regular",
   },
   inputInvalid: {
     backgroundColor: Colors.error100,
+  },
+
+  customInput: {
+    height: 40,
+    justifyContent: "space-between",
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingVertical: 8,
   },
 });
