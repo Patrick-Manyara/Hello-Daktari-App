@@ -13,8 +13,8 @@ import SearchInput from "../../components/FormElements/SearchInput";
 import PatientListCard from "../../components/Cards/PatientListCard";
 
 import { globalStyles } from "../../constants/globalcss";
- 
-export default function AllPatientsScreen({ navigation }) {
+
+export default function StartNewChat({ navigation }) {
   //TOKEN
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
@@ -22,10 +22,6 @@ export default function AllPatientsScreen({ navigation }) {
   //SESSIONS
   const [isFetching, setIsFetching] = useState(true);
   const [patients, setPatients] = useState([]);
-  const [addresses, setAddresses] = useState({});
-  const [uploads, setUploads] = useState({});
-  const [prescriptions, setPrescriptions] = useState({});
-  const [sessions, setSessions] = useState({});
 
   const fetchPatients = () => {
     setIsFetching(true);
@@ -38,10 +34,6 @@ export default function AllPatientsScreen({ navigation }) {
         .then((data) => {
           setIsFetching(false);
           setPatients(data.patients);
-          setAddresses(data.addresses);
-          setUploads(data.uploads);
-          setPrescriptions(data.prescriptions);
-          setSessions(data.sessions);
         })
         .catch((error) => {
           setIsFetching(false);
@@ -67,15 +59,9 @@ export default function AllPatientsScreen({ navigation }) {
 
   const renderItem = ({ item }) => (
     <PatientListCard
-      onPress={() =>
-        navigation.navigate("PatientDetailScreen", {
-          patient: item,
-          addresses: addresses[item.user_id] || [],
-          uploads: uploads[item.user_id] || [],
-          prescriptions: prescriptions[item.user_id] || [],
-          sessions: sessions[item.user_id] || [],
-        })
-      }
+      onPress={() => {
+        navigation.navigate("DocAddChatRoom", { user: item });
+      }}
       img={item.user_image}
       username={item.user_name}
     />

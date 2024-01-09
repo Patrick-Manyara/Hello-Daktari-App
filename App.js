@@ -65,6 +65,10 @@ import NewScheduleScreen from "./screens/doctor/NewScheduleScreen";
 import ViewScheduleScreen from "./screens/doctor/ViewScheduleScreen";
 import EditDetailsScreen from "./screens/doctor/EditDetailsScreen";
 import SessionDetailsScreen from "./screens/doctor/SessionDetailsScreen";
+import ChatScreen from "./screens/doctor/ChatScreen";
+import StartNewChat from "./screens/doctor/StartNewChat";
+import DoctorChatRooms from "./screens/doctor/DoctorChatRooms";
+import DocAddChatRoom from "./screens/doctor/DocAddChatRoom";
 
 //ICONS
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -77,7 +81,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import DoctorLogin from "./components/Auth/DoctorLogin";
 import DoctorSignUp from "./components/Auth/DoctorSignUp";
-import { faCalendar, faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
+import {
+  faCalendar,
+  faCalendarAlt,
+  faMessage,
+} from "@fortawesome/free-regular-svg-icons";
 
 //STACK INITIALIZATION
 const Stack = createNativeStackNavigator();
@@ -161,11 +169,11 @@ function DoctorTabNavigator() {
         options={{
           title: "",
           tabBarIcon: () => (
-            <FontAwesomeIcon icon={faUserGroup} color={Colors.mainBlue} />
+            <FontAwesomeIcon icon={faMessage} color={Colors.mainBlue} />
           ),
         }}
-        name="AllPatientsScreen"
-        component={AllPatientsScreen}
+        name="DoctorChatRooms"
+        component={DoctorChatRooms}
       />
       <DocBottomTab.Screen
         options={{
@@ -341,6 +349,10 @@ function DoctorStack() {
         name="SessionDetailsScreen"
         component={SessionDetailsScreen}
       />
+      <DocStack.Screen name="AllPatientsScreen" component={AllPatientsScreen} />
+      <DocStack.Screen name="DocAddChatRoom" component={DocAddChatRoom} />
+      <DocStack.Screen name="StartNewChat" component={StartNewChat} />
+      <DocStack.Screen name="ChatScreen" component={ChatScreen} />
     </DocStack.Navigator>
   );
 }
