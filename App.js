@@ -67,6 +67,7 @@ import NewScheduleScreen from "./screens/doctor/NewScheduleScreen";
 import ViewScheduleScreen from "./screens/doctor/ViewScheduleScreen";
 import EditDetailsScreen from "./screens/doctor/EditDetailsScreen";
 import SessionDetailsScreen from "./screens/doctor/SessionDetailsScreen";
+import AppointmentDetails from "./screens/doctor/AppointmentDetails";
 import ChatScreen from "./screens/doctor/ChatScreen";
 import StartNewChat from "./screens/doctor/StartNewChat";
 import DoctorChatRooms from "./screens/doctor/DoctorChatRooms";
@@ -352,6 +353,10 @@ function DoctorStack() {
       <DocStack.Screen
         name="SessionDetailsScreen"
         component={SessionDetailsScreen}
+      />
+      <DocStack.Screen
+        name="AppointmentDetails"
+        component={AppointmentDetails}
       />
       <DocStack.Screen name="AllPatientsScreen" component={AllPatientsScreen} />
       <DocStack.Screen name="DocAddChatRoom" component={DocAddChatRoom} />

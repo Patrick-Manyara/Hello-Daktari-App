@@ -51,7 +51,6 @@ import { faPaperPlane, faSmile } from "@fortawesome/free-regular-svg-icons";
 import InputHybrid from "../../components/FormElements/InputHybrid";
 import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
 
-
 export default function UserChatScreen({ route, navigation }) {
   //TOKEN
   const authCtx = useContext(AuthContext);
@@ -72,6 +71,8 @@ export default function UserChatScreen({ route, navigation }) {
       timeStamp: timeStamp,
       message: message,
       user: item.user,
+      sender: item.receiver,
+      receiver: item.sender,
     };
     setMessage("");
 
@@ -97,6 +98,8 @@ export default function UserChatScreen({ route, navigation }) {
       const upMsg = querySnap.docs.map((doc) => doc.data());
       setMessages(upMsg);
       setIsLoading(false);
+
+      console.log(messages);
     });
 
     return unsubscibe;
@@ -104,7 +107,7 @@ export default function UserChatScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
-      <HeaderText>{item.chatName}</HeaderText>
+      <HeaderText>{item.chatName} User</HeaderText>
       <View style={styles.outerView}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -122,7 +125,7 @@ export default function UserChatScreen({ route, navigation }) {
               ) : (
                 <>
                   {messages?.map((msg, i) =>
-                    msg.user.doctor_id === token.doctor_id ? (
+                    msg.sender === token.user_id ? (
                       <>
                         <View style={{ margin: 4 }} key={i}>
                           <View style={styles.senderTextStyle}>
@@ -148,38 +151,42 @@ export default function UserChatScreen({ route, navigation }) {
                       </>
                     ) : (
                       <>
-                        <View style={styles.receiverTextStyle} key={i}>
+                        <View style={styles.receiverTextArea} key={i}>
                           <View style={styles.receiverInner}>
-                            <Image
-                              source={{
-                                uri:
-                                  Path.IMAGE_URL + msg?.user?.user_image ===
-                                  null
-                                    ? "white_bg_image.png"
-                                    : msg?.user?.user_image,
-                              }}
-                              resizeMode="cover"
-                              style={styles.userAvatar}
-                            />
-
-                            <View style={styles.senderTextStyle}>
-                              <NormalText styleProp={{ color: "white" }}>
-                                {msg.message}
-                              </NormalText>
+                            <View>
+                              <Image
+                                source={{
+                                  uri:
+                                    Path.IMAGE_URL +
+                                    (msg?.doctor?.doctor_image === null
+                                      ? "white_bg_image.png"
+                                      : msg?.doctor?.doctor_image),
+                                }}
+                                resizeMode="cover"
+                                style={styles.userAvatar}
+                              />
                             </View>
 
-                            <View style={{ alignSelf: "flex-start" }}>
-                              {msg?.timeStamp?.seconds && (
-                                <MediumText>
-                                  {new Date(
-                                    parseInt(msg?.timeStamp?.seconds) * 1000
-                                  ).toLocaleTimeString("en-US", {
-                                    hour: "numeric",
-                                    minute: "numeric",
-                                    hour12: true,
-                                  })}
-                                </MediumText>
-                              )}
+                            <View style={{ marginLeft: 4 }}>
+                              <View style={styles.receiverTextStyle}>
+                                <NormalText styleProp={{ color: "white" }}>
+                                  {msg.message}
+                                </NormalText>
+                              </View>
+
+                              <View style={{ alignSelf: "flex-start" }}>
+                                {msg?.timeStamp?.seconds && (
+                                  <MediumText>
+                                    {new Date(
+                                      parseInt(msg?.timeStamp?.seconds) * 1000
+                                    ).toLocaleTimeString("en-US", {
+                                      hour: "numeric",
+                                      minute: "numeric",
+                                      hour12: true,
+                                    })}
+                                  </MediumText>
+                                )}
+                              </View>
                             </View>
                           </View>
                         </View>
@@ -237,6 +244,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#000",
     marginLeft: 5,
+    
   },
   inputArea: {
     backgroundColor: Colors.lightGrey,
@@ -258,6 +266,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#007fff",
     alignSelf: "flex-end",
   },
+  receiverTextStyle: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    backgroundColor: Colors.mainPink,
+    alignSelf: "flex-start",
+  },
   inputAreaCover: {
     width: "100%",
     flexDirection: "row",
@@ -265,21 +282,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 8,
   },
-  receiverTextStyle: {
-    display: "flex",
+  receiverTextArea: {
     justifyContent: "flex-start",
-    alignItems: "center",
     marginLeft: 8,
+    marginVertical: 4,
   },
   receiverInner: {
-    display: "flex",
-    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "flex-start",
     alignItems: "center",
-    marginLeft: 8,
+    marginVertical: 4,
   },
   userAvatar: {
     height: 48,
     width: 48,
-    borderRadius: "50%",
+    borderRadius: 24,
   },
 });

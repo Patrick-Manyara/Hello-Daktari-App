@@ -45,16 +45,19 @@ export default function InputHybrid({
             containerStyle,
           ]}
         >
-          <NormalText styleProp={{ color: "#00000066", fontSize: 8 }}>
-            {placeholder}
-          </NormalText>
+          {label && (
+            <NormalText styleProp={{ color: "#00000066", fontSize: 8 }}>
+              {label}
+            </NormalText>
+          )}
+
           <TextInput
             style={[styles.input, isInvalid && styles.inputInvalid, inputStyle]}
             keyboardType={keyboardType}
             secureTextEntry={secure}
             onChangeText={onUpdateValue}
             value={value}
-            placeholder={label}
+            placeholder={placeholder}
             placeholderTextColor={placeholderTextColor}
             multiline={multiline}
             numberOfLines={numberOfLines}

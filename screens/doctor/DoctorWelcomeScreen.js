@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView, ImageBackground } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../../store/auth-context";
+import { useNavigation } from "@react-navigation/native";
 
 import { Path } from "../../constants/path";
 
@@ -15,16 +16,17 @@ import PrimaryButton from "../../components/ui/PrimaryButton";
 
 import { globalStyles } from "../../constants/globalcss";
 import { Colors } from "../../constants/styles";
-import { useNavigation } from "@react-navigation/native";
 
 export default function DoctorWelcomeScreen() {
-  const today = new Date();
+  const dateToday = new Date();
 
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
-  }).format(today);
+  }).format(dateToday);
+
+  const today = new Date().toISOString().split("T")[0];
 
   //TOKEN
   const authCtx = useContext(AuthContext);
@@ -36,6 +38,7 @@ export default function DoctorWelcomeScreen() {
   const [futureSessions, setFutureSessions] = useState([]);
   const [pastSessions, setPastSessions] = useState([]);
   const [todaySessions, setTodaySessions] = useState([]);
+  const [userSessions, setUserSessions] = useState([]);
 
   const fetchSessions = async () => {
     setIsFetching(true);
@@ -49,7 +52,7 @@ export default function DoctorWelcomeScreen() {
 
       if (Array.isArray(data.sessions)) {
         setSessions(data.sessions);
-        const today = new Date().toISOString().split("T")[0];
+
         const future = data.sessions.filter(
           (session) => session.session_date >= today
         );
@@ -81,6 +84,15 @@ export default function DoctorWelcomeScreen() {
 
   const navigateToDetails = (session) => {
     navigation.navigate("SessionDetailsScreen", { session: session });
+  };
+
+  const navigateToAppointment = (item) => {
+    const userSess = sessions.filter(
+      (session) => session.client_id === item.client_id
+    );
+    navigation.navigate("AppointmentDetails", {
+      sessions: userSess,
+    });
   };
 
   return (
@@ -147,8 +159,12 @@ export default function DoctorWelcomeScreen() {
                           username={item.user_name}
                           sessionDate={item.session_date}
                           sessionTime={item.session_start_time}
-                          isToday={item.session_date == today ? true : false} // Pass the isToday prop
-                          onPress={() => navigateToDetails(item)}
+                          isToday={item.session_date === today ? true : false}
+                          onPress={() =>
+                            item.session_date === today
+                              ? navigateToDetails(item)
+                              : navigateToAppointment(item)
+                          }
                         />
                       );
                     })}
@@ -160,7 +176,7 @@ export default function DoctorWelcomeScreen() {
                     fontProp="poppins-semibold"
                     styleProp={{ color: Colors.mainBlue, marginVertical: 5 }}
                   >
-                    Past Appointments
+                    Past Appointment
                   </NormalText>
                 </View>
 
@@ -172,7 +188,9 @@ export default function DoctorWelcomeScreen() {
                         username={item.user_name}
                         sessionDate={item.session_date}
                         sessionTime={item.session_start_time}
+                        isToday={item.session_date === today ? true : false}
                         key={index}
+                        onPress={() => navigateToAppointment(item)}
                       />
                     ))}
                   </View>

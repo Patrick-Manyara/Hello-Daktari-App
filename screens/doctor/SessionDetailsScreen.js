@@ -10,10 +10,10 @@ import HeaderText from "../../components/ui/HeaderText";
 import NormalText from "../../components/ui/NormalText";
 import MediumText from "../../components/ui/MediumText";
 import IconButton from "../../components/ui/IconButton";
+import PrimaryButton from "../../components/ui/PrimaryButton";
 
 import { globalStyles } from "../../constants/globalcss";
 import { Colors } from "../../constants/styles";
-import PrimaryButton from "../../components/ui/PrimaryButton";
 
 export default function SessionDetailsScreen({ route }) {
   const session = route.params.session;

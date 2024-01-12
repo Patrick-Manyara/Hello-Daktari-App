@@ -14,11 +14,13 @@ import PatientListCard from "../../components/Cards/PatientListCard";
 
 import { globalStyles } from "../../constants/globalcss";
 
-export default function StartNewChat({ navigation }) {
+export default function StartNewChat({ route, navigation }) {
   //TOKEN
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
 
+  const chats = route.params.chats;
+ 
   //SESSIONS
   const [isFetching, setIsFetching] = useState(true);
   const [patients, setPatients] = useState([]);
@@ -28,12 +30,25 @@ export default function StartNewChat({ navigation }) {
     const fetchurl = Path.API_URL + "doctor.php";
     const queryParams = `action=patients&doctor_id=${token.doctor_id}`;
     const url = `${fetchurl}?${queryParams}`;
+
     try {
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
           setIsFetching(false);
-          setPatients(data.patients);
+
+          // Check if chats array is not empty
+          if (chats.length > 0) {
+            // Filter patients based on whether their user_id is found in chats array
+            const filteredPatients = data.patients.filter((patient) =>
+              chats.some((chat) => chat.user.user_id !== patient.user_id)
+            );
+
+            setPatients(filteredPatients);
+          } else {
+            // If chats array is empty, set all patients
+            setPatients(data.patients);
+          }
         })
         .catch((error) => {
           setIsFetching(false);

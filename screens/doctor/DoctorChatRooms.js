@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  Pressable,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -27,12 +28,22 @@ import {
   onSnapshot,
   orderBy,
   query,
+  where,
 } from "firebase/firestore";
 import { firestore } from "../../firebaseConfig";
 import TransparentButton from "../../components/ui/TransparentButton";
+import ChatListCard from "../../components/Cards/ChatListCard";
+import IconButton from "../../components/ui/IconButton";
+import { Colors } from "../../constants/styles";
+import InputHybrid from "../../components/FormElements/InputHybrid";
 
 export default function DoctorChatRooms({ navigation }) {
+  //TOKEN
+  const authCtx = useContext(AuthContext);
+  const token = authCtx.token;
+
   const [chats, setChats] = useState(null);
+  const [originalChats, setOriginalChats] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useLayoutEffect(() => {
@@ -41,50 +52,43 @@ export default function DoctorChatRooms({ navigation }) {
       orderBy("id", "desc")
     );
 
-    const unsubscibe = onSnapshot(chatQuery, (querySnapshot) => {
+    const unsubscribe = onSnapshot(chatQuery, (querySnapshot) => {
       const chatRooms = querySnapshot.docs.map((doc) => doc.data());
       setChats(chatRooms);
+      setOriginalChats(chatRooms);
       setIsLoading(false);
+
+      const filteredChats = chatRooms.filter(
+        (chat) => chat.sender === token.doctor_id
+      );
+      setChats(filteredChats);
     });
 
-    return unsubscibe;
-  }, []);
+    return unsubscribe;
+  }, [token.doctor_id]);
 
   const renderItem = ({ item }) => (
-    <PatientListCard
+    <ChatListCard
       onPress={() => {
         navigation.navigate("ChatScreen", { item: item });
       }}
-      username={item.chatName}
+      img={item.user.user_image}
+      userName={item.user.user_name}
+      chatName={item.chatName}
     />
   );
 
-  const createChat = (item) => {};
-
   const [search, setSearch] = useState("");
 
-  // const searchPatiens = (val) => {
-  //   setSearch(val);
-  //   setPatients(patients.filter((patient) => patient.user_name.match(val)));
-  // };
-
-  const handleChatButtonClick = () => {
-    // Handle chat button click event
-    console.log("Chat button clicked!");
-  };
-
-  const ChatButton = () => {
-    return (
-      <View>
-        {/* Floating chat button */}
-        <TouchableOpacity
-          style={styles.chatButton}
-          onPress={handleChatButtonClick}
-        >
-          <Text>Chat</Text>
-        </TouchableOpacity>
-      </View>
-    );
+  const searchPatiens = (val) => {
+    setSearch(val);
+    if (val === "") {
+      // If search input is empty, reset to the original list of chats
+      setChats(originalChats);
+    } else {
+      // If search input is not empty, filter the chats based on the search value
+      setChats(originalChats.filter((chat) => chat.user.user_name.match(val)));
+    }
   };
 
   return (
@@ -93,25 +97,29 @@ export default function DoctorChatRooms({ navigation }) {
       {isLoading ? (
         <LoadingOverlay message="Fetching your client list" />
       ) : (
-        <View>
-          {/* <SearchBar
+        <View style={{ flex: 1 }}>
+          <InputHybrid
             placeholder="Search By Name"
-            onChangeText={(val) => searchPatiens(val)}
+            onUpdateValue={(val) => searchPatiens(val)}
             value={search}
-          /> */}
-          <TransparentButton
-            onPress={() => {
-              navigation.navigate("StartNewChat");
-            }}
-          >
-            New ChatRoom
-          </TransparentButton>
-          <HeaderText>Your Patients</HeaderText>
-          <NormalText>List of your patients</NormalText>
+          />
+
+          <HeaderText>Your Chats</HeaderText>
+          <NormalText>List of your Chats</NormalText>
           <FlatList
             data={chats}
             keyExtractor={(item) => item.id.toString()}
             renderItem={renderItem}
+          />
+          <IconButton
+            onPress={() => {
+              navigation.navigate("StartNewChat", { chats: chats });
+            }}
+            styleProp={styles.chatButton}
+            icon="people"
+            color={Colors.mainBlue}
+            size={24}
+            iconStyle={{ margin: 10 }}
           />
         </View>
       )}
@@ -124,9 +132,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: "blue",
-    padding: 10,
-    borderRadius: 50,
-    zIndex: 999, // Higher z-index to make it appear above other content
+    zIndex: 999,
+    backgroundColor: Colors.whiteSmoke,
   },
 });

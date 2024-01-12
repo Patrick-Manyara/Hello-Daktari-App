@@ -16,6 +16,7 @@ import { AuthContext } from "../../store/auth-context";
 import NotificationBell from "../../components/ui/NotificationBell";
 import HeaderText from "../../components/ui/HeaderText";
 import NormalText from "../../components/ui/NormalText";
+import MediumText from "../../components/ui/MediumText";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import SearchInput from "../../components/FormElements/SearchInput";
 import PatientListCard from "../../components/Cards/PatientListCard";
@@ -27,6 +28,7 @@ import {
   onSnapshot,
   orderBy,
   query,
+  where,
 } from "firebase/firestore";
 import { firestore } from "../../firebaseConfig";
 import TransparentButton from "../../components/ui/TransparentButton";
@@ -35,27 +37,37 @@ export default function UserChatRooms({ navigation }) {
   const [chats, setChats] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  //TOKEN
+  const authCtx = useContext(AuthContext);
+  const token = authCtx.token;
+
   useLayoutEffect(() => {
     const chatQuery = query(
       collection(firestore, "chats"),
       orderBy("id", "desc")
     );
 
-    const unsubscibe = onSnapshot(chatQuery, (querySnapshot) => {
+    const unsubscribe = onSnapshot(chatQuery, (querySnapshot) => {
       const chatRooms = querySnapshot.docs.map((doc) => doc.data());
       setChats(chatRooms);
       setIsLoading(false);
+
+      const filteredChats = chatRooms.filter(
+        (chat) => chat.receiver === token.user_id
+      );
+      setChats(filteredChats);
     });
 
-    return unsubscibe;
-  }, []);
+    return unsubscribe;
+  }, [token.user_id]);
 
   const renderItem = ({ item }) => (
     <PatientListCard
       onPress={() => {
-        navigation.navigate("ChatScreen", { item: item });
+        navigation.navigate("UserChatScreen", { item: item });
       }}
-      username={item.chatName}
+      img={item.doctor.doctor_image}
+      username={item.doctor.doctor_name}
     />
   );
 
@@ -63,23 +75,10 @@ export default function UserChatRooms({ navigation }) {
     <SafeAreaView style={globalStyles.safeAreaView}>
       <NotificationBell />
       {isLoading ? (
-        <LoadingOverlay message="Fetching your client list" />
+        <LoadingOverlay message="Fetching your chat rooms" />
       ) : (
         <View>
-          {/* <SearchBar
-            placeholder="Search By Name"
-            onChangeText={(val) => searchPatiens(val)}
-            value={search}
-          /> */}
-          <TransparentButton
-            onPress={() => {
-              navigation.navigate("StartNewChat");
-            }}
-          >
-            New ChatRoom
-          </TransparentButton>
-          <HeaderText>Your Patients</HeaderText>
-          <NormalText>List of your patients</NormalText>
+          <MediumText>Your Chats</MediumText>
           <FlatList
             data={chats}
             keyExtractor={(item) => item.id.toString()}

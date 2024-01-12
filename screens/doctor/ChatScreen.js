@@ -19,6 +19,8 @@ import {
   Pressable,
   Alert,
   Image,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -71,6 +73,9 @@ export default function ChatScreen({ route, navigation }) {
       timeStamp: timeStamp,
       message: message,
       user: item.user,
+      doctor: item.doctor,
+      sender: item.doctor.doctor_id,
+      receiver: item.user.user_id,
     };
     setMessage("");
 
@@ -99,18 +104,22 @@ export default function ChatScreen({ route, navigation }) {
     });
 
     return unsubscibe;
-  }, []);
+  }, [navigation, messages]);
 
   return (
-    <SafeAreaView style={globalStyles.safeAreaView}>
-      <HeaderText>{item.chatName}</HeaderText>
+    <SafeAreaView
+      style={{ flex: 1, paddingHorizontal: 2, backgroundColor: "white" }}
+    >
+      <HeaderText styleProp={globalStyles.centerText}>
+        {item.chatName}
+      </HeaderText>
       <View style={styles.outerView}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1 }}
-          keyboardVerticalOffset={160}
+          keyboardVerticalOffset={140}
         >
-          <>
+          <View style={{ flex: 1 }}>
             <ScrollView>
               {isLoading ? (
                 <>
@@ -121,7 +130,7 @@ export default function ChatScreen({ route, navigation }) {
               ) : (
                 <>
                   {messages?.map((msg, i) =>
-                    msg.user.doctor_id === token.doctor_id ? (
+                    msg.sender === token.doctor_id ? (
                       <>
                         <View style={{ margin: 4 }} key={i}>
                           <View style={styles.senderTextStyle}>
@@ -147,38 +156,42 @@ export default function ChatScreen({ route, navigation }) {
                       </>
                     ) : (
                       <>
-                        <View style={styles.receiverTextStyle} key={i}>
+                        <View style={styles.receiverTextArea} key={i}>
                           <View style={styles.receiverInner}>
-                            <Image
-                              source={{
-                                uri:
-                                  Path.IMAGE_URL + msg?.user?.user_image ===
-                                  null
-                                    ? "white_bg_image.png"
-                                    : msg?.user?.user_image,
-                              }}
-                              resizeMode="cover"
-                              style={styles.userAvatar}
-                            />
-
-                            <View style={styles.senderTextStyle}>
-                              <NormalText styleProp={{ color: "white" }}>
-                                {msg.message}
-                              </NormalText>
+                            <View>
+                              <Image
+                                source={{
+                                  uri:
+                                    Path.IMAGE_URL +
+                                    (msg?.user?.user_image === null
+                                      ? "white_bg_image.png"
+                                      : msg?.user?.user_image),
+                                }}
+                                resizeMode="cover"
+                                style={styles.userAvatar}
+                              />
                             </View>
 
-                            <View style={{ alignSelf: "flex-start" }}>
-                              {msg?.timeStamp?.seconds && (
-                                <MediumText>
-                                  {new Date(
-                                    parseInt(msg?.timeStamp?.seconds) * 1000
-                                  ).toLocaleTimeString("en-US", {
-                                    hour: "numeric",
-                                    minute: "numeric",
-                                    hour12: true,
-                                  })}
-                                </MediumText>
-                              )}
+                            <View style={{ marginLeft: 4 }}>
+                              <View style={styles.receiverTextStyle}>
+                                <NormalText styleProp={{ color: "white" }}>
+                                  {msg.message}
+                                </NormalText>
+                              </View>
+
+                              <View style={{ alignSelf: "flex-start" }}>
+                                {msg?.timeStamp?.seconds && (
+                                  <MediumText>
+                                    {new Date(
+                                      parseInt(msg?.timeStamp?.seconds) * 1000
+                                    ).toLocaleTimeString("en-US", {
+                                      hour: "numeric",
+                                      minute: "numeric",
+                                      hour12: true,
+                                    })}
+                                  </MediumText>
+                                )}
+                              </View>
                             </View>
                           </View>
                         </View>
@@ -192,32 +205,33 @@ export default function ChatScreen({ route, navigation }) {
             <View style={styles.inputAreaCover}>
               <View style={styles.inputArea}>
                 <Pressable onPress={() => {}}>
-                  <FontAwesomeIcon
-                    icon={faSmile}
-                    size={24}
-                    color={Colors.mainBlue}
-                  />
+                  {/* <FontAwesomeIcon
+                      icon={faSmile}
+                      size={24}
+                      color={Colors.mainBlue}
+                    /> */}
                 </Pressable>
 
-                <TextInput
-                  style={styles.txtInput}
-                  onChangeText={(text) => setMessage(text)}
+                <InputHybrid
+                  containerStyle={styles.containerStyle}
+                  inputStyle={styles.txtInput}
+                  onUpdateValue={(text) => setMessage(text)}
                   value={message}
                   placeholder="Type Here..."
                   placeholderTextColor="black"
                 />
 
-                <FontAwesomeIcon
-                  icon={faMicrophone}
-                  size={24}
-                  color={Colors.mainBlue}
-                />
+                {/* <FontAwesomeIcon
+                    icon={faMicrophone}
+                    size={24}
+                    color={Colors.mainBlue}
+                  /> */}
               </View>
               <Pressable onPress={sendMessage}>
                 <FontAwesomeIcon icon={faPaperPlane} size={24} color="black" />
               </Pressable>
             </View>
-          </>
+          </View>
         </KeyboardAvoidingView>
       </View>
     </SafeAreaView>
@@ -233,21 +247,13 @@ const styles = StyleSheet.create({
   txtInput: {
     flex: 1,
     height: 32,
-    fontSize: 16,
+    fontSize: 12,
     color: "#000",
     marginLeft: 5,
-  },
-  inputArea: {
-    backgroundColor: Colors.lightGrey,
-    borderRadius: 16,
-    paddingHorizontal: 4,
-    marginHorizontal: 4,
-    paddingVertical: 4,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
     width: "100%",
+    alignSelf: "flex-start",
   },
+
   senderTextStyle: {
     paddingHorizontal: 16,
     paddingVertical: 8,
@@ -257,6 +263,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#007fff",
     alignSelf: "flex-end",
   },
+  receiverTextStyle: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    backgroundColor: Colors.mainPink,
+    alignSelf: "flex-start",
+  },
   inputAreaCover: {
     width: "100%",
     flexDirection: "row",
@@ -264,21 +279,38 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 8,
   },
-  receiverTextStyle: {
-    display: "flex",
+  inputArea: {
+    backgroundColor: Colors.lightGrey,
+    borderRadius: 16,
+    paddingHorizontal: 4,
+    marginHorizontal: 4,
+    paddingVertical: 4,
+    flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    marginLeft: 8,
+    width: "100%",
+  },
+  receiverTextArea: {
+    justifyContent: "flex-start",
+    marginVertical: 4,
   },
   receiverInner: {
-    display: "flex",
-    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "flex-start",
     alignItems: "center",
-    marginLeft: 8,
+    marginVertical: 4,
   },
   userAvatar: {
     height: 48,
     width: 48,
-    borderRadius: "50%",
+    borderRadius: 24,
+  },
+
+  containerStyle: {
+    height: 40,
+    justifyContent: "space-between",
+    paddingHorizontal: 1,
+    paddingVertical: 1,
+    width: "100%",
   },
 });

@@ -17,6 +17,7 @@ export default function SessionHistoryCard({
   username,
   sessionDate,
   sessionTime,
+  isToday,
 }) {
   const [userImage, setUserImage] = useState("");
   useEffect(() => {
@@ -44,6 +45,7 @@ export default function SessionHistoryCard({
           <NormalText styleProp={{ marginLeft: 5 }}>
             {getDayMonthAndYear(sessionDate)} |{getTimeInAmPm(sessionTime)}
           </NormalText>
+          <NormalText>{isToday ? "Yes" : "No"}</NormalText>
         </View>
       </View>
     </View>

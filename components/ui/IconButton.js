@@ -12,6 +12,7 @@ function IconButton({
   styleProp,
   text,
   textStyle,
+  iconStyle
 }) {
   return (
     <Pressable
@@ -22,7 +23,7 @@ function IconButton({
       ]}
       onPress={onPress}
     >
-      <Ionicons name={icon} color={color} size={size} />
+      <Ionicons iconStyle={iconStyle} name={icon} color={color} size={size} />
       {text && <MediumText styleProp={textStyle}>{text}</MediumText>}
     </Pressable>
   );

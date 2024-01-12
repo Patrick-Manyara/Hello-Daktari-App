@@ -14,11 +14,12 @@ import { Path } from "../../constants/path";
 import { AuthContext } from "../../store/auth-context";
 
 import NotificationBell from "../../components/ui/NotificationBell";
-import HeaderText from "../../components/ui/HeaderText";
+import MediumText from "../../components/ui/MediumText";
 import NormalText from "../../components/ui/NormalText";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import SearchInput from "../../components/FormElements/SearchInput";
 import PatientListCard from "../../components/Cards/PatientListCard";
+import InputHybrid from "../../components/FormElements/InputHybrid";
 
 import { doc, setDoc } from "firebase/firestore";
 
@@ -27,6 +28,10 @@ import { firestore } from "../../firebaseConfig";
 import PrimaryButton from "../../components/ui/PrimaryButton";
 
 export default function DocAddChatRoom({ route, navigation }) {
+  //TOKEN
+  const authCtx = useContext(AuthContext);
+  const token = authCtx.token;
+
   const user = route.params.user;
   const [addChat, setAddChat] = useState("");
 
@@ -36,7 +41,10 @@ export default function DocAddChatRoom({ route, navigation }) {
     const _doc = {
       id: id,
       user: user,
+      doctor: token,
       chatName: addChat,
+      sender: token.doctor_id,
+      receiver: user.user_id,
     };
 
     if (addChat !== "") {
@@ -79,13 +87,16 @@ export default function DocAddChatRoom({ route, navigation }) {
 
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
-      <NormalText>{user.user_name}</NormalText>
-      <View>
-        <TextInput
-          placeholder="Create A Chat"
+      <MediumText> Starting a new chat with {user.user_name} </MediumText>
+      <View style={{ flex: 1 }}>
+        <NormalText>Give the chat a chatroom name.</NormalText>
+        <InputHybrid
+          placeholder="Add Chatroom Name"
           value={addChat}
-          onChangeText={(text) => setAddChat(text)}
+          onUpdateValue={(text) => setAddChat(text)}
         />
+      </View>
+      <View>
         <PrimaryButton onPress={createNewChat}>Send</PrimaryButton>
       </View>
       {_maybeRenderUploadingOverlay()}

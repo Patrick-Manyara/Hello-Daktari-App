@@ -19,7 +19,7 @@ export default function ProfileScreen({ route }) {
 
   const [token, setToken] = useState("");
   const [userimg, setUserImg] = useState("");
- 
+
   useFocusEffect(() => {
     if (route.params?.newtoken) {
       setToken(route.params.newtoken);
@@ -45,7 +45,7 @@ export default function ProfileScreen({ route }) {
       <NotificationBell />
       <ScrollView>
         <HeaderText>Profile</HeaderText>
-        <View style={styles.profileMain}> 
+        <View style={styles.profileMain}>
           <View style={styles.profileMainInner}>
             <Pressable style={styles.imageContainer}>
               <Image
@@ -71,6 +71,13 @@ export default function ProfileScreen({ route }) {
           header="Account Information"
           info="Change your account information"
           onPress={() => navigateToScreen("EditProfileScreen")}
+        />
+
+        <ProfileCard
+          src={require("../../assets/images/pro_chats.png")}
+          header="Chats"
+          info="View Your Chats"
+          onPress={() => navigateToScreen("UserChatRooms")}
         />
 
         <ProfileCard
