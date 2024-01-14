@@ -113,14 +113,7 @@ export default function SessionHistoryScreen({ navigation }) {
           <FlatList
             data={sessions}
             keyExtractor={(item, index) => index.toString()} // Use the index as the key
-            renderItem={({ item }) => (
-              <SessionHistoryCard
-                img={item.doctor_image}
-                username={item.doctor_name}
-                sessionDate={item.session_date}
-                sessionTime={item.session_start_time}
-              />
-            )}
+            renderItem={({ item }) => <SessionHistoryCard session={item} />}
           />
         </View>
       ) : (

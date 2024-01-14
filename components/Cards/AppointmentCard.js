@@ -13,6 +13,7 @@ import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { getDayMonthAndYear, getTimeInAmPm } from "../../util/dateFormat";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import MediumText from "../ui/MediumText";
+import { globalStyles } from "../../constants/globalcss";
 
 export default function AppointmentCard({
   userImage,
@@ -22,6 +23,7 @@ export default function AppointmentCard({
   dateToday,
   imgIcon,
   sessionMode,
+  onPress,
 }) {
   //   const backgroundColor = sessionDate >= dateToday ? "#EFBC408C" : "#018B1F70";
 
@@ -49,13 +51,19 @@ export default function AppointmentCard({
       }
     };
 
-    
-
     assignStates(); // Call it once when the component mounts
   }, []);
 
   return (
-    <View style={[styles.card, { backgroundColor: backgroundColor }]}>
+    <Pressable
+      android_ripple={{ color: "#ccc" }}
+      style={({ pressed }) => [
+        styles.card,
+        { backgroundColor: backgroundColor },
+        pressed ? globalStyles.buttonPressed : null,
+      ]}
+      onPress={onPress}
+    >
       <View style={{ flex: 1, flexDirection: "row" }}>
         <View
           style={{
@@ -85,7 +93,7 @@ export default function AppointmentCard({
           />
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 

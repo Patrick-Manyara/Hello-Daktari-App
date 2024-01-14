@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Path } from "../../constants/path";
@@ -39,6 +39,12 @@ export default function PatientUploadsScreen({ route, navigation }) {
     navigation.navigate("PDFScreen", { upload: upload });
   };
 
+  const openWebURL = (url) => {
+    Linking.openURL(url).catch((err) =>
+      console.error("An error occurred", err)
+    );
+  };
+
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
       <NotificationBell />
@@ -56,7 +62,7 @@ export default function PatientUploadsScreen({ route, navigation }) {
                   file={upload.upload_file}
                   code={upload.upload_code}
                   onPress={() => {
-                    navigateToPDF(upload);
+                    openWebURL(`${Path.DOC_ULR}/${upload.upload_file}`);
                   }}
                 />
               ))

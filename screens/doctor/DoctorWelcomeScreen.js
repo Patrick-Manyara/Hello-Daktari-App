@@ -154,11 +154,8 @@ export default function DoctorWelcomeScreen() {
                     {futureSessions.map((item, index) => {
                       return (
                         <NextSessionCard
+                          session={item}
                           key={index}
-                          userimg={item.user_image}
-                          username={item.user_name}
-                          sessionDate={item.session_date}
-                          sessionTime={item.session_start_time}
                           isToday={item.session_date === today ? true : false}
                           onPress={() =>
                             item.session_date === today
@@ -184,10 +181,7 @@ export default function DoctorWelcomeScreen() {
                   <View>
                     {pastSessions.map((item, index) => (
                       <SessionHistoryCard
-                        img={item.user_image}
-                        username={item.user_name}
-                        sessionDate={item.session_date}
-                        sessionTime={item.session_start_time}
+                        session={item}
                         isToday={item.session_date === today ? true : false}
                         key={index}
                         onPress={() => navigateToAppointment(item)}

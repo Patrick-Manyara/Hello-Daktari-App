@@ -12,19 +12,13 @@ import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 import { getDayMonthAndYear, getTimeInAmPm } from "../../util/dateFormat";
 
-export default function SessionHistoryCard({
-  img,
-  username,
-  sessionDate,
-  sessionTime,
-  isToday,
-}) {
+export default function SessionHistoryCard({ session, isToday }) {
   const [userImage, setUserImage] = useState("");
   useEffect(() => {
-    if (img === null) {
+    if (session.user_image === null) {
       setUserImage("white_bg_image.png");
     } else {
-      setUserImage(img);
+      setUserImage(session.user_image);
     }
   }, []);
 
@@ -38,12 +32,13 @@ export default function SessionHistoryCard({
       </View>
       <View style={{ marginLeft: 10 }}>
         <HeaderText styleProp={{ fontSize: 14 }} fontProp="poppins-semibold">
-          {username}
+          {session.user_name}
         </HeaderText>
         <View style={{ flexDirection: "row", marginVertical: 5 }}>
           <FontAwesomeIcon icon={faClock} color="black" />
           <NormalText styleProp={{ marginLeft: 5 }}>
-            {getDayMonthAndYear(sessionDate)} |{getTimeInAmPm(sessionTime)}
+            {getDayMonthAndYear(session.session_date)} |
+            {getTimeInAmPm(session.session_start_time)}
           </NormalText>
           <NormalText>{isToday ? "Yes" : "No"}</NormalText>
         </View>

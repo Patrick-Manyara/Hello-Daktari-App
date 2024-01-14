@@ -9,20 +9,13 @@ import { getDayMonthAndYear, getTimeInAmPm } from "../../util/dateFormat";
 import { globalStyles } from "../../constants/globalcss";
 import { Colors } from "../../constants/styles";
 
-export default function NextSessionCard({
-  userimg,
-  username,
-  sessionDate,
-  sessionTime,
-  isToday,
-  onPress,
-}) {
+export default function NextSessionCard({ session, isToday, onPress }) {
   const [userImage, setUserImage] = useState("");
   useEffect(() => {
-    if (userimg === null) {
+    if (session.user_image === null) {
       setUserImage("white_bg_image.png");
     } else {
-      setUserImage(userimg);
+      setUserImage(session.user_image);
     }
   }, []);
 
@@ -41,13 +34,13 @@ export default function NextSessionCard({
         source={{ uri: Path.IMAGE_URL + userImage }}
       />
       <NormalText styleProp={styles.userName} fontProp="poppins-semibold">
-        {username}
+        {session.user_name}
       </NormalText>
       <NormalText styleProp={styles.userName}>
-        {getDayMonthAndYear(sessionDate)}
+        {getDayMonthAndYear(session.session_date)}
       </NormalText>
       <NormalText styleProp={styles.userName}>
-        {getTimeInAmPm(sessionTime)}
+        {getTimeInAmPm(session.session_start_time)}
       </NormalText>
     </Pressable>
   );

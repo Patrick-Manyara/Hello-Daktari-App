@@ -20,7 +20,6 @@ export default function PatientPrescriptionsScreen({ route, navigation }) {
     const assignStates = () => {
       if (route.params && route.params?.item) {
         setPrescriptions(route.params.item);
-        console.log(prescriptions);
         setIsSettingState(false);
       }
     };

@@ -96,6 +96,12 @@ export default function DoctorDetailsScreen({ route }) {
               onPress={() => navigateToScreen("WalletScreen")}
             />
             <ProfileCard
+              src={require("../../assets/images/pro_sesh.png")}
+              header="Patients"
+              info="Patients"
+              onPress={() => navigateToScreen("AllPatientsScreen")}
+            />
+            <ProfileCard
               src={require("../../assets/images/pro_logout.png")}
               header="Logout"
               info="Logout of your account"

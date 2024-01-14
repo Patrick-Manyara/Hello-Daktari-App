@@ -7,7 +7,7 @@ import { Colors } from "../../constants/styles";
 import { globalStyles } from "../../constants/globalcss";
 
 export default function PrimaryButton({ children, onPress, style }) {
-  return (
+  return ( 
     <Pressable
       android_ripple={{ color: "#ccc" }}
       style={({ pressed }) => [

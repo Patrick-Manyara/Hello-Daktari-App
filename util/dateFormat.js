@@ -104,6 +104,24 @@ export function getTimeInAmPm(timeString) {
   return formattedTime;
 }
 
+export function calculateAge(dob) {
+  const currentDate = new Date();
+  const birthDate = new Date(dob);
+
+  let age = currentDate.getFullYear() - birthDate.getFullYear();
+
+  // Adjust age if the birthday hasn't occurred yet this year
+  if (
+    currentDate.getMonth() < birthDate.getMonth() ||
+    (currentDate.getMonth() === birthDate.getMonth() &&
+      currentDate.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+
+  return age;
+}
+
 export function getToday() {
   const today = new Date().toISOString().split("T")[0];
   return today;

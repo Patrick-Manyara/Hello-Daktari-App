@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Path } from "../../constants/path";
 
-import { getTimeInAmPm, getToday } from "../../util/dateFormat";
+import { calculateAge, getTimeInAmPm, getToday } from "../../util/dateFormat";
 
 import HeaderText from "../../components/ui/HeaderText";
 import MediumText from "../../components/ui/MediumText";
@@ -22,11 +22,13 @@ import { Divider, styled } from "@ui-kitten/components";
 
 import { globalStyles } from "../../constants/globalcss";
 import { Colors } from "../../constants/styles";
+import NormalText from "../../components/ui/NormalText";
 
-export default function AppointmentDetails({ route }) {
+export default function AppointmentDetails({ route, navigation }) {
   const [sessions, setSessions] = useState(route.params.sessions);
   const userName = route.params.sessions[0].user_name;
   const userImage = route.params.sessions[0].user_image;
+  const userAge = calculateAge(route.params.sessions[0].user_dob);
   const today = getToday();
   const [selectedPeriod, setSelectedPeriod] = useState("all");
 
@@ -67,6 +69,10 @@ export default function AppointmentDetails({ route }) {
     setIsLoading(false);
   }
 
+  const navigateToDetails = (session) => {
+    navigation.navigate("SessionDetailsScreen", { session: session });
+  };
+
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
       <ScrollView>
@@ -75,15 +81,19 @@ export default function AppointmentDetails({ route }) {
             flexDirection: "row",
           }}
         >
-          <Image
-            source={{ uri: Path.IMAGE_URL + userImage }}
-            style={styles.userImage}
-          />
+          <View>
+            <Image
+              source={{ uri: Path.IMAGE_URL + userImage }}
+              style={styles.userImage}
+            />
+          </View>
+
           <MediumText
             styleProp={{ color: Colors.mainBlue, marginLeft: 4, marginTop: 4 }}
           >
             {userName}
           </MediumText>
+          <NormalText>{userAge}</NormalText>
         </View>
         <HeaderText styleProp={globalStyles.centerText}>
           Session List
@@ -130,6 +140,7 @@ export default function AppointmentDetails({ route }) {
                 dateToday={today}
                 key={session.session_id}
                 sessionMode={session.session_mode}
+                onPress={() => navigateToDetails(session)}
                 imgIcon={
                   session.session_date >= today
                     ? "../../assets/icons/green.png"

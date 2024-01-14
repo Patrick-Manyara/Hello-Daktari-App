@@ -4,7 +4,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Path } from "../../constants/path";
 
-import { getDayMonthAndYear, getTimeInAmPm } from "../../util/dateFormat";
+import {
+  calculateAge,
+  getDayMonthAndYear,
+  getTimeInAmPm,
+} from "../../util/dateFormat";
 
 import HeaderText from "../../components/ui/HeaderText";
 import NormalText from "../../components/ui/NormalText";
@@ -62,15 +66,26 @@ export default function SessionDetailsScreen({ route }) {
 
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <HeaderText>{session.user_name}</HeaderText>
-        <View style={styles.userImageView}>
+      <View
+        style={{
+          flexDirection: "row",
+        }}
+      >
+        <View>
           <Image
-            source={{ uri: Path.IMAGE_URL + userImg }}
+            source={{ uri: Path.IMAGE_URL + session.user_image }}
             style={styles.userImage}
           />
         </View>
+
+        <MediumText
+          styleProp={{ color: Colors.mainBlue, marginLeft: 4, marginTop: 4 }}
+        >
+          {session.user_image}
+        </MediumText>
+        <NormalText>{calculateAge(session.user_dob)}</NormalText>
       </View>
+
       {sessionData.map((item, index) => (
         <View key={index} style={styles.details}>
           <MediumText>{item.txt}</MediumText>
@@ -145,9 +160,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   userImage: {
-    width: 98,
-    height: 98,
-    borderRadius: 49,
+    height: 100,
+    width: 100,
+    borderRadius: 10,
   },
   details: {
     marginVertical: 5,
