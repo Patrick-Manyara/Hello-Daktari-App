@@ -15,11 +15,12 @@ import NormalText from "../../components/ui/NormalText";
 import MediumText from "../../components/ui/MediumText";
 import IconButton from "../../components/ui/IconButton";
 import PrimaryButton from "../../components/ui/PrimaryButton";
+import TransparentButton from "../../components/ui/TransparentButton";
 
 import { globalStyles } from "../../constants/globalcss";
 import { Colors } from "../../constants/styles";
 
-export default function SessionDetailsScreen({ route }) {
+export default function SessionDetailsScreen({ route, navigation }) {
   const session = route.params.session;
   const [userImg, setUserImg] = useState("");
   const today = new Date().toISOString().split("T")[0];
@@ -64,6 +65,10 @@ export default function SessionDetailsScreen({ route }) {
     },
   ];
 
+  const navigateToSpecialists = () => {
+    navigation.navigate("AllSpecialists", { session: session });
+  };
+
   return (
     <SafeAreaView style={globalStyles.safeAreaView}>
       <View
@@ -73,17 +78,25 @@ export default function SessionDetailsScreen({ route }) {
       >
         <View>
           <Image
-            source={{ uri: Path.IMAGE_URL + session.user_image }}
+            source={{
+              uri:
+                Path.IMAGE_URL +
+                (session.user_image === null
+                  ? "default.png"
+                  : session.user_image),
+            }}
+            resizeMode="cover"
             style={styles.userImage}
           />
         </View>
-
-        <MediumText
-          styleProp={{ color: Colors.mainBlue, marginLeft: 4, marginTop: 4 }}
-        >
-          {session.user_image}
-        </MediumText>
-        <NormalText>{calculateAge(session.user_dob)}</NormalText>
+        <View style={{ marginLeft: 5 }}>
+          <MediumText styleProp={{ color: Colors.mainBlue }}>
+            {session.user_name}
+          </MediumText>
+          <MediumText>{calculateAge(session.user_dob)}</MediumText>
+          <MediumText>{session.user_email}</MediumText>
+          <MediumText>{session.user_phone}</MediumText>
+        </View>
       </View>
 
       {sessionData.map((item, index) => (
@@ -135,7 +148,17 @@ export default function SessionDetailsScreen({ route }) {
         </View>
       ) : (
         <View>
-          <PrimaryButton>Rebook</PrimaryButton>
+          <PrimaryButton style={{ backgroundColor: Colors.mainBlue }}>
+            Accept
+          </PrimaryButton>
+          <PrimaryButton>Decline</PrimaryButton>
+          <TransparentButton
+            onPress={() => {
+              navigateToSpecialists();
+            }}
+          >
+            Refer
+          </TransparentButton>
         </View>
       )}
     </SafeAreaView>

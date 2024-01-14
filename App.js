@@ -72,6 +72,9 @@ import ChatScreen from "./screens/doctor/ChatScreen";
 import StartNewChat from "./screens/doctor/StartNewChat";
 import DoctorChatRooms from "./screens/doctor/DoctorChatRooms";
 import DocAddChatRoom from "./screens/doctor/DocAddChatRoom";
+import AllSpecialists from "./screens/doctor/AllSpecialists";
+import SpecialistProfile from "./screens/doctor/SpecialistProfile";
+import ReferralSuccess from "./screens/doctor/ReferralSuccess";
 
 //ICONS
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -362,6 +365,9 @@ function DoctorStack() {
       <DocStack.Screen name="DocAddChatRoom" component={DocAddChatRoom} />
       <DocStack.Screen name="StartNewChat" component={StartNewChat} />
       <DocStack.Screen name="ChatScreen" component={ChatScreen} />
+      <DocStack.Screen name="AllSpecialists" component={AllSpecialists} />
+      <DocStack.Screen name="SpecialistProfile" component={SpecialistProfile} />
+      <DocStack.Screen name="ReferralSuccess" component={ReferralSuccess} />
     </DocStack.Navigator>
   );
 }

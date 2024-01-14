@@ -6,28 +6,35 @@ import PrimaryButton from "../ui/PrimaryButton";
 import HeaderText from "../ui/HeaderText";
 import NormalText from "../ui/NormalText";
 
-export default function DoctorCard({ src, name, role, years, onPress, price }) {
+export default function DoctorCard({ onPress, doctor }) {
   return (
     <Pressable style={{ width: "50%" }}>
       <View style={styles.doctorCard}>
         <Image
           source={{
-            uri: Path.IMAGE_URL + src,
+            uri:
+              Path.IMAGE_URL +
+              (doctor.doctor_image === null
+                ? "avatar.png"
+                : doctor.doctor_image),
           }}
+          resizeMode="cover"
           style={styles.image}
         />
         <View style={styles.textArea}>
           <View style={{ height: 40 }}>
-            <HeaderText styleProp={styles.title}>{name}</HeaderText>
+            <HeaderText styleProp={styles.title}>
+              {doctor.doctor_name}
+            </HeaderText>
           </View>
 
-          <NormalText>{role}</NormalText>
-          <NormalText>Experience: {years} Years</NormalText>
+          <NormalText>{doctor.doctor_qualifications}</NormalText>
+          <NormalText>Experience: {doctor.doctor_experience} Years</NormalText>
           <View style={styles.ratingArea}>
             <Image source={require("../../assets/images/star.png")} />
             <NormalText>4.5</NormalText>
           </View>
-          <NormalText>Rate/hr: Ksh. {price} </NormalText>
+          <NormalText>Rate/hr: Ksh. {doctor.doctor_rate} </NormalText>
           <PrimaryButton onPress={onPress}>See Profile</PrimaryButton>
         </View>
       </View>

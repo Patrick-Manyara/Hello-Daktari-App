@@ -1,45 +1,69 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import HeaderText from "../ui/HeaderText";
 import NormalText from "../ui/NormalText";
 import PrimaryButton from "../ui/PrimaryButton";
 
-export default function DoctorProfileBlock() {
-  const navigation = useNavigation();
-
-  function navigateToAppointment() {
-    navigation.navigate("AppointmentScreen");
-  }
+export default function DoctorProfileBlock({ doctor }) {
   return (
-    <View
-      style={{ width: "100%", justifyContent: "center", alignItems: "center" }}
-    >
-      <HeaderText>About</HeaderText>
-      <NormalText styleProp={styles.aboutText}>
-        Lorem ipsum dolor sit amet consectetur. Nibh curabitur amet non semper
-        egestas orci egestas lectus. Neque vel commodo at ante. Magna ultrices
-        eu porttitor felis volutpat sagittis lectus. Id tristique cras ut
-        faucibus at.
+    <View>
+      <HeaderText styleProp={styles.title}>{doctor.doctor_name}</HeaderText>
+      <NormalText styleProp={styles.subTitle}>
+        {doctor.doctor_qualifications}
       </NormalText>
-      <PrimaryButton onPress={navigateToAppointment}>
-        Check Availability
-      </PrimaryButton>
+      <NormalText styleProp={styles.subTitle}>
+        Years of Experience: {doctor.doctor_experience} Years
+      </NormalText>
+
+      <View style={styles.ratingArea}>
+        <Image source={require("../../assets/images/star.png")} />
+        <NormalText>4.3</NormalText>
+      </View>
+      <View
+        style={{
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <HeaderText>About</HeaderText>
+        <NormalText styleProp={styles.aboutText}>
+          {doctor.doctor_bio}
+        </NormalText>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row", // Arrange child Views in a row
-    flexWrap: "wrap", // Allow wrapping to the next row
-    width: "50%",
+  title: {
+    fontSize: 14,
+    textAlign: "center",
   },
-  column: {
-    flexBasis: "33.333%", // Distribute the columns evenly in a row
-    alignItems: "center", // Center content horizontally
-    // You can add more styling here
+  subTitle: {
+    textAlign: "center",
+    marginTop: 5,
+    marginBottom: 5,
   },
-  aboutText: {},
+  ratingArea: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  innerView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+    padding: 5,
+  },
+  image: {
+    height: 140,
+    width: 140,
+    borderRadius: 70,
+  },
 });
