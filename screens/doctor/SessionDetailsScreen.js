@@ -93,9 +93,9 @@ export default function SessionDetailsScreen({ route, navigation }) {
           <MediumText styleProp={{ color: Colors.mainBlue }}>
             {session.user_name}
           </MediumText>
-          <MediumText>{calculateAge(session.user_dob)}</MediumText>
-          <MediumText>{session.user_email}</MediumText>
-          <MediumText>{session.user_phone}</MediumText>
+          <NormalText>{calculateAge(session.user_dob)}</NormalText>
+          <NormalText>{session.user_email}</NormalText>
+          <NormalText>{session.user_phone}</NormalText>
         </View>
       </View>
 

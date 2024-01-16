@@ -28,6 +28,8 @@ export default function AppointmentDetails({ route, navigation }) {
   const [sessions, setSessions] = useState(route.params.sessions);
   const userName = route.params.sessions[0].user_name;
   const userImage = route.params.sessions[0].user_image;
+  const userEmail = route.params.sessions[0].user_email;
+  const userPhone = route.params.sessions[0].user_phone;
   const userAge = calculateAge(route.params.sessions[0].user_dob);
   const today = getToday();
   const [selectedPeriod, setSelectedPeriod] = useState("all");
@@ -83,18 +85,25 @@ export default function AppointmentDetails({ route, navigation }) {
         >
           <View>
             <Image
-              source={{ uri: Path.IMAGE_URL + userImage }}
+              source={{
+                uri:
+                  Path.IMAGE_URL +
+                  (userImage === null ? "default.png" : userImage),
+              }}
+              resizeMode="cover"
               style={styles.userImage}
             />
           </View>
-
-          <MediumText
-            styleProp={{ color: Colors.mainBlue, marginLeft: 4, marginTop: 4 }}
-          >
-            {userName}
-          </MediumText>
-          <NormalText>{userAge}</NormalText>
+          <View style={{ marginLeft: 5 }}>
+            <MediumText styleProp={{ color: Colors.mainBlue }}>
+              {userName}
+            </MediumText>
+            <NormalText>{userAge}</NormalText>
+            <NormalText styleProp={styles.textStyle}>{userEmail}</NormalText>
+            <NormalText>{userPhone}</NormalText>
+          </View>
         </View>
+
         <HeaderText styleProp={globalStyles.centerText}>
           Session List
         </HeaderText>
@@ -160,5 +169,8 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 10,
+  },
+  textStyle: {
+    textTransform: "none",
   },
 });

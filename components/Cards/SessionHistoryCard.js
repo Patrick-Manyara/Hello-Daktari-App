@@ -11,8 +11,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 import { getDayMonthAndYear, getTimeInAmPm } from "../../util/dateFormat";
+import { globalStyles } from "../../constants/globalcss";
 
-export default function SessionHistoryCard({ session, isToday }) {
+export default function SessionHistoryCard({ session, isToday, onPress }) {
   const [userImage, setUserImage] = useState("");
   useEffect(() => {
     if (session.user_image === null) {
@@ -23,7 +24,14 @@ export default function SessionHistoryCard({ session, isToday }) {
   }, []);
 
   return (
-    <View style={styles.card}>
+    <Pressable
+      android_ripple={{ color: "#ccc" }}
+      style={({ pressed }) => [
+        styles.card,
+        pressed ? globalStyles.buttonPressed : null,
+      ]}
+      onPress={onPress}
+    >
       <View>
         <Image
           style={{ width: 50, height: 50, borderRadius: 25 }}
@@ -43,7 +51,7 @@ export default function SessionHistoryCard({ session, isToday }) {
           <NormalText>{isToday ? "Yes" : "No"}</NormalText>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
