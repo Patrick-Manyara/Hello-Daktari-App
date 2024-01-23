@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Image, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  Pressable,
+  ImageBackground,
+} from "react-native";
 
 import HeaderText from "../ui/HeaderText";
 
@@ -11,49 +17,60 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function AdBlock() {
   return (
-    <Pressable style={styles.outerView}>
-      <View style={styles.innerView}>
-        <View style={styles.firstHalf}>
-          <HeaderText
-            styleProp={[globalStyles.smallerText, { color: "white" }]}
-          >
-            Get 30% Discount on your First Purchase
-          </HeaderText>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+    <ImageBackground
+      source={require("../../assets/images/banner3.png")}
+      style={styles.backgroundImage}
+    >
+      <Pressable style={styles.outerView}>
+        <View style={styles.innerView}>
+          <View style={styles.firstHalf}>
             <HeaderText
               styleProp={[globalStyles.smallerText, { color: "white" }]}
             >
-              Shop Now
+              Get 30% Discount on your First Purchase
             </HeaderText>
-            <Icon
-              name="arrow-right"
-              size={20}
-              color="#333"
-              icon={faArrowRight}
-              style={{ color: "white", marginLeft: 1 }}
-            />
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <HeaderText
+                styleProp={[globalStyles.smallerText, { color: "white" }]}
+              >
+                Shop Now
+              </HeaderText>
+              <Icon
+                name="arrow-right"
+                size={20}
+                color="#333"
+                icon={faArrowRight}
+                style={{ color: "white", marginLeft: 1 }}
+              />
+            </View>
+          </View>
+          <View style={styles.secondHalf}>
+            <Image source={require("../../assets/images/panadol.png")} />
           </View>
         </View>
-        <View style={styles.secondHalf}>
-          <Image source={require("../../assets/images/panadol.png")} />
-        </View>
-      </View>
-    </Pressable>
+      </Pressable>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   outerView: {
-    backgroundColor: Colors.mainPink,
     width: "100%",
     margin: 5,
     borderRadius: 10,
+  },
+  backgroundImage: {
+    height: 160,
+    resizeMode: "cover",
+    borderRadius: 10,
+    marginTop: 10,
+    marginBottom: 40,
   },
   innerView: {
     flexDirection: "row",

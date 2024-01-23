@@ -29,7 +29,7 @@ export default function WelcomeScreen() {
         <View>
           <HeaderText>Welcome Back {token.user_name}!</HeaderText>
           <SearchInput message="Doctors, Products or Services" />
-          <BannerBlock />
+          <BannerBlock /> 
           <HeaderText styleProp={globalStyles.smallerText}>
             What we have prepared for you!
           </HeaderText>

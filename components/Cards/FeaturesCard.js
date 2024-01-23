@@ -4,22 +4,30 @@ import NormalText from "../ui/NormalText";
 
 import { Colors } from "../../constants/styles";
 
-export default function FeaturesCard({ src, text, onPress }) {
+export default function FeaturesCard({
+  src,
+  text,
+  onPress,
+  bgColor,
+  txtColor,
+}) {
   return (
     <Pressable onPress={onPress} style={{ width: "33.33%" }}>
-      <View style={styles.featuresCard}>
+      <View style={[styles.featuresCard, { backgroundColor: bgColor }]}>
         <Image style={styles.image} source={src} />
-        <NormalText styleProp={styles.text}>{text}</NormalText>
+        <NormalText styleProp={[styles.text, { color: txtColor }]}>
+          {text}
+        </NormalText>
       </View>
     </Pressable>
   );
 }
-
+ 
 const styles = StyleSheet.create({
   featuresCard: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Colors.mainBlue,
+
     margin: 2,
     height: 100,
     borderRadius: 10,
@@ -32,7 +40,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 10,
-    color: "white",
+    color: "black",
     marginTop: 2,
   },
 });

@@ -1,8 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Alert, ScrollView, StyleSheet, TextInput, ActivityIndicator, View } from "react-native";
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  ActivityIndicator,
+  View,
+} from "react-native";
 import NotificationBell from "../../components/ui/NotificationBell";
 import LoadingOverlay from "../../components/ui/LoadingOverlay";
 import HeaderText from "../../components/ui/HeaderText";
+import MediumText from "../../components/ui/MediumText";
 import { globalStyles } from "../../constants/globalcss";
 import { SafeAreaView } from "react-native-safe-area-context";
 import UrgencyCard from "../../components/Cards/UrgencyCard";
@@ -25,7 +33,7 @@ export default function NewScheduleScreen({ route }) {
       keyProp: "daily",
     },
     {
-      text: "Individual days",
+      text: "Individual",
       keyProp: "individual",
     },
   ];
@@ -87,6 +95,10 @@ export default function NewScheduleScreen({ route }) {
   ) => {
     return (
       <View>
+        <MediumText>
+          First select if you'd like to enter day by day or have the same
+          schedule for each working day.
+        </MediumText>
         <Picker
           style={[globalStyles.disabledContainer, styles.customInput]}
           selectedValue={selectedStartRange}
