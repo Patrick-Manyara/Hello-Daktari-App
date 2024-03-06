@@ -31,10 +31,10 @@ export default function FeaturesBlock() {
         txtColor="#FF594D"
       />
       <FeaturesCard
-        src={require("../../assets/images/ambulance.png")}
-        text="Ambulance"
+        src={require("../../assets/images/forum.png")}
+        text="Patient Forum"
         style={styles.column}
-        onPress={openModal}
+        onPress={() => navigateToScreen("PatientForum")}
         bgColor="#4C84C333"
         txtColor="#4C84C3"
       />
@@ -61,7 +61,7 @@ export default function FeaturesBlock() {
         txtColor="#0EA6C6"
         bgColor="#0EA6C633"
         onPress={() => navigateToScreen("Shop")}
-      /> 
+      />
       <FeaturesCard
         src={require("../../assets/images/microscope.png")}
         text="Lab Services"

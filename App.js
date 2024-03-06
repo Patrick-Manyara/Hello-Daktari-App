@@ -13,7 +13,9 @@ import { ApplicationProvider } from "@ui-kitten/components";
 // SCREENS
 //**shared*//
 import ChoiceScreen from "./screens/ChoiceScreen";
-
+import ForumScreen from "./screens/ForumScreen";
+import ForumDetails from "./screens/ForumDetails";
+ 
 //**user*//
 import LoginScreen from "./screens/user/LoginScreen";
 import StartScreen from "./screens/user/StartScreen";
@@ -75,6 +77,7 @@ import DocAddChatRoom from "./screens/doctor/DocAddChatRoom";
 import AllSpecialists from "./screens/doctor/AllSpecialists";
 import SpecialistProfile from "./screens/doctor/SpecialistProfile";
 import ReferralSuccess from "./screens/doctor/ReferralSuccess";
+import ErrorScreen from "./screens/doctor/ErrorScreen";
 
 //ICONS
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -311,6 +314,9 @@ function HomeStack() {
       />
       <Stack.Screen name="UserChatRooms" component={UserChatRooms} />
       <Stack.Screen name="UserChatScreen" component={UserChatScreen} />
+      <Stack.Screen name="ErrorScreen" component={ErrorScreen} />
+      <Stack.Screen name="PatientForum" component={ForumScreen} />
+      <Stack.Screen name="ForumDetails" component={ForumDetails} />
     </Stack.Navigator>
   );
 }
@@ -368,6 +374,7 @@ function DoctorStack() {
       <DocStack.Screen name="AllSpecialists" component={AllSpecialists} />
       <DocStack.Screen name="SpecialistProfile" component={SpecialistProfile} />
       <DocStack.Screen name="ReferralSuccess" component={ReferralSuccess} />
+      <DocStack.Screen name="DocForum" component={ForumScreen} />
     </DocStack.Navigator>
   );
 }

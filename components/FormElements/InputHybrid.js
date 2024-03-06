@@ -15,7 +15,7 @@ export default function InputHybrid({
   onUpdateValue,
   value,
   isInvalid,
-  placeholder,
+  placeholder, 
   multiline,
   numberOfLines,
   inputStyle,
